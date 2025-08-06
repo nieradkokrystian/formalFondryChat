@@ -1,0 +1,73 @@
+@import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/violet.css";
+:root {
+  --color-primary: #4f46e5;
+  --color-secondary: #4338ca;
+  --color-background: rgb(255, 255, 255);
+  --color-text: rgb(29, 33, 41);
+  --color-border: rgb(174, 186, 199);
+}
+.input-wrap {
+  z-index: 33;
+  --width: 700px;
+  display: flex;
+  position: fixed;
+  bottom: 10px;
+  width: var(--width);
+  height: 100px;
+  /* padding: 20px; */
+  border-radius: var(--radius-md);
+  border: 1px solid var(--violet-9);
+  max-width: var(--width);
+  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
+  /* backdrop-filter: blur(100px); */
+  /* background-color: #4338ca; */
+  box-shadow: 10px 0px 40px 40px var(--color-background);
+}
+
+@media only screen and (max-width: 600px) {
+  .input-wrap {
+    --width: 80%;
+    left: 50%;
+    position: fixed;
+    bottom: 10px;
+    transform: translateX(-50%);
+  }
+}
+
+textarea {
+  width: 100%;
+  resize: none;
+  height: 100%;
+  border-radius: var(--radius-md);
+  background-color: var(--violet-3);
+
+  padding-left: 5px;
+  padding-top: 5px;
+  font-size: var(--text-lg);
+}
+
+.SubmitPrompt {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  aspect-ratio: 1/1;
+  width: 40px;
+  border-radius: 100%;
+  background-color: var(--color-primary);
+  display: flex;
+  align-content: center;
+  color: white;
+  font-size: var(--text-lg);
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-wrap > textarea:focus {
+  border: 1px solid var(--color-primary);
+  outline: 1px solid var(--color-primary);
+}

@@ -1,0 +1,54 @@
+.last {
+  margin-bottom: 20%;
+}
+.message:last-child {
+  margin-bottom: 100px;
+}
+.message p,
+.message div {
+  /* margin: 0; */
+  /* padding: 0; */
+  line-height: normal;
+}
+
+.click-animation {
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+}
+
+.spin {
+  animation: spin 2s infinite linear;
+  -webkit-animation: spin 2s infinite linear;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    color: var(--color-red-700);
+    background-color: var(white);
+  }
+  50% {
+    color: var(--color-gray-700);
+  }
+}
+.pulse {
+  animation: pulse 2s infinite ease-in-out;
+  animation-direction: alternate;
+}

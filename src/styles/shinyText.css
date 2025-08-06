@@ -1,0 +1,41 @@
+@import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/violet.css";
+@import "tailwindcss";
+
+:root {
+  --color-primary: #4f46e5;
+  --color-secondary: #4338ca;
+  --color-background: rgb(255, 255, 255);
+  --color-text: rgb(29, 33, 41);
+  --color-border: rgb(174, 186, 199);
+}
+.shiny-text {
+  color: var(--color-black);
+  background: linear-gradient(
+    60deg,
+    var(--color-secondary) 10%,
+    var(--color-primary) 40%,
+    var(--color-secondary) 60%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  display: inline-block;
+  animation: shine 5s linear infinite;
+  font-style: italic;
+  font-weight: 600;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: -100%;
+  }
+}
+
+.shiny-text.disabled {
+  animation: none;
+}
