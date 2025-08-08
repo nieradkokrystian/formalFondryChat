@@ -3,13 +3,13 @@ import { Tooltip } from "radix-ui";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import "./styles.css";
 
-const TooltipSidebar = ({ running, type }) => {
+const TooltipSidebar = ({ status }) => {
   return (
     <Tooltip.Provider delayDuration={100}>
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <button className="IconButtonTooltip">
-            <MagnifyingGlassIcon />
+            <MagnifyingGlassIcon height={"50%"} width={"30"} />
           </button>
         </Tooltip.Trigger>
         <Tooltip.Portal>
@@ -17,7 +17,7 @@ const TooltipSidebar = ({ running, type }) => {
             className="TooltipContent"
             sideOffset={0}
             side="left">
-            {(type, running)}
+            {status}
             <Tooltip.Arrow className="TooltipArrow" />
           </Tooltip.Content>
         </Tooltip.Portal>

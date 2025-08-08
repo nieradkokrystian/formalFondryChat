@@ -39,7 +39,10 @@
 .DialogContent:focus {
   outline: none;
 }
-
+.Dialog {
+  color: var(--color-background);
+  background-color: var(--color-secondary);
+}
 .DialogTitle {
   margin: 0;
   font-weight: 500;

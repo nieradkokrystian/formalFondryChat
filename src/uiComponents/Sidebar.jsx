@@ -5,17 +5,26 @@ import { Link } from "react-router-dom";
 import Tooltip from "./Tooltip";
 
 // Accept taskList as a prop
-function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList }) {
-  const MenuItem = ({ title, running, id }) => {
+function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList, id }) {
+  const MenuItem = ({ title, status, id, type }) => {
     return (
       <Link
-        className="h-full w-full Sidebar-item p-1 flex items-center justify-between"
+        className={` h-[30px] w-full Sidebar-item p-1 flex items-center justify-between last:mb-30 ${
+          status == "resolved"
+            ? "bg-green-100"
+            : "" || status == "exceeded"
+            ? "bg-red-100"
+            : ""
+        }`}
         discover="none"
         to={`/chat/${id}`}
         prefetch="render"
         preventScrollReset>
+        {console.log(title)}
         <h1>{title}</h1>
-        <Tooltip running={running} />
+        <p>{type}</p>
+
+        <Tooltip status={status} />
       </Link>
     );
   };
@@ -30,13 +39,19 @@ function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList }) {
       </div>
       <div className="Sidebar-Body">
         {Object.keys(taskList).map((key) => (
-          <MenuItem
-            key={key}
-            title={taskList[key].taskId}
-            running={taskList[key].taskStatus}
-            id={taskList[key].taskId}
-            type={taskList[key].taskType}
-          />
+          <>
+            {taskList[key].user_id == id ? (
+              <MenuItem
+                key={key}
+                title={taskList[key].task_name}
+                status={taskList[key].taskStatus}
+                id={taskList[key].userId}
+                type={taskList[key].taskType}
+              />
+            ) : (
+              ""
+            )}{" "}
+          </>
         ))}
         {Object.keys(taskList).length === 0 && (
           <div className="Sidebar-item p-2 text-center text-gray-500">

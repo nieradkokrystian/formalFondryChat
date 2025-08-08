@@ -8,10 +8,10 @@ const InputComponent = ({ onSend }) => {
   const handleSend = () => {
     if (inputValue.trim()) {
       onSend(inputValue);
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
+      // window.scrollTo({
+      //   top: document.documentElement.scrollHeight,
+      //   behavior: "smooth",
+      // });
       setInputValue("");
     }
   };

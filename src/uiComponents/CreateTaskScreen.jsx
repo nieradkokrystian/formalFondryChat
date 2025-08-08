@@ -11,7 +11,7 @@ import { create } from "../utils/createTask";
 // import axios from "axios";
 import axiosInstance from "./axios-cache"; // This is the key!
 
-const CreateTaskScreen = ({ onTaskCreated }) => {
+const CreateTaskScreen = ({ onTaskCreated, id }) => {
   const navigate = useNavigate();
   const { username } = useUser();
   const [TaskName, setTaskName] = useState("");
@@ -19,11 +19,11 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
   const [taskList, setTaskList] = useState([]);
   const API_LINK = import.meta.env.VITE_API_BASE;
 
+  console.log("id", id);
+
   React.useEffect(() => {
     const fetchAvailableTasks = async () => {
       try {
-        // Use the axiosInstance for the cached call.
-        // It will only hit the API the first time, and then serve from cache.
         const response = await axiosInstance.get(`${API_LINK}/availableTasks`);
         setTaskList(response.data);
       } catch (error) {
@@ -44,16 +44,16 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
 
     try {
       const newTask = await create(
-        `${API_LINK}/tasks`,
+        `${API_LINK}/tasks/`,
         TaskType,
         finalTaskName,
-        username
+        id
       );
       console.log(`Task created with ID: ${newTask.taskId}`);
 
       if (newTask && newTask.taskId) {
         const newTaskId = newTask.taskId;
-        console.log(`Task created with ID: ${newTaskId}`);
+        console.log(`Task created with ID: ${newTaskId}, ID USER: ${id}`);
         onTaskCreated(newTask);
         navigate(`/chat/${newTaskId}`, {
           state: {

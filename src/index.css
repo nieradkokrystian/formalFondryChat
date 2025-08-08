@@ -30,8 +30,6 @@ body {
 }
 
 .main-content {
-  padding: 20px;
-
   /* margin-top: 60px; */
   margin-left: 0;
   transition: margin-left 0.3s ease-out; /* Smooth transition for content shift */

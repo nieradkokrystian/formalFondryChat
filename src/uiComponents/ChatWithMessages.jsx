@@ -25,7 +25,7 @@ const ChatActive = memo(
   forwardRef(({ messages }, ref) => {
     return (
       // Attach the ref to the main scrolling container
-      <div className="screen-messages sm:w-[100%]  overflow-auto">
+      <div className="screen-messages sm:w-[100%]  overflow-auto ">
         <div className="messages w-[90vw] " ref={ref}>
           {messages &&
             messages.map((message, index) => (
@@ -44,6 +44,7 @@ const ChatActive = memo(
                     content={getMessageContent(message.cmMsgWS)}
                     type={message.taskStatWS}
                     tag={message.cmMsgWS.tag}
+                    errorTag={message.cmMsgWS.contents.tag}
                   />
                 )}
               </React.Fragment>

@@ -7,7 +7,7 @@ import CreateTaskScreen from "./CreateTaskScreen";
 import { useUser } from "../AuthContext";
 
 // Navbar no longer manages its own state
-const Navbar = ({ onToggleSidebar, onTaskCreated }) => {
+const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
   const { username } = useUser();
 
   return (
@@ -23,7 +23,7 @@ const Navbar = ({ onToggleSidebar, onTaskCreated }) => {
         </div>
         <ul className="nav-links">
           <li>
-            <CreateTaskScreen onTaskCreated={onTaskCreated} />
+            <CreateTaskScreen id={id} onTaskCreated={onTaskCreated} />
           </li>
         </ul>
       </div>

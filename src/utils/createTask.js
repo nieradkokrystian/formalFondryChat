@@ -1,12 +1,12 @@
 // src/utils/createTask.js
 import axios from "axios";
 
-export async function create(link, type, name, username) {
+export async function create(link, type, name, id) {
   try {
     const response = await axios.post(link, {
       task_type: type,
       task_name: name,
-      username: username,
+      user_id: id,
     });
 
     if (response.status === 201 || response.status === 200) {

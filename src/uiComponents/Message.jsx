@@ -6,17 +6,43 @@ import {
   PersonIcon,
   ChevronDownIcon,
 } from "@radix-ui/react-icons";
-
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useState, memo } from "react";
 import "./message.css";
 
-const Message = memo(({ content, type, tag }) => {
+const Message = memo(({ content, type, tag, errorTag }) => {
   let color;
   let icon;
   let hasShadow = true;
 
   const [isExpanded, setIsExpanded] = useState(false);
 
+  function Highlight({ text }) {
+    const codeString =
+      typeof text == String ? text.toString() : text.toString();
+    text = codeString.split("import");
+    // console.log("first", text[0])
+    const customStyle = {
+      whiteSpace: "pre-wrap", // This is the key property for wrapping
+      wordBreak: "break-word", // Ensures long words also break
+      fontSize: "0.8rem",
+    };
+
+    return (
+      <>
+        <h1>{text[0]}</h1>
+        <SyntaxHighlighter
+          language="agda"
+          style={dracula}
+          customStyle={customStyle} // Apply the styles here
+        >
+          {codeString}
+          {/* {text[1]} */}
+        </SyntaxHighlighter>
+      </>
+    );
+  }
   const TrimCode = (code) => {
     return code.replace(/```/, "").replace(/```$/, "").replace(/```/, "");
   };
@@ -30,7 +56,7 @@ const Message = memo(({ content, type, tag }) => {
 
   const MessageUser = ({ content }) => {
     return (
-      <div className="message-user message max-w-[80%] text-gray-900 mt-6 bg-indigo-100 w-fit min-h-fit h-fit p-4 rounded-4xl rounded-tr-xs flex justify-start relative">
+      <div className="message-user message max-w-[80%] text-gray-900 mt-6 bg-indigo-100 w-fit min-h-fit h-fit p-4 rounded-4xl rounded-tr-xs wrap-normal flex justify-start relative">
         <p
           className={`leading-normal whitespace-pre-wrap ${
             isCollapsible && !isExpanded ? "max-h-[5.5em] overflow-hidden" : ""
@@ -101,10 +127,9 @@ const Message = memo(({ content, type, tag }) => {
         <div
           className={`message h-fit rounded-tl-none   lg:max-w-[85%] max-w-[90%] lg:overflow-x-none overflow-x-auto   z-8 p-2  border-1 rounded-lg flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
             hasShadow ? "shadow-md" : "shadow-none"
-          }`}>
-          <div className="flex-1 relative">
-            {(tag == "LLMRes" && content.startsWith("```")) ||
-            (tag == "TCReq" && content.startsWith("open")) ? (
+          } `}>
+          <div className="flex-1 relative overflow-x-hidden">
+            {tag == "LLMRes" || tag == "TCReq" ? (
               <div
                 className={`text-sm text-grey-500  font-semibold leading-normal whitespace-pre-wrap ${
                   isCollapsible && !isExpanded
@@ -115,10 +140,30 @@ const Message = memo(({ content, type, tag }) => {
                   <span className="text-xs  flex justify-start items-center flex-row w-fit">
                     {icon}
                     {tag}
+                    {content.includes("import") ? (
+                      <h1 className="text-gray-700">
+                        {" "}
+                        [extend to see the code]
+                      </h1>
+                    ) : (
+                      ""
+                    )}
                   </span>
                 </div>
-                <div className="codeWrap border-1 border-gray-900 bg-gray-100 mt-[10px] rounded-md p-1 text-gray-700">
-                  <code className="">{TrimCode(content)}</code>
+
+                <div
+                  className={`codeWrap   mt-[10px] rounded-md p-1    ${
+                    errorTag == "TCErr" ? "text-red-500 " : ""
+                  }`}>
+                  {" "}
+                  {console.log(errorTag)}
+                  {content.includes("import") ? (
+                    <Highlight
+                      className=" max-w-[100%] overflow-x-hidden"
+                      text={TrimCode(content)}></Highlight>
+                  ) : (
+                    <code className="">{TrimCode(content)}</code>
+                  )}
                 </div>
               </div>
             ) : (
@@ -126,16 +171,20 @@ const Message = memo(({ content, type, tag }) => {
               <div
                 className={`text-xs text-grey-500 font-semibold leading-normal whitespace-pre-wrap ${
                   isCollapsible && !isExpanded
-                    ? "max-h-[5.5em] overflow-hidden "
+                    ? "max-h-[5.5em] overflow-hidden"
                     : ""
                 }`}>
                 <div className="flex  flex-row  items-center text-gray-700 text-3xl">
-                  <span className="text-xs flex justify-start items-center flex-row w-fit">
+                  <span
+                    className={`text-xs flex justify-start items-center flex-row w-fit `}>
                     {icon}
                     {tag}
                   </span>
                 </div>
-                {content}
+                <div
+                  className={`${errorTag == "TCErr" ? "text-red-500 " : ""}`}>
+                  {content}
+                </div>
               </div>
             )}
 

@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: center;
   color: var(--violet-11);
-  background-color: white;
+  background-color: transparent;
   /* box-shadow: 0 2px 10px var(--black-a7); */
   user-select: none;
   -webkit-border-radius: 100%;
@@ -55,13 +55,12 @@
   -ms-border-radius: 100%;
   -o-border-radius: 100%;
 }
-.IconButtonTooltip:hover {
+/* .IconButtonTooltip:hover {
   background-color: var(--violet-3);
 }
 .IconButtonTooltip:focus {
   /* box-shadow: 0 0 0 2px black; */
-}
-
+/* } */
 @keyframes slideUpAndFade {
   from {
     opacity: 0;

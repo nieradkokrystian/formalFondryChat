@@ -6,7 +6,7 @@ import EmptyChat from "../uiComponents/EmptyChat";
 import ChatActive from "../uiComponents/ChatWithMessages";
 import axios from "axios";
 
-const Chat = () => {
+const Chat = ({ id }) => {
   const navigate = useNavigate();
   const { chatId } = useParams();
   const { username, isAuthReady } = useUser();
@@ -49,9 +49,9 @@ const Chat = () => {
         // Start a short polling interval
         pollingInterval.current = setInterval(() => {
           axios
-            .get(`${API_LINK}/tasks/${chatId}/messages-history`)
+            .get(`${API_LINK}/tasks/${chatId}/messages-history`) ///! TO SWAP HERE (DEBUG)
             .then((res) => {
-              // Check if the server has a new message
+              // Check if the api returned a new message
               if (res.data.length > messages.length) {
                 setMessages(res.data);
                 setIsLLMThinking(false);
@@ -77,7 +77,13 @@ const Chat = () => {
         setIsLLMThinking(false);
       });
   };
-
+  useEffect(() => {
+    // This effect runs after every render where `messages` has changed
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages]);
   const fetchMessages = () => {
     if (chatId) {
       axios
