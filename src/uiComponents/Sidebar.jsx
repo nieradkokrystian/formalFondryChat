@@ -22,13 +22,12 @@ function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList, id }) {
         preventScrollReset>
         {console.log(title)}
         <h1>{title}</h1>
-        <p>{type}</p>
 
-        <Tooltip status={status} />
+        <Tooltip type={type} status={status} />
       </Link>
     );
   };
-
+  console.table(taskList);
   return (
     <div className={`Sidebar ${isOpen ? "is-open" : ""}`}>
       <div className="Sidebar-Header">
@@ -39,19 +38,13 @@ function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList, id }) {
       </div>
       <div className="Sidebar-Body">
         {Object.keys(taskList).map((key) => (
-          <>
-            {taskList[key].user_id == id ? (
-              <MenuItem
-                key={key}
-                title={taskList[key].task_name}
-                status={taskList[key].taskStatus}
-                id={taskList[key].userId}
-                type={taskList[key].taskType}
-              />
-            ) : (
-              ""
-            )}{" "}
-          </>
+          <MenuItem
+            key={key}
+            title={taskList[key].task_Name}
+            status={taskList[key].task_Status}
+            id={taskList[key].task_Id}
+            type={taskList[key].task_Type}
+          />
         ))}
         {Object.keys(taskList).length === 0 && (
           <div className="Sidebar-item p-2 text-center text-gray-500">

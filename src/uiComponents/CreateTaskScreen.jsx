@@ -11,9 +11,9 @@ import { create } from "../utils/createTask";
 // import axios from "axios";
 import axiosInstance from "./axios-cache"; // This is the key!
 
-const CreateTaskScreen = ({ onTaskCreated, id }) => {
+const CreateTaskScreen = ({ onTaskCreated }) => {
   const navigate = useNavigate();
-  const { username } = useUser();
+  const { username, id } = useUser();
   const [TaskName, setTaskName] = useState("");
   const [TaskType, setTaskType] = useState("typeRefiner");
   const [taskList, setTaskList] = useState([]);
@@ -44,7 +44,7 @@ const CreateTaskScreen = ({ onTaskCreated, id }) => {
 
     try {
       const newTask = await create(
-        `${API_LINK}/tasks/`,
+        `${API_LINK}/tasks`,
         TaskType,
         finalTaskName,
         id

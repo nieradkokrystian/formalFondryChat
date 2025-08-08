@@ -6,7 +6,7 @@ export async function create(link, type, name, id) {
     const response = await axios.post(link, {
       task_type: type,
       task_name: name,
-      user_id: id,
+      user_id: parseInt(id),
     });
 
     if (response.status === 201 || response.status === 200) {

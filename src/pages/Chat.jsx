@@ -13,7 +13,7 @@ const Chat = ({ id }) => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLLMThinking, setIsLLMThinking] = useState(false);
-
+  const [exceeded, isExceeded] = useState(false);
   const pollingInterval = useRef(null);
   const chatContainerRef = useRef(null);
   const API_LINK = import.meta.env.VITE_API_BASE;
@@ -49,7 +49,7 @@ const Chat = ({ id }) => {
         // Start a short polling interval
         pollingInterval.current = setInterval(() => {
           axios
-            .get(`${API_LINK}/tasks/${chatId}/messages-history`) ///! TO SWAP HERE (DEBUG)
+            .get(`${API_LINK}/taskmsg/${chatId}/messages-history`) ///! TO SWAP HERE (DEBUG)
             .then((res) => {
               // Check if the api returned a new message
               if (res.data.length > messages.length) {
@@ -67,7 +67,7 @@ const Chat = ({ id }) => {
                 clearInterval(pollingInterval.current);
               }
             });
-        }, 1000); // Poll every 1 second
+        }, 5000);
       })
       .catch((error) => {
         console.log("Error sending message:", error);
@@ -87,7 +87,7 @@ const Chat = ({ id }) => {
   const fetchMessages = () => {
     if (chatId) {
       axios
-        .get(`${API_LINK}/tasks/${chatId}/messages-history`)
+        .get(`${API_LINK}/taskmsg/${chatId}/messages-history`)
         .then((res) => {
           setMessages(res.data);
           if (isLLMThinking && res.data.length > messages.length) {
@@ -115,7 +115,7 @@ const Chat = ({ id }) => {
     if (pollingInterval.current) {
       clearInterval(pollingInterval.current);
     }
-    pollingInterval.current = setInterval(fetchMessages, 100000);
+    pollingInterval.current = setInterval(fetchMessages, 1000);
 
     return () => {
       if (pollingInterval.current) {
@@ -135,7 +135,7 @@ const Chat = ({ id }) => {
       ) : (
         <ChatActive messages={messages} ref={chatContainerRef} />
       )}
-      <InputComponent onSend={handleSend} />
+      <InputComponent exceeded={exceeded} onSend={handleSend} />
     </div>
   );
 };

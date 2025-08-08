@@ -1,8 +1,13 @@
 import "./App.css";
-import { LoginPage } from "./pages/LoginPage";
+import LoginPage from "./pages/LoginPage";
 import { HomePage } from "./pages/HomePage";
 import { Chat } from "./pages/Chat";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Navbar from "./uiComponents/Navbar";
 import { UserProvider, useUser } from "./AuthContext";
 import { useState, useEffect, useCallback } from "react";
@@ -10,24 +15,30 @@ import axios from "axios";
 import SidebarComponent from "./uiComponents/Sidebar";
 
 function AppContent() {
-  const { username, isAuthReady } = useUser();
+  const { username, id, isAuthReady } = useUser();
   const [taskList, setTaskList] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [id, setId] = useState("");
   const API_LINK = import.meta.env.VITE_API_BASE;
+  const navigate = useNavigate();
 
   const fetchTaskList = useCallback(async () => {
-    try {
-      const response = await axios.get(`${API_LINK}/tasks/${id}`);
-      setTaskList(response.data);
-    } catch (error) {
-      console.error("Failed to fetch task list:", error);
+    if (id) {
+      try {
+        const response = await axios.get(`${API_LINK}/tasks/${id}`);
+        setTaskList(response.data);
+      } catch (error) {
+        console.error("Failed to fetch task list:", error);
+      }
     }
-  }, [API_LINK]);
+  }, [API_LINK, id]);
 
   useEffect(() => {
-    fetchTaskList();
-  }, [fetchTaskList]);
+    if (username) {
+      fetchTaskList();
+    } else if (isAuthReady) {
+      navigate("/");
+    }
+  }, [username, isAuthReady, fetchTaskList, navigate]);
 
   if (!isAuthReady) {
     return (
@@ -65,8 +76,8 @@ function AppContent() {
           />
         )}
         <Routes>
-          <Route path="/" element={<LoginPage setId={setId} />} />
-          <Route path="/login" element={<LoginPage setId={setId} />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route
             path="/chat/:chatId"

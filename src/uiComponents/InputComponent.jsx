@@ -2,17 +2,19 @@ import { useState } from "react";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import "./input.css";
 
-const InputComponent = ({ onSend }) => {
+const InputComponent = ({ onSend, exceeded }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleSend = () => {
-    if (inputValue.trim()) {
+    if (inputValue.trim() || !exceeded) {
       onSend(inputValue);
       // window.scrollTo({
       //   top: document.documentElement.scrollHeight,
       //   behavior: "smooth",
       // });
       setInputValue("");
+    } else {
+      console.log("either exceeded or empty");
     }
   };
 

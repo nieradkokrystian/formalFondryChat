@@ -6,7 +6,6 @@ import DropdownMenuDemo from "./DropdownMenu";
 import CreateTaskScreen from "./CreateTaskScreen";
 import { useUser } from "../AuthContext";
 
-// Navbar no longer manages its own state
 const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
   const { username } = useUser();
 

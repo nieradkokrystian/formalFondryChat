@@ -15,7 +15,7 @@ const Message = memo(({ content, type, tag, errorTag }) => {
   let color;
   let icon;
   let hasShadow = true;
-
+  const [isCode, setIsCode] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
   function Highlight({ text }) {
@@ -31,7 +31,7 @@ const Message = memo(({ content, type, tag, errorTag }) => {
 
     return (
       <>
-        <h1>{text[0]}</h1>
+        <h1 className="">{text[0]}</h1>
         <SyntaxHighlighter
           language="agda"
           style={dracula}
@@ -46,9 +46,10 @@ const Message = memo(({ content, type, tag, errorTag }) => {
   const TrimCode = (code) => {
     return code.replace(/```/, "").replace(/```$/, "").replace(/```/, "");
   };
-
+  const COLLAPSIBLE_LENGTH_LIMIT = 200;
   const isCollapsible =
-    typeof content === "string" && (content.match(/\n/g) || []).length > 3;
+    (typeof content === "string" && (content.match(/\n/g) || []).length > 3) ||
+    toString(content).length > COLLAPSIBLE_LENGTH_LIMIT;
 
   const isUserMessage = tag === "UserMessage" || tag === "UserRes";
 
@@ -56,7 +57,7 @@ const Message = memo(({ content, type, tag, errorTag }) => {
 
   const MessageUser = ({ content }) => {
     return (
-      <div className="message-user message max-w-[80%] text-gray-900 mt-6 bg-indigo-100 w-fit min-h-fit h-fit p-4 rounded-4xl rounded-tr-xs wrap-normal flex justify-start relative">
+      <div className="message-user message max-w-[80%]  whitespace-pre-wrap   text-gray-900 mt-6 bg-indigo-100 w-fit min-h-fit h-fit p-4 rounded-4xl rounded-tr-xs wrap-normal flex justify-start relative">
         <p
           className={`leading-normal whitespace-pre-wrap ${
             isCollapsible && !isExpanded ? "max-h-[5.5em] overflow-hidden" : ""
@@ -120,22 +121,22 @@ const Message = memo(({ content, type, tag, errorTag }) => {
   return (
     <>
       {isUserMessage ? (
-        <div className="flex w-full justify-end h-fit items-center relative">
+        <div className="flex max-w-[100%] justify-end  lg:w-[100%]  h-fit items-center relative">
           <MessageUser content={content} />
         </div>
       ) : (
         <div
-          className={`message h-fit rounded-tl-none   lg:max-w-[85%] max-w-[90%] lg:overflow-x-none overflow-x-auto   z-8 p-2  border-1 rounded-lg flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
+          className={`message h-fit rounded-tl-none lg:w-[85%] max-w-[90%] lg:overflow-x-hidden  z-8 p-2  border-1 rounded-lg flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
             hasShadow ? "shadow-md" : "shadow-none"
           } `}>
-          <div className="flex-1 relative overflow-x-hidden">
+          <div className="flex-1 relative overflow-x-hidden ">
             {tag == "LLMRes" || tag == "TCReq" ? (
               <div
                 className={`text-sm text-grey-500  font-semibold leading-normal whitespace-pre-wrap ${
-                  isCollapsible && !isExpanded
+                  isCollapsible && !content.includes("import") && !isExpanded
                     ? "max-h-[5.5em] overflow-hidden "
-                    : ""
-                }`}>
+                    : "max-h-fit"
+                }  `}>
                 <div className="flexflex-row  items-center text-gray-700 text-3xl">
                   <span className="text-xs  flex justify-start items-center flex-row w-fit">
                     {icon}
@@ -170,9 +171,9 @@ const Message = memo(({ content, type, tag, errorTag }) => {
               // {not LLMReq or LLMRes}
               <div
                 className={`text-xs text-grey-500 font-semibold leading-normal whitespace-pre-wrap ${
-                  isCollapsible && !isExpanded
-                    ? "max-h-[5.5em] overflow-hidden"
-                    : ""
+                  isCollapsible && content.includes("import") && !isExpanded
+                    ? "max-h-[5.5em] overflow-hidden "
+                    : "max-h-fit"
                 }`}>
                 <div className="flex  flex-row  items-center text-gray-700 text-3xl">
                   <span
@@ -183,7 +184,11 @@ const Message = memo(({ content, type, tag, errorTag }) => {
                 </div>
                 <div
                   className={`${errorTag == "TCErr" ? "text-red-500 " : ""}`}>
-                  {content}
+                  {errorTag == "TCErr" ? (
+                    <Highlight text={content} />
+                  ) : (
+                    <>{content}</>
+                  )}
                 </div>
               </div>
             )}
