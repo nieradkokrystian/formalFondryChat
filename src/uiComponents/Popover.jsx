@@ -19,25 +19,40 @@ const PopoverSettings = ({ setModel, setProvider }) => {
         const response = await axiosInstance.get(`${API_LINK}/llm_list`);
         setLlmProviders(response.data);
         if (response.data.length > 0) {
-          setSelectedProvider(response.data[0].provider_name);
-          setAvailableModels(response.data[0].models);
-          setSelectedModel(response.data[0].models[0]);
+          const firstProvider = response.data[0];
+          setSelectedProvider(firstProvider.provider_name);
+          setAvailableModels(firstProvider.models);
+          const firstModel = firstProvider.models[0];
+          setSelectedModel(firstModel);
+          // Set initial values for parent component
+          setProvider(firstProvider.provider_name);
+          setModel(firstModel);
         }
       } catch (error) {
         console.error("Failed to fetch LLM list:", error);
       }
     };
     fetchLlmList();
-  }, [API_LINK]);
+  }, [API_LINK, setModel, setProvider]);
 
   const handleProviderChange = (e) => {
     const providerName = e.target.value;
     setSelectedProvider(providerName);
+    setProvider(providerName);
+
     const provider = llmProviders.find((p) => p.provider_name === providerName);
     if (provider) {
       setAvailableModels(provider.models);
-      setSelectedModel(provider.models[0]);
+      const newSelectedModel = provider.models[0];
+      setSelectedModel(newSelectedModel);
+      setModel(newSelectedModel);
     }
+  };
+
+  const handleModelChange = (e) => {
+    const modelName = e.target.value;
+    setSelectedModel(modelName);
+    setModel(modelName);
   };
 
   return (
@@ -60,7 +75,7 @@ const PopoverSettings = ({ setModel, setProvider }) => {
               <select
                 className="Input"
                 id="provider"
-                onChange={(e) => setProvider(e.target.value)}
+                onChange={handleProviderChange}
                 value={selectedProvider}>
                 {llmProviders.map((provider) => (
                   <option
@@ -76,9 +91,9 @@ const PopoverSettings = ({ setModel, setProvider }) => {
                 LLM model:
               </label>
               <select
-                className="Input "
+                className="Input"
                 id="model"
-                onChange={(e) => setModel(e.target.value)}
+                onChange={handleModelChange}
                 value={selectedModel}>
                 {availableModels.map((model) => (
                   <option key={model} value={model}>

@@ -17,18 +17,18 @@ const Chat = () => {
   const [taskNumber, setTaskNumber] = useState("");
   const pollingInterval = useRef(null);
   const chatContainerRef = useRef(null);
-  const [steps, setSteps] = useState("");
+  const [steps, setSteps] = useState("20");
   const [llm, setLlm] = useState("gpt-3");
 
   const API_LINK = import.meta.env.VITE_API_BASE;
 
   useEffect(() => {
     axios
-      .get(`${API_LINK}/tasks/${chatId}/env`)
+      .get(`${API_LINK}/taskenv/${chatId}/env`)
       .then((response) => {
-        short = response.data;
-        setSteps(short._maxSteps);
-        setLlm(short._llmModel);
+        setSteps(response.data._maxSteps);
+        setLlm(response.data._llmModel);
+        console.log("worked here", steps, llm);
       })
       .catch((error) => {
         console.log(error);
@@ -256,6 +256,8 @@ const Chat = () => {
       )}
       <InputComponent
         exceeded={exceeded}
+        LLM={llm}
+        steps={steps}
         onSend={handleSend}
         chatId={chatId}
         lastMessageIsUserReq={lastMessageIsUserReq}
