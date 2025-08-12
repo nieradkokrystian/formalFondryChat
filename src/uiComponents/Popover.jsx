@@ -5,7 +5,7 @@ import "../uiComponents/popover.css";
 import { useState, useEffect } from "react";
 import axiosInstance from "./axios-cache";
 
-const PopoverSettings = () => {
+const PopoverSettings = ({ setModel, setProvider }) => {
   const [llmProviders, setLlmProviders] = useState([]);
   const [selectedProvider, setSelectedProvider] = useState("");
   const [availableModels, setAvailableModels] = useState([]);
@@ -60,7 +60,7 @@ const PopoverSettings = () => {
               <select
                 className="Input"
                 id="provider"
-                onChange={handleProviderChange}
+                onChange={(e) => setProvider(e.target.value)}
                 value={selectedProvider}>
                 {llmProviders.map((provider) => (
                   <option
@@ -76,9 +76,9 @@ const PopoverSettings = () => {
                 LLM model:
               </label>
               <select
-                className="Input"
+                className="Input "
                 id="model"
-                onChange={(e) => setSelectedModel(e.target.value)}
+                onChange={(e) => setModel(e.target.value)}
                 value={selectedModel}>
                 {availableModels.map((model) => (
                   <option key={model} value={model}>

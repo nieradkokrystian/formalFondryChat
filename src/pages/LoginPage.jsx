@@ -30,7 +30,7 @@ const LoginPage = () => {
       }
     } catch (err) {
       setErrorMessage(
-        "coś poszło nie tak. Sprawdź swoje dane, i spróbuj ponownie"
+        "Something went wrong. Check your credentials again, and ensure they are correct."
       );
       console.error(err);
     }
@@ -39,8 +39,8 @@ const LoginPage = () => {
   return (
     <>
       <LightRays raysColor="#6b46c1" followMouse={true} />
-      <div className="login-page relative p-0">
-        <div className=" flex flex-col login-container-wrap p-4 fixed  md:w-100 w-[90vw] h-fit bg-white items-start justify-start rounded-2xl shadow-lg contain-layout top-[50%] left-[50%] translate-[-50%]">
+      <div className="login-page relative p-0 ">
+        <div className=" flex flex-col login-container-wrap p-4 fixed z-50 md:w-100 w-[90vw] h-fit bg-white items-start justify-start rounded-2xl shadow-lg contain-layout top-[50%] left-[50%] translate-[-50%]">
           <div className="w-fit h-fit rounded-2xl bg-white ">
             <h1 className="text-2xl tracking-wide flex text-shadow-white  w-fit text-blue-[var(color-primary)]">
               Please log in to continue

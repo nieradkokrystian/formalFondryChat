@@ -87,7 +87,7 @@ button.create-task-button:hover {
   --color-background: rgb(255, 255, 255);
   --color-text: rgb(29, 33, 41);
   --color-border: rgb(174, 186, 199);
-  /* Assuming you have these or similar */
+
   --radius-sm: 4px;
   --violet-3: hsl(252, 6%, 93%);
   --violet-6: hsl(252, 5%, 83%);
@@ -105,7 +105,8 @@ button.create-task-button:hover {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 10px 20px; /* Base padding for nav content */
+  padding: 10px 20px;
+  /*Basepaddingfornavcontent*/
   background-color: var(--color-background);
   background-color: transparent;
   color: var(--color-text);
@@ -117,8 +118,12 @@ button.create-task-button:hover {
   width: 100%;
   z-index: 10;
   backdrop-filter: blur(100px);
+  transition: padding-left 0.3s ease-out;
 
-  transition: padding-left 0.3s ease-out; /* Match sidebar's transition duration */
+  -webkit-transition: padding-left 0.3s ease-out;
+  -moz-transition: padding-left 0.3s ease-out;
+  -ms-transition: padding-left 0.3s ease-out;
+  -o-transition: padding-left 0.3s ease-out;
 }
 
 .nav.nav-shifted {
@@ -174,7 +179,14 @@ button.create-task-button:hover {
   color: var(--violet-9);
   border: 1px solid var(--violet-6);
 }
+@media screen and (max-width: 600px) {
+  .create-task-button {
+    max-width: fit-content;
+    font-size: 0.5rem;
 
+    max-height: 30px;
+  }
+}
 .Sidebar-toggle {
   background: none;
   border: 1px solid transparent;
@@ -198,4 +210,14 @@ button.create-task-button:hover {
   background-color: var(--violet-3);
   border: 1px solid var(--violet-6);
   border-radius: var(--radius-sm);
+}
+@media screen and (max-width: 600px) {
+  .Sidebar-toggle {
+    max-width: 30px;
+    aspect-ratio: 1/1;
+    max-height: 30px;
+  }
+
+  .nav-wrap {
+  }
 }

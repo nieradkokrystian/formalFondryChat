@@ -136,6 +136,14 @@ button {
   border: 1px solid var(--violet-6);
 }
 
+@media only screen and (max-width: 600px) {
+  .IconButton {
+    max-width: 30px;
+    max-height: 20px;
+    aspect-ratio: 2/1;
+  }
+}
+
 .RightSlot {
   margin-left: auto;
   padding-left: 20px;

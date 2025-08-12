@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Tooltip } from "radix-ui";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 import "./styles.css";
 
 const TooltipSidebar = ({ status, type }) => {
@@ -9,14 +9,14 @@ const TooltipSidebar = ({ status, type }) => {
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <button className="IconButtonTooltip">
-            <MagnifyingGlassIcon height={"50%"} width={"30"} />
+            <InfoCircledIcon height={"50%"} width={"30"} />
           </button>
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content
             className="TooltipContent"
             sideOffset={0}
-            side="left">
+            side="right">
             {status} <br />
             {type}
             <Tooltip.Arrow className="TooltipArrow" />

@@ -2,7 +2,7 @@
   margin-bottom: 20%;
 }
 .message:last-child {
-  margin-bottom: 100px;
+  margin-bottom: 10px;
 }
 .message p,
 .message div {
@@ -41,14 +41,27 @@
 
 @keyframes pulse {
   0% {
-    color: var(--color-red-700);
-    background-color: var(white);
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
   }
   50% {
-    color: var(--color-gray-700);
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
   }
 }
 .pulse {
-  animation: pulse 2s infinite ease-in-out;
+  transition: transform 200ms;
+  animation: pulse 3s infinite ease-in-out;
   animation-direction: alternate;
+  -webkit-animation: pulse 3s infinite ease;
+  -webkit-transition: transform 200ms;
+  -moz-transition: transform 200ms;
+  -ms-transition: transform 200ms;
+  -o-transition: transform 200ms;
 }

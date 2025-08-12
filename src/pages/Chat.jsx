@@ -13,14 +13,37 @@ const Chat = ({ id }) => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLLMThinking, setIsLLMThinking] = useState(false);
-  const [exceeded, isExceeded] = useState(false);
+  const [exceeded, setExceeded] = useState(false);
+  const [taskNumber, setTaskNumber] = useState("");
   const pollingInterval = useRef(null);
   const chatContainerRef = useRef(null);
+  const messagesRef = useRef(messages); // Use a ref to store the latest messages
   const API_LINK = import.meta.env.VITE_API_BASE;
+
+  // Update the ref whenever the messages state changes
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  const checkExceededOrUserRegLast = (messages) => {
+    messages = [...messages];
+    let last = messages.length - 1;
+
+    if (
+      messages[last]?.taskStatWS == "exceeded" ||
+      messages[last]?.taskStatWS == "resolved" ||
+      messages[last]?.cmCmdWS.tag != "UserReq"
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   const handleSend = (inputValue) => {
     if (inputValue.trim() === "") return;
-    console.log("input value, id", inputValue, chatId);
+    const exceeded = checkExceededOrUserRegLast(messages);
+    if (exceeded) return;
+    "input value, id", inputValue, chatId;
 
     const userMessage = {
       cmCmdWS: { contents: inputValue, tag: "UserRes" },
@@ -45,28 +68,40 @@ const Chat = ({ id }) => {
         task_id: chatId,
       })
       .then(() => {
-        console.log("Message sent successfully. Polling for response...");
         // Start a short polling interval
         pollingInterval.current = setInterval(() => {
-          axios
-            .get(`${API_LINK}/taskmsg/${chatId}/messages-history`) ///! TO SWAP HERE (DEBUG)
-            .then((res) => {
-              // Check if the api returned a new message
-              if (res.data.length > messages.length) {
-                setMessages(res.data);
-                setIsLLMThinking(false);
-                // Stop polling once the new message is received
+          // Use the ref to get the latest messages
+          if (checkExceededOrUserRegLast(messagesRef.current)) {
+            clearInterval(pollingInterval.current);
+            return;
+          }
+          if (!exceeded) {
+            axios
+              .get(`${API_LINK}/taskmsg/${chatId}/messages-history`) ///! TO SWAP HERE (DEBUG)
+              .then((res) => {
+                if (res.data.length > messagesRef.current.length) {
+                  setMessages(res.data);
+                  setIsLLMThinking(false);
+                  axios
+                    .get(`${API_LINK}/tasks/${id}/states/latest}`)
+                    .then((response) => {
+                      setTaskNumber(response.data.stateData._stepCount);
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                  if (pollingInterval.current) {
+                    clearInterval(pollingInterval.current);
+                  }
+                }
+              })
+              .catch((error) => {
+                console.log("Error fetching new messages:", error);
                 if (pollingInterval.current) {
                   clearInterval(pollingInterval.current);
                 }
-              }
-            })
-            .catch((error) => {
-              console.log("Error fetching new messages:", error);
-              if (pollingInterval.current) {
-                clearInterval(pollingInterval.current);
-              }
-            });
+              });
+          }
         }, 5000);
       })
       .catch((error) => {
@@ -115,7 +150,7 @@ const Chat = ({ id }) => {
     if (pollingInterval.current) {
       clearInterval(pollingInterval.current);
     }
-    pollingInterval.current = setInterval(fetchMessages, 1000);
+    pollingInterval.current = setInterval(fetchMessages, 5000);
 
     return () => {
       if (pollingInterval.current) {
@@ -129,11 +164,15 @@ const Chat = ({ id }) => {
   }
 
   return (
-    <div className="Chat relative w-[100%] max-h-[100%]">
+    <div className="Chat relative mx-auto w-full max-w-[700px] max-h-[100%] ">
       {messages.length === 0 ? (
         <EmptyChat />
       ) : (
-        <ChatActive messages={messages} ref={chatContainerRef} />
+        <ChatActive
+          taskNumber={taskNumber}
+          messages={messages}
+          ref={chatContainerRef}
+        />
       )}
       <InputComponent exceeded={exceeded} onSend={handleSend} />
     </div>

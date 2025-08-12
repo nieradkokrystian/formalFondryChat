@@ -100,18 +100,23 @@ input {
   align-items: center;
   justify-content: center;
   flex: 1;
+  color: var(--black-a7);
   border-radius: 4px;
   padding: 0 10px;
   font-size: 13px;
   line-height: 1;
-  color: var(--violet-11);
+
   box-shadow: 0 0 0 1px var(--violet-7);
   height: 25px;
+  color: var(--black-a7);
+  color: black;
 }
 .Input:focus {
   box-shadow: 0 0 0 2px var(--violet-8);
 }
-
+select {
+  color: black;
+}
 .Text {
   margin: 0;
   color: var(--mauve-12);

@@ -3,26 +3,28 @@ import {
   GearIcon,
   CheckIcon,
   CommitIcon,
-  PersonIcon,
+  KeyboardIcon,
   ChevronDownIcon,
+  MagicWandIcon,
 } from "@radix-ui/react-icons";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useState, memo } from "react";
 import "./message.css";
 
-const Message = memo(({ content, type, tag, errorTag }) => {
+const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
   let color;
   let icon;
-  let hasShadow = true;
+  let hasShadow = false;
   const [isCode, setIsCode] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  let shouldExpand = true || false;
 
   function Highlight({ text }) {
     const codeString =
       typeof text == String ? text.toString() : text.toString();
     text = codeString.split("import");
-    // console.log("first", text[0])
+
     const customStyle = {
       whiteSpace: "pre-wrap", // This is the key property for wrapping
       wordBreak: "break-word", // Ensures long words also break
@@ -31,7 +33,6 @@ const Message = memo(({ content, type, tag, errorTag }) => {
 
     return (
       <>
-        <h1 className="">{text[0]}</h1>
         <SyntaxHighlighter
           language="agda"
           style={dracula}
@@ -49,7 +50,7 @@ const Message = memo(({ content, type, tag, errorTag }) => {
   const COLLAPSIBLE_LENGTH_LIMIT = 200;
   const isCollapsible =
     (typeof content === "string" && (content.match(/\n/g) || []).length > 3) ||
-    toString(content).length > COLLAPSIBLE_LENGTH_LIMIT;
+    content.length > COLLAPSIBLE_LENGTH_LIMIT;
 
   const isUserMessage = tag === "UserMessage" || tag === "UserRes";
 
@@ -57,10 +58,10 @@ const Message = memo(({ content, type, tag, errorTag }) => {
 
   const MessageUser = ({ content }) => {
     return (
-      <div className="message-user message max-w-[80%]  whitespace-pre-wrap   text-gray-900 mt-6 bg-indigo-100 w-fit min-h-fit h-fit p-4 rounded-4xl rounded-tr-xs wrap-normal flex justify-start relative">
+      <div className="message-user message max-w-[80%] text-sm whitespace-pre-wrap   text-gray-900 mt-6 bg-indigo-100 w-fit min-h-fit h-fit p-4 rounded-4xl rounded-tr-xs wrap-normal flex justify-start relative">
         <p
           className={`leading-normal whitespace-pre-wrap ${
-            isCollapsible && !isExpanded ? "max-h-[5.5em] overflow-hidden" : ""
+            isCollapsible && !isExpanded ? "max-h-[6.4em] overflow-hidden" : ""
           }`}>
           {content}
         </p>
@@ -78,42 +79,62 @@ const Message = memo(({ content, type, tag, errorTag }) => {
   };
 
   if (isUserRequest) {
-    color = "bg-red-100 border-red-600";
-    icon = <PersonIcon className="pulse" width={40} height={40} />;
-    hasShadow = false;
+    color = " text-gray-700  bg-blue-100";
+    icon = (
+      <div className=" bg-blue-500  rounded-full mr-1.5">
+        <KeyboardIcon className=" m-2 text-white" width={20} height={20} />
+      </div>
+    );
+    // hasShadow = false;
   } else {
     switch (type) {
       case "running":
-        color = "bg-violet-200 border-violet-600";
+        color = "bg-violet-200 mb-2";
         icon = isUserMessage ? (
-          <PersonIcon width={40} className="pulse" height={40} />
+          <KeyboardIcon width={20} className="pulse" height={20} />
         ) : (
-          <GearIcon
-            width={40}
-            height={40}
-            className={tag == "LLM_Thinking" ? "spin" : ""}
-          />
+          <div className="bg-violet-500 flex  rounded-full mr-1.5">
+            <MagicWandIcon
+              color="white "
+              width={20}
+              height={20}
+              className={`${
+                tag == "LLM_Thinking" ? "animate-pulse" : ""
+              } aspect-square m-2`}
+            />{" "}
+          </div>
         );
         break;
       case "pending":
-        color = "bg-blue-300 border-blue-600";
+        color = "bg-blue-300 mb-2";
         icon = isUserMessage ? (
-          <PersonIcon className="pulse" width={40} height={40} />
+          <KeyboardIcon className="pulse" width={20} height={20} />
         ) : (
-          <CommitIcon width={40} height={40} />
+          <CommitIcon width={20} height={20} />
         );
         break;
       case "completed":
-        color = "bg-green-300 border-green-600";
+        color = "bg-green-300 mb-2";
         icon = isUserMessage ? (
-          <PersonIcon className="pulse" width={40} height={40} />
+          <KeyboardIcon className="pulse" width={20} height={20} />
         ) : (
-          <CheckIcon width={40} height={40} />
+          <CheckIcon width={20} height={20} />
         );
         break;
       default:
-        color = "bg-purple-100 border-gray-300";
-        icon = <GearIcon width={40} height={40} />;
+        color = "bg-purple-100 mb-2";
+        icon = (
+          <div className=" flex  rounded-full mr-1.5">
+            <MagicWandIcon
+              color="black "
+              width={20}
+              height={20}
+              className={`${
+                tag == "LLM_Thinking" ? "animate-pulse" : ""
+              } aspect-square `}
+            />{" "}
+          </div>
+        );
         break;
     }
   }
@@ -121,30 +142,69 @@ const Message = memo(({ content, type, tag, errorTag }) => {
   return (
     <>
       {isUserMessage ? (
-        <div className="flex max-w-[100%] justify-end  lg:w-[100%]  h-fit items-center relative">
+        <div className="flex max-w-[100%] justify-end  lg:w-[100%]  h-fit items-baseline relative">
           <MessageUser content={content} />
         </div>
       ) : (
         <div
-          className={`message h-fit rounded-tl-none lg:w-[85%] max-w-[90%] lg:overflow-x-hidden  z-8 p-2  border-1 rounded-lg flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
+          className={`message h-fit rounded-tl-none lg:w-[85%] max-w-[90%] lg:overflow-x-hidden  z-8 p-4 rounded-4xl flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
             hasShadow ? "shadow-md" : "shadow-none"
           } `}>
           <div className="flex-1 relative overflow-x-hidden ">
             {tag == "LLMRes" || tag == "TCReq" ? (
               <div
-                className={`text-sm text-grey-500  font-semibold leading-normal whitespace-pre-wrap ${
-                  isCollapsible && !content.includes("import") && !isExpanded
-                    ? "max-h-[5.5em] overflow-hidden "
+                className={`text-sm text-grey-500 leading-normal whitespace-pre-wrap ${
+                  isCollapsible &&
+                  !content.includes("open import") &&
+                  !isExpanded &&
+                  tag == "UserReq"
+                    ? "max-h-[6.4em] overflow-hidden "
                     : "max-h-fit"
                 }  `}>
-                <div className="flexflex-row  items-center text-gray-700 text-3xl">
-                  <span className="text-xs  flex justify-start items-center flex-row w-fit">
-                    {icon}
-                    {tag}
-                    {content.includes("import") ? (
-                      <h1 className="text-gray-700">
+                <div className="flexflex-row mb-2  items-center text-gray-700 ">
+                  <span className="text-sm  flex justify-start items-center flex-row w-fit">
+                    {taskNumber?.length > 0 ? `${taskNumber}/20` : ""}
+
+                    {tag == "LLMRes" ? (
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between  flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
                         {" "}
-                        [extend to see the code]
+                        {icon}
+                        LLM Response
+                      </h1>
+                    ) : (
+                      ""
+                    )}
+                    {tag == "LLMReq" ? (
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                        {" "}
+                        {icon}
+                        LLM Request
+                      </h1>
+                    ) : (
+                      ""
+                    )}
+                    {tag == "TCReq" ? (
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                        {" "}
+                        {icon}
+                        LLM Request
+                      </h1>
+                    ) : (
+                      ""
+                    )}
+                    {tag == "TCRes" ? (
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                        {" "}
+                        {icon}
+                        TC Response
+                      </h1>
+                    ) : (
+                      ""
+                    )}
+                    {errorTag == "TCErr" ? (
+                      <h1 className="text-white p-1 pl-2 justify-between flex items-center rounded-2xl ml-1 bg-red-500 border-red-800">
+                        {" "}
+                        Error
                       </h1>
                     ) : (
                       ""
@@ -153,15 +213,16 @@ const Message = memo(({ content, type, tag, errorTag }) => {
                 </div>
 
                 <div
-                  className={`codeWrap   mt-[10px] rounded-md p-1    ${
+                  className={`codeWrap  text-sm  mt-[10px] rounded-md p-1    ${
                     errorTag == "TCErr" ? "text-red-500 " : ""
                   }`}>
                   {" "}
-                  {console.log(errorTag)}
                   {content.includes("import") ? (
                     <Highlight
                       className=" max-w-[100%] overflow-x-hidden"
-                      text={TrimCode(content)}></Highlight>
+                      text={TrimCode(content)}>
+                      {(shouldExpand = false)}
+                    </Highlight>
                   ) : (
                     <code className="">{TrimCode(content)}</code>
                   )}
@@ -170,16 +231,73 @@ const Message = memo(({ content, type, tag, errorTag }) => {
             ) : (
               // {not LLMReq or LLMRes}
               <div
-                className={`text-xs text-grey-500 font-semibold leading-normal whitespace-pre-wrap ${
-                  isCollapsible && content.includes("import") && !isExpanded
-                    ? "max-h-[5.5em] overflow-hidden "
+                className={`text-sm text-grey-500  mb-2 leading-normal whitespace-pre-wrap ${
+                  isCollapsible &&
+                  content.includes("import") &&
+                  !isExpanded &&
+                  tag != "UserReq"
+                    ? "max-h-[6.4em] overflow-hidden "
                     : "max-h-fit"
                 }`}>
-                <div className="flex  flex-row  items-center text-gray-700 text-3xl">
+                <div className="flex mb-2 flex-row  items-center text-gray-700 text-3xl">
                   <span
-                    className={`text-xs flex justify-start items-center flex-row w-fit `}>
-                    {icon}
-                    {tag}
+                    className={`text-sm flex justify-start items-center flex-row w-fit `}>
+                    {tag == "UserReq" ? (
+                      <>
+                        {" "}
+                        {icon}
+                        <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-orange-500 border-blue-800">
+                          {" "}
+                          Clarifications Requested
+                        </h1>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    {tag == "LLMRes" ? (
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                        {" "}
+                        {icon}
+                        LLM Response
+                      </h1>
+                    ) : (
+                      ""
+                    )}
+                    {tag == "LLMReq" ? (
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                        {" "}
+                        {icon}
+                        LLM Request
+                      </h1>
+                    ) : (
+                      ""
+                    )}
+                    {tag == "TCReq" ? (
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                        {" "}
+                        {icon}
+                        LLM Request
+                      </h1>
+                    ) : (
+                      ""
+                    )}
+                    {tag == "TCRes" ? (
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                        {" "}
+                        {icon}
+                        LLM Response
+                      </h1>
+                    ) : (
+                      ""
+                    )}
+                    {errorTag == "TCErr" ? (
+                      <h1 className="text-white p-1 rounded-2xl ml-1 bg-red-500 border-red-800">
+                        {" "}
+                        Error occurred in Agda code
+                      </h1>
+                    ) : (
+                      ""
+                    )}
                   </span>
                 </div>
                 <div
@@ -196,10 +314,16 @@ const Message = memo(({ content, type, tag, errorTag }) => {
             {isCollapsible && (
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className={`absolute top-2 right-2 text-gray-500 hover:text-gray-900 transition-transform duration-200 ${
-                  isExpanded ? "rotate-180" : ""
-                }`}>
-                <ChevronDownIcon width={20} height={20} />
+                className={`absolute top-2 right-2 text-gray-500 hover:text-gray-900 transition-transform duration-200 `}>
+                {tag != "UserReq" && tag != "LLMRes" && tag != "TCReq" ? ( //! BETTER SOLUTION NEEDED IN THE FUTURE
+                  <ChevronDownIcon
+                    className={isExpanded ? "rotate-180" : ""}
+                    width={20}
+                    height={20}
+                  />
+                ) : (
+                  ""
+                )}
               </button>
             )}
           </div>

@@ -17,9 +17,9 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
   const [TaskName, setTaskName] = useState("");
   const [TaskType, setTaskType] = useState("typeRefiner");
   const [taskList, setTaskList] = useState([]);
+  const [provider, setProvider] = useState("OpenAI");
+  const [model, setModel] = useState("gpt-3");
   const API_LINK = import.meta.env.VITE_API_BASE;
-
-  console.log("id", id);
 
   React.useEffect(() => {
     const fetchAvailableTasks = async () => {
@@ -47,13 +47,14 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
         `${API_LINK}/tasks`,
         TaskType,
         finalTaskName,
-        id
+        id,
+        provider,
+        model
       );
-      console.log(`Task created with ID: ${newTask.taskId}`);
 
       if (newTask && newTask.taskId) {
         const newTaskId = newTask.taskId;
-        console.log(`Task created with ID: ${newTaskId}, ID USER: ${id}`);
+
         onTaskCreated(newTask);
         navigate(`/chat/${newTaskId}`, {
           state: {
@@ -62,7 +63,6 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
             username: username,
           },
         });
-        console.log("Task Created and navigating to ID:", newTaskId);
       } else {
         throw new Error("API did not return a valid task ID.");
       }
@@ -131,7 +131,11 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
             <label htmlFor="settings" className="Label w-fit text-violet-500">
               Additional Settings
             </label>
-            <PopoverSettings id="settings" />
+            <PopoverSettings
+              setProvider={setProvider}
+              setModel={setModel}
+              id="settings"
+            />
           </div>
 
           <div

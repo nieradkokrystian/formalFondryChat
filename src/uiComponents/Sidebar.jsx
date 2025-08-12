@@ -1,29 +1,31 @@
 // SidebarComponent.jsx
-import { PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import "./sidebar.css";
 import { Link } from "react-router-dom";
 import Tooltip from "./Tooltip";
 
-// Accept taskList as a prop
 function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList, id }) {
   const MenuItem = ({ title, status, id, type }) => {
     return (
       <Link
-        className={` h-[30px] w-full Sidebar-item p-1 flex items-center justify-between last:mb-30 ${
-          status == "resolved"
-            ? "bg-green-100"
-            : "" || status == "exceeded"
-            ? "bg-red-100"
-            : ""
-        }`}
+        className={`group relative h-[30px] pl-3 w-full Sidebar-item p-1 flex items-center justify-between last:mb-30 overflow-x-clip pr-3 `}
         discover="none"
         to={`/chat/${id}`}
         prefetch="render"
         preventScrollReset>
-        {console.log(title)}
-        <h1>{title}</h1>
+        <div
+          className={`orb w-2 h-2 rounded-full left-[1px] absolute  aspect-square ${
+            status == "resolved"
+              ? "bg-green-500"
+              : "" || status == "exceeded"
+              ? "bg-red-500"
+              : "bg-blue-400"
+          }`}></div>
+        <h1 className="w-[70%] overflow-hidden">{title}</h1>
 
-        <Tooltip type={type} status={status} />
+        <div className="hidden group-hover:block">
+          <Tooltip type={type} status={status} />
+        </div>
       </Link>
     );
   };
@@ -36,7 +38,7 @@ function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList, id }) {
           <PlusIcon />
         </button>
       </div>
-      <div className="Sidebar-Body">
+      <div className="Sidebar-Body ">
         {Object.keys(taskList).map((key) => (
           <MenuItem
             key={key}
