@@ -151,7 +151,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
           className={`message h-fit rounded-tl-none lg:w-[85%] max-w-[90%] lg:overflow-x-hidden  z-8 lg:p-4 p-2 rounded-4xl flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
             hasShadow ? "shadow-md" : "shadow-none"
           } `}>
-          <div className="flex-1 relative overflow-x-hidden ">
+          <div className="flex-1  relative overflow-x-hidden ">
             {tag == "LLMRes" || tag == "TCReq" ? (
               <div
                 className={`text-sm text-grey-500 leading-normal whitespace-pre-wrap ${
@@ -167,7 +167,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                     {taskNumber?.length > 0 ? `${taskNumber}/20` : ""}
 
                     {tag == "LLMRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between  flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between  flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Response
@@ -176,7 +176,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "LLMReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Request
@@ -185,7 +185,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "TCReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Request
@@ -194,7 +194,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "TCRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         TC Response
@@ -203,7 +203,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {errorTag == "TCErr" ? (
-                      <h1 className="text-white p-1 pl-2 justify-between flex items-center rounded-2xl ml-1 bg-red-500 border-red-800">
+                      <h1 className="text-white p-1 pl-2 justify-start flex items-center rounded-2xl  bg-red-500 border-red-800">
                         {" "}
                         Error
                       </h1>
@@ -228,14 +228,14 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                     <code className="">{TrimCode(content)}</code>
                   )}
                 </div>
-                <span className="absolute bottom-1 right-0 text-xs bg-violet-500 rounded-2xl h-[20px] items-center flex justify-center text-white  aspect-square">
+                <span className="absolute bottom-0 right-0 text-xs bg-violet-500 rounded-2xl h-[20px] items-center flex justify-center text-white  aspect-square">
                   {step}
                 </span>
               </div>
             ) : (
               // {not LLMReq or LLMRes}
               <div
-                className={`text-sm text-grey-500  mb-1 leading-normal whitespace-pre-wrap ${
+                className={`text-sm text-grey-500 pb-4  mb-1 leading-normal whitespace-pre-wrap ${
                   isCollapsible &&
                   content.includes("import") &&
                   !isExpanded &&
@@ -243,14 +243,14 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                     ? "max-h-[6.4em] overflow-hidden "
                     : "max-h-fit"
                 }`}>
-                <div className="flex mb-2 flex-row  items-center text-gray-700 text-3xl">
+                <div className="flex mb-2 flex-row   items-center text-gray-700 text-3xl">
                   <span
                     className={`text-sm flex justify-start items-center flex-row w-fit `}>
                     {tag == "UserReq" ? (
                       <>
                         {" "}
                         {icon}
-                        <h1 className=" text-white p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-orange-500 border-blue-800">
+                        <h1 className=" text-white p-1 pl-2 justify-start flex items-center pr-2 rounded-2xl  bg-orange-500 border-blue-800">
                           {" "}
                           Clarifications Requested
                         </h1>
@@ -259,7 +259,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "LLMRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Response
@@ -268,7 +268,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "LLMReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Request
@@ -277,7 +277,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "TCReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Request
@@ -286,7 +286,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "TCRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Response
@@ -295,7 +295,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {errorTag == "TCErr" ? (
-                      <h1 className="text-white p-1 rounded-2xl ml-1 bg-red-500 border-red-800">
+                      <h1 className="text-white p-1 rounded-2xl  bg-red-500 border-red-800">
                         {" "}
                         Error occurred in Agda code
                       </h1>
@@ -305,14 +305,16 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                   </span>
                 </div>
                 <div
-                  className={`${errorTag == "TCErr" ? "text-red-500 " : ""}`}>
+                  className={`${
+                    errorTag == "TCErr" ? "text-red-500 " : ""
+                  } mb-3`}>
                   {errorTag == "TCErr" ? (
                     <Highlight text={content} />
                   ) : (
                     <>{content}</>
                   )}
                 </div>
-                <span className="absolute bottom-1 right-0 text-xs bg-violet-500 rounded-2xl h-[20px] items-center flex justify-center text-white  aspect-square">
+                <span className="absolute bottom-4 right-1 text-xs bg-violet-500 rounded-2xl h-[20px] items-center flex justify-center text-white  aspect-square">
                   {step}
                 </span>
               </div>
@@ -321,7 +323,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
             {isCollapsible && (
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className={`absolute top-2 right-2 text-gray-500 hover:text-gray-900 transition-transform duration-200 `}>
+                className={`absolute bottom-10 left-0 text-gray-500 hover:text-gray-900 transition-transform duration-200 `}>
                 {tag != "UserReq" && tag != "LLMRes" && tag != "TCReq" ? ( //! BETTER SOLUTION NEEDED IN THE FUTURE
                   <ChevronDownIcon
                     className={isExpanded ? "rotate-180" : ""}
