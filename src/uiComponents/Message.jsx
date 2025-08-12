@@ -12,7 +12,7 @@ import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useState, memo } from "react";
 import "./message.css";
 
-const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
+const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
   let color;
   let icon;
   let hasShadow = false;
@@ -50,7 +50,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
   const COLLAPSIBLE_LENGTH_LIMIT = 200;
   const isCollapsible =
     (typeof content === "string" && (content.match(/\n/g) || []).length > 3) ||
-    content.length > COLLAPSIBLE_LENGTH_LIMIT;
+    content?.length > COLLAPSIBLE_LENGTH_LIMIT;
 
   const isUserMessage = tag === "UserMessage" || tag === "UserRes";
 
@@ -64,6 +64,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
             isCollapsible && !isExpanded ? "max-h-[6.4em] overflow-hidden" : ""
           }`}>
           {content}
+          {/* <span className="absolute bottom-0.7 right-1 text-xs"> {step} </span> */}
         </p>
         {isCollapsible && (
           <button
@@ -143,11 +144,11 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
     <>
       {isUserMessage ? (
         <div className="flex max-w-[100%] justify-end  lg:w-[100%]  h-fit items-baseline relative">
-          <MessageUser content={content} />
+          <MessageUser content={content} step={step} />
         </div>
       ) : (
         <div
-          className={`message h-fit rounded-tl-none lg:w-[85%] max-w-[90%] lg:overflow-x-hidden  z-8 p-4 rounded-4xl flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
+          className={`message h-fit rounded-tl-none lg:w-[85%] max-w-[90%] lg:overflow-x-hidden  z-8 lg:p-4 p-2 rounded-4xl flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
             hasShadow ? "shadow-md" : "shadow-none"
           } `}>
           <div className="flex-1 relative overflow-x-hidden ">
@@ -161,7 +162,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                     ? "max-h-[6.4em] overflow-hidden "
                     : "max-h-fit"
                 }  `}>
-                <div className="flexflex-row mb-2  items-center text-gray-700 ">
+                <div className="flexflex-row mb-1  items-center text-gray-700 ">
                   <span className="text-sm  flex justify-start items-center flex-row w-fit">
                     {taskNumber?.length > 0 ? `${taskNumber}/20` : ""}
 
@@ -175,7 +176,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                       ""
                     )}
                     {tag == "LLMReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Request
@@ -184,7 +185,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                       ""
                     )}
                     {tag == "TCReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Request
@@ -193,7 +194,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                       ""
                     )}
                     {tag == "TCRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         TC Response
@@ -213,7 +214,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                 </div>
 
                 <div
-                  className={`codeWrap  text-sm  mt-[10px] rounded-md p-1    ${
+                  className={`codeWrap  text-sm  rounded-md     ${
                     errorTag == "TCErr" ? "text-red-500 " : ""
                   }`}>
                   {" "}
@@ -227,11 +228,14 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                     <code className="">{TrimCode(content)}</code>
                   )}
                 </div>
+                <span className="absolute bottom-1 right-0 text-xs bg-violet-500 rounded-2xl h-[20px] items-center flex justify-center text-white  aspect-square">
+                  {step}
+                </span>
               </div>
             ) : (
               // {not LLMReq or LLMRes}
               <div
-                className={`text-sm text-grey-500  mb-2 leading-normal whitespace-pre-wrap ${
+                className={`text-sm text-grey-500  mb-1 leading-normal whitespace-pre-wrap ${
                   isCollapsible &&
                   content.includes("import") &&
                   !isExpanded &&
@@ -246,7 +250,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                       <>
                         {" "}
                         {icon}
-                        <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-orange-500 border-blue-800">
+                        <h1 className=" text-white p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-orange-500 border-blue-800">
                           {" "}
                           Clarifications Requested
                         </h1>
@@ -255,7 +259,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                       ""
                     )}
                     {tag == "LLMRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Response
@@ -264,7 +268,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                       ""
                     )}
                     {tag == "LLMReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Request
@@ -273,7 +277,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                       ""
                     )}
                     {tag == "TCReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Request
@@ -282,7 +286,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                       ""
                     )}
                     {tag == "TCRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 rounded-2xl ml-1 bg-[transparent] border-blue-800">
+                      <h1 className=" text-gray-700 p-1 pl-2 justify-between flex items-center pr-2 border-1 ml-1 bg-[transparent] border-purple-200">
                         {" "}
                         {icon}
                         LLM Response
@@ -308,6 +312,9 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber }) => {
                     <>{content}</>
                   )}
                 </div>
+                <span className="absolute bottom-1 right-0 text-xs bg-violet-500 rounded-2xl h-[20px] items-center flex justify-center text-white  aspect-square">
+                  {step}
+                </span>
               </div>
             )}
 

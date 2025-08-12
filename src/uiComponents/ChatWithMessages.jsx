@@ -1,4 +1,4 @@
-import React, { forwardRef, memo } from "react";
+import React, { forwardRef, memo, useState } from "react";
 import Message from "./Message";
 import "./activechat.css";
 import "./message.css";
@@ -23,6 +23,7 @@ const getMessageContent = (messageObject) => {
 // Use forwardRef to receive the ref passed from the parent component
 const ChatActive = memo(
   forwardRef(({ messages, taskNumber }, ref) => {
+    const [stepCount, setStepCount] = useState("");
     return (
       // Attach the ref to the main scrolling container
       <div className="screen-messages mt-[60px] sm:w-[100%] w-full overflow-auto ">
@@ -30,24 +31,27 @@ const ChatActive = memo(
           {messages &&
             messages.map((message, index) => (
               <React.Fragment key={index}>
-                {/* Render the command message */}
-                {message.cmCmdWS && (
-                  <Message
-                    content={getMessageContent(message.cmCmdWS)}
-                    type={message.taskStatWS}
-                    tag={message.cmCmdWS.tag}
-                  />
-                )}
-                {/* Render the response message */}
-                {message.cmMsgWS && (
-                  <Message
-                    content={getMessageContent(message.cmMsgWS)}
-                    type={message.taskStatWS}
-                    tag={message.cmMsgWS.tag}
-                    errorTag={message.cmMsgWS.contents.tag}
-                    taskNumber={taskNumber}
-                  />
-                )}
+                {message.cmCmdWS &&
+                  message.cmMsgWS?.contents.tag != "TCSuccess" && (
+                    <Message
+                      content={getMessageContent(message.cmCmdWS)}
+                      type={message.taskStatWS}
+                      tag={message.cmCmdWS.tag}
+                      step={index + 1}
+                    />
+                  )}
+
+                {message.cmMsgWS &&
+                  message.cmMsgWS.contents.tag != "TCSuccess" && (
+                    <Message
+                      content={getMessageContent(message.cmMsgWS)}
+                      type={message.taskStatWS}
+                      tag={message.cmMsgWS.tag}
+                      errorTag={message.cmMsgWS.contents.tag}
+                      taskNumber={taskNumber}
+                      step={index + 1}
+                    />
+                  )}
               </React.Fragment>
             ))}
         </div>

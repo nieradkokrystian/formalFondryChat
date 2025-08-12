@@ -11,7 +11,7 @@ import { create } from "../utils/createTask";
 // import axios from "axios";
 import axiosInstance from "./axios-cache"; // This is the key!
 
-const CreateTaskScreen = ({ onTaskCreated }) => {
+const CreateTaskScreen = ({ onTaskCreated, text }) => {
   const navigate = useNavigate();
   const { username, id } = useUser();
   const [TaskName, setTaskName] = useState("");
@@ -19,6 +19,7 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
   const [taskList, setTaskList] = useState([]);
   const [provider, setProvider] = useState("OpenAI");
   const [model, setModel] = useState("gpt-3");
+
   const API_LINK = import.meta.env.VITE_API_BASE;
 
   React.useEffect(() => {
@@ -55,7 +56,7 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
       if (newTask && newTask.taskId) {
         const newTaskId = newTask.taskId;
 
-        onTaskCreated(newTask);
+        // onTaskCreated(newTask);
         navigate(`/chat/${newTaskId}`, {
           state: {
             TaskName: finalTaskName,
@@ -75,7 +76,7 @@ const CreateTaskScreen = ({ onTaskCreated }) => {
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <button className="create-task-button">
-          Create Task{" "}
+          {text}
           <PlusCircledIcon
             alignmentBaseline="center"
             style={{ fontSize: "18px", width: "18px", height: "18px" }}

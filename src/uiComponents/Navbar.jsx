@@ -22,7 +22,11 @@ const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
         </div>
         <ul className="nav-links">
           <li>
-            <CreateTaskScreen id={id} onTaskCreated={onTaskCreated} />
+            <CreateTaskScreen
+              id={id}
+              text={"Create Task"}
+              onTaskCreated={onTaskCreated}
+            />
           </li>
         </ul>
       </div>

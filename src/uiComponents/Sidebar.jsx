@@ -3,8 +3,15 @@ import { PlusIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import "./sidebar.css";
 import { Link } from "react-router-dom";
 import Tooltip from "./Tooltip";
+import CreateTaskScreen from "./CreateTaskScreen";
 
-function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList, id }) {
+function SidebarComponent({
+  isOpen,
+  onCreateNewTaskClick,
+  taskList,
+  id,
+  onTaskCreated,
+}) {
   const MenuItem = ({ title, status, id, type }) => {
     return (
       <Link
@@ -32,11 +39,11 @@ function SidebarComponent({ isOpen, onCreateNewTaskClick, taskList, id }) {
   console.table(taskList);
   return (
     <div className={`Sidebar ${isOpen ? "is-open" : ""}`}>
-      <div className="Sidebar-Header">
+      <div className="Sidebar-Header relative justify-between flex">
         <h1>My Tasks</h1>
-        <button onClick={onCreateNewTaskClick}>
-          <PlusIcon />
-        </button>
+        <div className="w-4 h-4 flex justify-center items-center">
+          <CreateTaskScreen onTaskCreated={onTaskCreated} text={""} />
+        </div>
       </div>
       <div className="Sidebar-Body ">
         {Object.keys(taskList).map((key) => (

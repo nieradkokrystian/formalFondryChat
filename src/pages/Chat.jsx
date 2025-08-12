@@ -6,10 +6,10 @@ import EmptyChat from "../uiComponents/EmptyChat";
 import ChatActive from "../uiComponents/ChatWithMessages";
 import axios from "axios";
 
-const Chat = ({ id }) => {
+const Chat = () => {
   const navigate = useNavigate();
   const { chatId } = useParams();
-  const { username, isAuthReady } = useUser();
+  const { username, isAuthReady, id: userId } = useUser();
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLLMThinking, setIsLLMThinking] = useState(false);
@@ -17,33 +17,122 @@ const Chat = ({ id }) => {
   const [taskNumber, setTaskNumber] = useState("");
   const pollingInterval = useRef(null);
   const chatContainerRef = useRef(null);
-  const messagesRef = useRef(messages); // Use a ref to store the latest messages
+  const [steps, setSteps] = useState("");
+  const [llm, setLlm] = useState("gpt-3");
+
   const API_LINK = import.meta.env.VITE_API_BASE;
 
-  // Update the ref whenever the messages state changes
   useEffect(() => {
-    messagesRef.current = messages;
-  }, [messages]);
+    axios
+      .get(`${API_LINK}/tasks/${chatId}/env`)
+      .then((response) => {
+        short = response.data;
+        setSteps(short._maxSteps);
+        setLlm(short._llmModel);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [chatId]);
 
-  const checkExceededOrUserRegLast = (messages) => {
-    messages = [...messages];
-    let last = messages.length - 1;
-
-    if (
-      messages[last]?.taskStatWS == "exceeded" ||
-      messages[last]?.taskStatWS == "resolved" ||
-      messages[last]?.cmCmdWS.tag != "UserReq"
-    ) {
-      return true;
-    }
-    return false;
+  const isTaskExceeded = (messageList) => {
+    if (!messageList || messageList.length === 0) return false;
+    const lastMessage = messageList[messageList.length - 1];
+    return lastMessage?.taskStatWS === "exceeded";
   };
 
-  const handleSend = (inputValue) => {
+  const isTaskResolved = (messageList) => {
+    if (!messageList || messageList.length === 0) return false;
+    const lastMessage = messageList[messageList.length - 1];
+    return lastMessage?.taskStatWS === "resolved";
+  };
+
+  const canUserRespond = (messageList) => {
+    if (!messageList || messageList.length === 0) return true;
+    const lastMessage = messageList[messageList.length - 1];
+
+    if (
+      lastMessage?.taskStatWS === "exceeded" ||
+      lastMessage?.taskStatWS === "resolved"
+    ) {
+      return false;
+    }
+
+    return lastMessage?.cmCmdWS?.tag === "UserReq";
+  };
+
+  const shouldStopPolling = (messageList) => {
+    if (!messageList || messageList.length === 0) return false;
+    const lastMessage = messageList[messageList.length - 1];
+    return (
+      lastMessage?.taskStatWS === "exceeded" ||
+      lastMessage?.taskStatWS === "resolved"
+    );
+  };
+
+  const startPolling = () => {
+    if (pollingInterval.current) {
+      clearInterval(pollingInterval.current);
+    }
+
+    pollingInterval.current = setInterval(async () => {
+      try {
+        const response = await axios.get(
+          `${API_LINK}/taskmsg/${chatId}/messages-history`
+        );
+        const newMessages = response.data;
+
+        setMessages((prevMessages) => {
+          const filteredNewMessages = newMessages.filter(
+            (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
+          );
+
+          const prevMessagesWithoutThinking = prevMessages.filter(
+            (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
+          );
+
+          if (filteredNewMessages.length > prevMessagesWithoutThinking.length) {
+            setIsLLMThinking(false);
+
+            if (userId) {
+              axios
+                .get(`${API_LINK}/tasks/${userId}/states/latest`)
+                .then((taskResponse) => {
+                  setTaskNumber(taskResponse.data.stateData._stepCount);
+                })
+                .catch((error) =>
+                  console.error("Error fetching task state:", error)
+                );
+            }
+
+            return filteredNewMessages;
+          }
+
+          if (
+            isLLMThinking &&
+            filteredNewMessages.length === prevMessagesWithoutThinking.length
+          ) {
+            return prevMessagesWithoutThinking;
+          }
+
+          return prevMessages;
+        });
+
+        if (shouldStopPolling(newMessages)) {
+          clearInterval(pollingInterval.current);
+          pollingInterval.current = null;
+          setIsLLMThinking(false);
+        }
+      } catch (error) {
+        console.error("Polling error:", error);
+        setIsLLMThinking(false);
+      }
+    }, 3000);
+  };
+
+  const handleSend = async (inputValue) => {
     if (inputValue.trim() === "") return;
-    const exceeded = checkExceededOrUserRegLast(messages);
-    if (exceeded) return;
-    "input value, id", inputValue, chatId;
+    if (!canUserRespond(messages)) return;
 
     const userMessage = {
       cmCmdWS: { contents: inputValue, tag: "UserRes" },
@@ -62,79 +151,84 @@ const Chat = ({ id }) => {
     ]);
     setIsLLMThinking(true);
 
-    axios
-      .put(`${API_LINK}/tasks/${chatId}/messages/latest/user-response`, {
-        content: inputValue,
-        task_id: chatId,
-      })
-      .then(() => {
-        // Start a short polling interval
-        pollingInterval.current = setInterval(() => {
-          // Use the ref to get the latest messages
-          if (checkExceededOrUserRegLast(messagesRef.current)) {
-            clearInterval(pollingInterval.current);
-            return;
-          }
-          if (!exceeded) {
-            axios
-              .get(`${API_LINK}/taskmsg/${chatId}/messages-history`) ///! TO SWAP HERE (DEBUG)
-              .then((res) => {
-                if (res.data.length > messagesRef.current.length) {
-                  setMessages(res.data);
-                  setIsLLMThinking(false);
-                  axios
-                    .get(`${API_LINK}/tasks/${id}/states/latest}`)
-                    .then((response) => {
-                      setTaskNumber(response.data.stateData._stepCount);
-                    })
-                    .catch((error) => {
-                      console.error(error);
-                    });
-                  if (pollingInterval.current) {
-                    clearInterval(pollingInterval.current);
-                  }
-                }
-              })
-              .catch((error) => {
-                console.log("Error fetching new messages:", error);
-                if (pollingInterval.current) {
-                  clearInterval(pollingInterval.current);
-                }
-              });
-          }
-        }, 5000);
-      })
-      .catch((error) => {
-        console.log("Error sending message:", error);
-        setMessages((prevMessages) =>
-          prevMessages.filter((msg) => msg.cmMsgWS?.tag !== "LLM_Thinking")
-        );
-        setIsLLMThinking(false);
-      });
+    try {
+      await axios.put(
+        `${API_LINK}/tasks/${chatId}/messages/latest/user-response`,
+        {
+          content: inputValue,
+          task_id: chatId,
+        }
+      );
+
+      startPolling();
+    } catch (error) {
+      console.error("Error sending message:", error);
+
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg.cmMsgWS?.tag !== "LLM_Thinking")
+      );
+      setIsLLMThinking(false);
+    }
   };
+
   useEffect(() => {
-    // This effect runs after every render where `messages` has changed
+    setExceeded(!canUserRespond(messages));
+  }, [messages]);
+
+  useEffect(() => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
       behavior: "smooth",
     });
   }, [messages]);
-  const fetchMessages = () => {
-    if (chatId) {
-      axios
-        .get(`${API_LINK}/taskmsg/${chatId}/messages-history`)
-        .then((res) => {
-          setMessages(res.data);
-          if (isLLMThinking && res.data.length > messages.length) {
-            setIsLLMThinking(false);
-          }
-        })
-        .catch((error) => {
-          console.log("Error fetching chat messages:", error);
-          setMessages([]);
-        });
-    }
-  };
+
+  useEffect(() => {
+    if (!chatId) return;
+
+    const fetchInitialMessages = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `${API_LINK}/taskmsg/${chatId}/messages-history`
+        );
+        const initialMessages = response.data.filter(
+          (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
+        );
+        setMessages(initialMessages);
+
+        const lastMessage = response.data[response.data.length - 1];
+        const shouldBeThinking =
+          lastMessage?.cmCmdWS?.tag === "UserRes" &&
+          lastMessage?.taskStatWS === "running";
+
+        if (shouldBeThinking) {
+          setIsLLMThinking(true);
+          const thinkingMessage = {
+            cmMsgWS: { contents: "LLM is thinking...", tag: "LLM_Thinking" },
+            taskStatWS: "running",
+          };
+          setMessages((prev) => [...prev, thinkingMessage]);
+          startPolling();
+        } else if (!shouldStopPolling(response.data)) {
+          startPolling();
+        }
+      } catch (error) {
+        console.error("Error fetching initial messages:", error);
+        setMessages([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchInitialMessages();
+
+    return () => {
+      if (pollingInterval.current) {
+        clearInterval(pollingInterval.current);
+        pollingInterval.current = null;
+      }
+    };
+  }, [chatId, API_LINK]);
 
   useEffect(() => {
     if (isAuthReady && !username) {
@@ -142,29 +236,15 @@ const Chat = ({ id }) => {
     }
   }, [username, isAuthReady, navigate]);
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetchMessages();
-    setIsLoading(false);
-
-    if (pollingInterval.current) {
-      clearInterval(pollingInterval.current);
-    }
-    pollingInterval.current = setInterval(fetchMessages, 5000);
-
-    return () => {
-      if (pollingInterval.current) {
-        clearInterval(pollingInterval.current);
-      }
-    };
-  }, [chatId, API_LINK]);
-
   if (!isAuthReady || isLoading) {
     return <div>Loading...</div>;
   }
+  const lastMessageIsUserReq =
+    messages.length > 0 &&
+    messages[messages.length - 1]?.cmCmdWS?.tag === "UserReq";
 
   return (
-    <div className="Chat relative mx-auto w-full max-w-[700px] max-h-[100%] ">
+    <div className="Chat relative mx-auto w-full max-w-[700px] max-h-[100%]">
       {messages.length === 0 ? (
         <EmptyChat />
       ) : (
@@ -174,7 +254,12 @@ const Chat = ({ id }) => {
           ref={chatContainerRef}
         />
       )}
-      <InputComponent exceeded={exceeded} onSend={handleSend} />
+      <InputComponent
+        exceeded={exceeded}
+        onSend={handleSend}
+        chatId={chatId}
+        lastMessageIsUserReq={lastMessageIsUserReq}
+      />
     </div>
   );
 };
