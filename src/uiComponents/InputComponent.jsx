@@ -11,6 +11,7 @@ const InputComponent = ({
   lastMessageIsUserReq,
   LLM,
   steps,
+  currentSteps,
 }) => {
   const [inputValue, setInputValue] = useState("");
 
@@ -100,10 +101,14 @@ const InputComponent = ({
 
   return (
     <>
-      <div className="fixed lg:bottom-2.5 lg:right-10  flex justify-between items-center text-xs opacity-100 z-20 bg-white border-1 border-gray-400 lg:min-h-[40px] sm:min-h-[20px] pl-2 pr-2 box-border  min-w-fit text-md shadow-md rounded-4xl text-gray-500">
-        <span className="pr-1 text-base-sm/6">{LLM}</span>
-        <span className="lg:h-[40px] sm:h-[20px] w-[1px]  bg-gray-400 border-gray-400"></span>
-        <span className="  mr-1 pl-1 h-full">Steps: 5/{steps}</span>{" "}
+      <div className="fixed lg:bottom-2.5 lg:right-10  flex justify-between items-center  text-xs opacity-100 z-20 bg-white border-1 overflow-clip border-gray-400 lg:min-h-[40px] sm:min-h-[20px] box-border  min-w-fit text-md shadow-md rounded-4xl text-gray-500">
+        <span className="lg:h-[40px] sm:h-[20px] pr-1 text-base-sm/6  hover:text-gray-900 hover:bg-gray-300 p-3">
+          {LLM}
+        </span>
+        <span className="lg:h-[40px] sm:h-[20px] w-[1px]  bg-gray-400 border-gray-400  hover:text-gray-900 hover:bg-gray-300"></span>
+        <span className="lg:h-[40px] sm:h-[20px]   pl-1 h-full  hover:text-gray-900 hover:bg-gray-300 p-3">
+          Steps: {currentSteps}/{steps}
+        </span>{" "}
       </div>
       <div
         className={`input-wrap ${exceeded || isResolved ? "opacity-25" : ""}`}>

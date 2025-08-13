@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Tooltip } from "radix-ui";
+import { Tooltip, Separator } from "radix-ui";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import "./styles.css";
 

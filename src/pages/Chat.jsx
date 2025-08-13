@@ -18,11 +18,16 @@ const Chat = () => {
   const pollingInterval = useRef(null);
   const chatContainerRef = useRef(null);
   const [steps, setSteps] = useState("20");
+  const [currentSteps, setCurrentSteps] = useState(0);
   const [llm, setLlm] = useState("gpt-3");
 
   const API_LINK = import.meta.env.VITE_API_BASE;
 
   useEffect(() => {
+    axios.get(`${API_LINK}/tasks/${chatId}/states/latest`).then((response) => {
+      setCurrentSteps(response.data.stateData._stepCount);
+    });
+
     axios
       .get(`${API_LINK}/taskenv/${chatId}/env`)
       .then((response) => {
@@ -82,46 +87,24 @@ const Chat = () => {
         );
         const newMessages = response.data;
 
-        setMessages((prevMessages) => {
-          const filteredNewMessages = newMessages.filter(
-            (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
-          );
-
-          const prevMessagesWithoutThinking = prevMessages.filter(
-            (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
-          );
-
-          if (filteredNewMessages.length > prevMessagesWithoutThinking.length) {
-            setIsLLMThinking(false);
-
-            if (userId) {
-              axios
-                .get(`${API_LINK}/tasks/${userId}/states/latest`)
-                .then((taskResponse) => {
-                  setTaskNumber(taskResponse.data.stateData._stepCount);
-                })
-                .catch((error) =>
-                  console.error("Error fetching task state:", error)
-                );
-            }
-
-            return filteredNewMessages;
+        const filteredNewMessages = newMessages.filter(
+          (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
+        );
+        setMessages(filteredNewMessages);
+        setIsLLMThinking(false);
+        if (chatId) {
+          try {
+            const taskResponse = await axios.get(
+              `${API_LINK}/tasks/${chatId}/states/latest`
+            );
+            setCurrentSteps(taskResponse.data.stateData._stepCount);
+          } catch (error) {
+            console.error("Error fetching task state:", error);
           }
-
-          if (
-            isLLMThinking &&
-            filteredNewMessages.length === prevMessagesWithoutThinking.length
-          ) {
-            return prevMessagesWithoutThinking;
-          }
-
-          return prevMessages;
-        });
-
+        }
         if (shouldStopPolling(newMessages)) {
           clearInterval(pollingInterval.current);
           pollingInterval.current = null;
-          setIsLLMThinking(false);
         }
       } catch (error) {
         console.error("Polling error:", error);
@@ -258,6 +241,7 @@ const Chat = () => {
         exceeded={exceeded}
         LLM={llm}
         steps={steps}
+        currentSteps={currentSteps}
         onSend={handleSend}
         chatId={chatId}
         lastMessageIsUserReq={lastMessageIsUserReq}

@@ -8,7 +8,13 @@ import {
   MagicWandIcon,
 } from "@radix-ui/react-icons";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  dracula,
+  dark,
+  oneLight,
+  okaidia,
+  oneDark,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useState, memo } from "react";
 import "./message.css";
 
@@ -23,21 +29,40 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
   function Highlight({ text }) {
     const codeString =
       typeof text == String ? text.toString() : text.toString();
-    text = codeString.split("import");
 
     const customStyle = {
-      whiteSpace: "pre-wrap", // This is the key property for wrapping
-      wordBreak: "break-word", // Ensures long words also break
+      whiteSpace: "pre-wrap",
+      wordBreak: "break-word",
       fontSize: "0.8rem",
     };
+
+    if (codeString.includes("Agda snippet inline: ")) {
+      let trimmed = codeString.replace(/[\/\\]/g, "");
+      let textSplit = trimmed.split("Agda snippet inline:");
+      return (
+        <>
+          <p>{textSplit[0]}</p>
+          <SyntaxHighlighter
+            language="agda"
+            style={oneDark}
+            customStyle={customStyle}
+            showInlineLineNumbers={true}
+            startingLineNumber={3}>
+            {textSplit[1]}
+            {/* {text[1]} */}
+          </SyntaxHighlighter>
+        </>
+      );
+    }
 
     return (
       <>
         <SyntaxHighlighter
           language="agda"
-          style={dracula}
-          customStyle={customStyle} // Apply the styles here
-        >
+          style={oneDark}
+          customStyle={customStyle}
+          showInlineLineNumbers={true}
+          startingLineNumber={3}>
           {codeString}
           {/* {text[1]} */}
         </SyntaxHighlighter>
@@ -228,9 +253,6 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                     <code className="">{TrimCode(content)}</code>
                   )}
                 </div>
-                <span className="absolute bottom-0 right-0 text-xs bg-violet-500 rounded-2xl h-[20px] items-center flex justify-center text-white  aspect-square">
-                  {step}
-                </span>
               </div>
             ) : (
               // {not LLMReq or LLMRes}
@@ -310,13 +332,12 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                   } mb-3`}>
                   {errorTag == "TCErr" ? (
                     <Highlight text={content} />
+                  ) : tag == "UserReq" && content.includes("Agda snippet") ? (
+                    <Highlight text={content} />
                   ) : (
                     <>{content}</>
                   )}
                 </div>
-                <span className="absolute bottom-4 right-1 text-xs bg-violet-500 rounded-2xl h-[20px] items-center flex justify-center text-white  aspect-square">
-                  {step}
-                </span>
               </div>
             )}
 
