@@ -144,7 +144,6 @@ li {
   align-items: center;
 }
 button.create-task-button {
-  font-size: 16px;
   color: var(--color-background);
   background-color: var(--color-secondary);
   border: none;
@@ -163,7 +162,6 @@ button.create-task-button {
   -o-border-radius: var(--radius-sm);
 }
 button.create-task-button:hover {
-  font-size: 16px;
   color: var(--color-text);
   background-color: transparent;
   border: none;
@@ -182,8 +180,7 @@ button.create-task-button:hover {
 @media screen and (max-width: 600px) {
   .create-task-button {
     max-width: fit-content;
-    font-size: 0.5rem;
-
+    font-size: var(--text-xs);
     max-height: 30px;
   }
 }

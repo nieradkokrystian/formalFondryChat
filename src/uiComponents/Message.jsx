@@ -179,7 +179,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
           <div className="flex-1  relative overflow-x-hidden ">
             {tag == "LLMRes" || tag == "TCReq" ? (
               <div
-                className={`text-sm text-grey-500 leading-normal whitespace-pre-wrap ${
+                className={`text-xs lg:text-sm text-grey-500 leading-normal whitespace-pre-wrap ${
                   isCollapsible &&
                   !content.includes("open import") &&
                   !isExpanded &&
@@ -188,7 +188,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                     : "max-h-fit"
                 }  `}>
                 <div className="flexflex-row mb-1  items-center text-gray-700 ">
-                  <span className="text-sm  flex justify-start items-center flex-row w-fit">
+                  <span className="text-xs lg:text-sm  flex justify-start items-center flex-row w-fit">
                     {taskNumber?.length > 0 ? `${taskNumber}/20` : ""}
 
                     {tag == "LLMRes" ? (
@@ -257,7 +257,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
             ) : (
               // {not LLMReq or LLMRes}
               <div
-                className={`text-sm text-grey-500 pb-4  mb-1 leading-normal whitespace-pre-wrap ${
+                className={`text-xs lg:text-sm text-grey-500 pb-4  mb-1 leading-normal whitespace-pre-wrap ${
                   isCollapsible &&
                   content.includes("import") &&
                   !isExpanded &&
@@ -267,7 +267,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                 }`}>
                 <div className="flex mb-2 flex-row   items-center text-gray-700 text-3xl">
                   <span
-                    className={`text-sm flex justify-start items-center flex-row w-fit `}>
+                    className={`text-xs lg:text-sm flex justify-start items-center flex-row w-fit `}>
                     {tag == "UserReq" ? (
                       <>
                         {" "}

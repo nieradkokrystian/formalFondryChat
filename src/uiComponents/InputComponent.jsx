@@ -101,12 +101,12 @@ const InputComponent = ({
 
   return (
     <>
-      <div className="fixed lg:bottom-2.5 lg:right-10  flex justify-between items-center  text-xs opacity-100 z-20 bg-white border-1 overflow-clip border-gray-400 lg:min-h-[40px] sm:min-h-[20px] box-border  min-w-fit text-md shadow-md rounded-4xl text-gray-500">
-        <span className="lg:h-[40px] sm:h-[20px] pr-1 text-base-sm/6  hover:text-gray-900 hover:bg-gray-300 p-3">
+      <div className="fixed right-4 top-12 flex items-center text-xs opacity-100 z-20 bg-white border-1 overflow-clip border-gray-400 lg:min-h-[40px] min-h-[16px] max-w-[60px] box-border h-7  min-w-fit text-md shadow-md rounded-4xl text-gray-500">
+        <span className="lg:h-[40px] h-[16px] pr-1 text-base-sm/6  hover:text-gray-900 hover:bg-gray-300 p-3 flex items-center">
           {LLM}
         </span>
-        <span className="lg:h-[40px] sm:h-[20px] w-[1px]  bg-gray-400 border-gray-400  hover:text-gray-900 hover:bg-gray-300"></span>
-        <span className="lg:h-[40px] sm:h-[20px]   pl-1 h-full  hover:text-gray-900 hover:bg-gray-300 p-3">
+        <span className="lg:h-[40px]  w-[1px] h-full bg-gray-400 border-gray-400  hover:text-gray-900 hover:bg-gray-300"></span>
+        <span className="lg:h-[40px]  pl-1 h-full  hover:text-gray-900 hover:bg-gray-300 p-3 flex items-center">
           Steps: {currentSteps}/{steps}
         </span>{" "}
       </div>

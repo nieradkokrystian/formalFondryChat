@@ -17,7 +17,7 @@ const DropdownMenuDemo = () => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="IconButton " aria-label="Create Task">
+        <button className="IconButton  " aria-label="Create Task">
           <HamburgerMenuIcon width={25} height={25} />
           {/* Display UserAvatar only if username exists */}
           {username && <UserAvatar name={username} />}

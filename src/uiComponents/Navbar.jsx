@@ -15,20 +15,14 @@ const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
         <button className="Sidebar-toggle" onClick={onToggleSidebar}>
           <GridIcon width={20} height={20} />
         </button>
-        <div className="nav-links">
-          <li>
-            <DropdownMenuDemo username={username} />
-          </li>
-        </div>
-        <ul className="nav-links">
-          <li>
-            <CreateTaskScreen
-              id={id}
-              text={"Create Task"}
-              onTaskCreated={onTaskCreated}
-            />
-          </li>
-        </ul>
+
+        <DropdownMenuDemo username={username} />
+
+        <CreateTaskScreen
+          id={id}
+          text={"Create Task"}
+          onTaskCreated={onTaskCreated}
+        />
       </div>
     </nav>
   );

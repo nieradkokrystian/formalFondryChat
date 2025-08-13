@@ -114,7 +114,7 @@ button {
 .IconButton {
   font-family: inherit;
   border-radius: var(--radius-sm);
-  height: fit-content;
+
   /* width: 100px; */
   min-width: fit-content;
   display: inline-flex;
@@ -124,10 +124,12 @@ button {
   background-color: transparent;
 
   gap: 10px;
-  padding: 4px;
+  padding: 0px 4px 0px 0px;
   border: 1px solid transparent;
   background-color: var(--color-primary);
   color: var(--color-background);
+  min-height: 100%;
+  height: 40px;
 }
 .IconButton:hover {
   /* transition: 50ms; */
@@ -138,9 +140,9 @@ button {
 
 @media only screen and (max-width: 600px) {
   .IconButton {
-    max-width: 30px;
-    max-height: 20px;
-    aspect-ratio: 2/1;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 
