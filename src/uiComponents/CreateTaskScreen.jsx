@@ -7,8 +7,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../AuthContext";
 import { create } from "../utils/createTask";
-// You were importing the standard axios, which will not use the cache.
-// import axios from "axios";
+
 import axiosInstance from "./axios-cache"; // This is the key!
 
 const CreateTaskScreen = ({ onTaskCreated, text }) => {
