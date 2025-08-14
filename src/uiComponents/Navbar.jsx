@@ -1,4 +1,3 @@
-// src/uiComponents/Navbar.jsx
 import { PlusCircledIcon, GridIcon } from "@radix-ui/react-icons";
 import "../styles/navbar.css";
 import "./sidebar.css";

@@ -1,4 +1,3 @@
-// Simple memoization utility
 import { memo } from "react";
 const memoize = (fn) => {
   const cache = {};
@@ -14,7 +13,6 @@ const memoize = (fn) => {
 };
 
 const getInitials = (name) => {
-  // Your original getInitials logic
   return name
     .split(" ")
     .map((n) => n[0])
@@ -22,7 +20,6 @@ const getInitials = (name) => {
 };
 
 const getColorFromName = (name) => {
-  // Your original getColorFromName logic
   const colors = [
     "#f44336",
     "#e91e63",
@@ -54,11 +51,9 @@ const getColorFromName = (name) => {
   return color;
 };
 
-// Memoize the functions
 const getInitialsMemoized = memoize(getInitials);
 const getColorFromNameMemoized = memoize(getColorFromName);
 
-// Use the memoized functions in your component
 function UserAvatar({ name }) {
   const initials = getInitialsMemoized(name);
   const bgColor = getColorFromNameMemoized(name);

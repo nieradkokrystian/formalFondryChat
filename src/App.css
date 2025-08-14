@@ -58,3 +58,6 @@ button[type="submit"] {
   -o-border-radius: var(--radius-md);
   width: 95%;
 }
+
+@theme {
+}

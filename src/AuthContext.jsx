@@ -1,27 +1,24 @@
-// AuthContext.jsx
 import { createContext, useContext, useState, useEffect } from "react";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
-  // Add a new state for the user ID
+
   const [id, setId] = useState(null);
   const [isAuthReady, setIsAuthReady] = useState(false);
 
   useEffect(() => {
-    // Check for both username and ID in local storage
     const storedUsername = localStorage.getItem("username");
     const storedId = localStorage.getItem("id");
     if (storedUsername) {
       setUsername(storedUsername);
-      // Set the ID from local storage
+
       setId(storedId);
     }
     setIsAuthReady(true);
   }, []);
 
-  // Update the login function to accept and save the ID
   const login = (newUsername, newId) => {
     setUsername(newUsername);
     setId(newId);

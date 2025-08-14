@@ -20,12 +20,10 @@ const getMessageContent = (messageObject) => {
   return "";
 };
 
-// Use forwardRef to receive the ref passed from the parent component
 const ChatActive = memo(
   forwardRef(({ messages, taskNumber }, ref) => {
     const [stepCount, setStepCount] = useState("");
     return (
-      // Attach the ref to the main scrolling container
       <div className="screen-messages mt-[60px] sm:w-[100%] w-full overflow-auto ">
         <div className="messages w-full mt-[60px] sm:w-[100%]" ref={ref}>
           {messages &&

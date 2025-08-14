@@ -24,7 +24,7 @@ const InputComponent = ({
 
   const notifyResolved = () => {
     toast.success(
-      "🎉 Task completed successfully! The task has been resolved. Create a new task to continue working.",
+      " Task completed successfully! The task has been resolved. Create a new task to continue working.",
       {
         position: "bottom-center",
         closeOnClick: true,
@@ -35,7 +35,7 @@ const InputComponent = ({
 
   const notifyExceeded = () => {
     toast.error(
-      "❌ Task limit exceeded! You have reached the maximum number of interactions for this task. Create a new task to continue.",
+      " Task limit exceeded! You have reached the maximum number of interactions for this task. Create a new task to continue.",
       {
         position: "bottom-center",
         closeOnClick: true,
@@ -46,7 +46,7 @@ const InputComponent = ({
 
   const notifyNoUserReq = () => {
     toast.info(
-      "⏳ Waiting for system response... The system is processing and not ready for your input yet.",
+      " Waiting for system response... The system is processing and not ready for your input yet.",
       {
         position: "bottom-center",
         closeOnClick: true,
@@ -101,7 +101,7 @@ const InputComponent = ({
 
   return (
     <>
-      <div className="fixed right-4 top-12 flex items-center text-xs opacity-100 z-20 bg-white border-1 overflow-clip border-gray-400 lg:min-h-[40px] min-h-[16px] max-w-[60px] box-border h-7  min-w-fit text-md shadow-md rounded-4xl text-gray-500">
+      <div className="fixed  lg:left-500 left-4 top-13 flex items-center text-xs opacity-100 z-20 bg-white border-1 overflow-clip border-gray-400 lg:min-h-[40px] min-h-[16px] max-w-[60px] box-border h-7  min-w-fit text-md shadow-md rounded-4xl text-gray-500">
         <span className="lg:h-[40px] h-[16px] pr-1 text-base-sm/6  hover:text-gray-900 hover:bg-gray-300 p-3 flex items-center">
           {LLM}
         </span>

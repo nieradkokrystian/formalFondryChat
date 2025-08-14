@@ -1,14 +1,13 @@
 import { motion } from "framer-motion";
 import React from "react";
-import "./GlassPanel.css"; // Ensure you have a CSS file for the styles
+import "./GlassPanel.css";
 
 const GlassPanel = () => {
   const containerVariants = {
-    // Define the initial state of the animation
     initial: {
       backgroundPosition: "0% 50%",
     },
-    // Define the animation properties
+
     animate: {
       backgroundPosition: ["0% 50%", "100% 50%"],
       transition: {

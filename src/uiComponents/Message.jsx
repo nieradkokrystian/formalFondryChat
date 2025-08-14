@@ -239,7 +239,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                 </div>
 
                 <div
-                  className={`codeWrap  text-sm  rounded-md     ${
+                  className={`codeWrap  text-sm p-2 rounded-md     ${
                     errorTag == "TCErr" ? "text-red-500 " : ""
                   }`}>
                   {" "}

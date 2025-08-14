@@ -2,7 +2,7 @@ import axios from "axios";
 import LRUCache from "lru-cache";
 
 const cache = new LRUCache({
-  max: 100, // Maximum number of items in the cache
+  max: 100,
   ttl: 1000 * 60 * 5, // 5 minutes
 });
 
@@ -30,7 +30,6 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.isCache) {
-      // If it's a "fake" response from the cache, resolve the promise.
       return Promise.resolve({
         data: error.data,
       });

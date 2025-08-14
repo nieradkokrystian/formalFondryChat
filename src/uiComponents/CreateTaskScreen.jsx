@@ -34,7 +34,9 @@ const CreateTaskScreen = ({ onTaskCreated, text }) => {
   }, [API_LINK]);
 
   const handleCreateTask = async () => {
-    const finalTaskName = TaskName.trim() === "" ? `GetFourFirst()` : TaskName;
+    const uniqueId = Math.random().toString(36).substring(2, 9);
+
+    const finalTaskName = TaskName.trim() === "" ? uniqueId : TaskName;
 
     if (!username) {
       console.warn("User not logged in. Cannot create chat task.");
@@ -55,7 +57,6 @@ const CreateTaskScreen = ({ onTaskCreated, text }) => {
       if (newTask && newTask.taskId) {
         const newTaskId = newTask.taskId;
 
-        // onTaskCreated(newTask);
         navigate(`/chat/${newTaskId}`, {
           state: {
             TaskName: finalTaskName,
