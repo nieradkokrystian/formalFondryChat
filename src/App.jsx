@@ -7,12 +7,15 @@ import {
   Routes,
   Route,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import Navbar from "./uiComponents/Navbar";
 import { UserProvider, useUser } from "./AuthContext";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import SidebarComponent from "./uiComponents/Sidebar";
+import Docs from "./pages/Docs";
+import TargetCursor from "./animations/TargetCursor/TargetCursor";
 
 function AppContent() {
   const { username, id, isAuthReady } = useUser();
@@ -20,7 +23,8 @@ function AppContent() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const API_LINK = import.meta.env.VITE_API_BASE;
   const navigate = useNavigate();
-
+  const location = useLocation();
+  console.log(location.pathname);
   const fetchTaskList = useCallback(async () => {
     if (id) {
       try {
@@ -68,7 +72,7 @@ function AppContent() {
         </>
       )}
       <div className={`main-content ${isSidebarOpen ? "main-content" : ""}`}>
-        {username && (
+        {username && !location.pathname.includes("/docs") && (
           <Navbar
             id={id}
             onToggleSidebar={handleToggleSidebar}
@@ -80,6 +84,7 @@ function AppContent() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
+          <Route path="/docs" element={<Docs />} />
           <Route
             path="/chat/:chatId"
             element={
@@ -91,6 +96,7 @@ function AppContent() {
               />
             }
           />
+          <Route path="/docs/introduction" element={<Docs />} />
         </Routes>
       </div>
     </>

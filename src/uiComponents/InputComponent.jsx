@@ -55,6 +55,18 @@ const InputComponent = ({
     );
   };
 
+  const scrollToBottom = () => {
+    const chatElement = document.querySelector(".Chat");
+    if (chatElement) {
+      setTimeout(() => {
+        chatElement.scrollTo({
+          top: chatElement.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 100);
+    }
+  };
+
   const handleSend = () => {
     const disabledReason = getDisabledReason();
 
@@ -79,13 +91,7 @@ const InputComponent = ({
 
     onSend(inputValue);
     setInputValue("");
-
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: "smooth",
-      });
-    }, 100);
+    scrollToBottom();
   };
 
   const isInputDisabled = () => {
@@ -111,7 +117,7 @@ const InputComponent = ({
         </span>{" "}
       </div>
       <div
-        className={`input-wrap ${exceeded || isResolved ? "opacity-25" : ""}`}>
+        className={`input-wrap ${exceeded || isResolved ? "opacity-0" : ""}`}>
         <textarea
           placeholder={getPlaceholderText()}
           onChange={(e) => {

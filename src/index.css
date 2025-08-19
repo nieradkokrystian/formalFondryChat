@@ -41,7 +41,7 @@ body {
 #root {
   width: 100%;
   height: 100svh;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 .main-content {
   width: 100%;

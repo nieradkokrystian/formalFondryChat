@@ -10,7 +10,7 @@
 }
 .input-wrap {
   z-index: 33;
-  --width: 700px;
+  --width: 750px;
   display: flex;
   position: fixed;
   bottom: 10px;

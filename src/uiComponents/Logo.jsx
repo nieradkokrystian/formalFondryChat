@@ -1,7 +1,8 @@
+import logo from "../assets/formal-foundry-logo.svg";
 const Logo = () => {
   return (
     <div className="logo">
-      <img src="../assets/formal-foundry-logo.svg" alt="Formal Foundry logo" />
+      <img src={logo} alt="Formal Foundry logo" />
     </div>
   );
 };

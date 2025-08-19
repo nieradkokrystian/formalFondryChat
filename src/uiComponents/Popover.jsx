@@ -24,7 +24,7 @@ const PopoverSettings = ({ setModel, setProvider }) => {
           setAvailableModels(firstProvider.models);
           const firstModel = firstProvider.models[0];
           setSelectedModel(firstModel);
-          // Set initial values for parent component
+
           setProvider(firstProvider.provider_name);
           setModel(firstModel);
         }

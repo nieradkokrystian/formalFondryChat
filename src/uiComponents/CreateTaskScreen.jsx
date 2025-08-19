@@ -75,7 +75,7 @@ const CreateTaskScreen = ({ onTaskCreated, text }) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button className="create-task-button lg:text-lg text-sm">
+        <button className="create-task-button lg:text-lg text-sm cursor-target">
           {text}
           <PlusCircledIcon
             alignmentBaseline="center"

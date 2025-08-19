@@ -22,36 +22,48 @@ const getMessageContent = (messageObject) => {
 
 const ChatActive = memo(
   forwardRef(({ messages, taskNumber }, ref) => {
-    const [stepCount, setStepCount] = useState("");
     return (
-      <div className="screen-messages mt-[60px] sm:w-[100%] w-full overflow-auto ">
-        <div className="messages w-full mt-[60px] sm:w-[100%]" ref={ref}>
+      <div className="screen-messages  sm:w-[100%] w-full h-full  max-h-full overflow-none ">
+        <div
+          className="messages w-full  h-full   max-h-full sm:w-[100%] "
+          ref={ref}>
           {messages &&
-            messages.map((message, index) => (
-              <React.Fragment key={index}>
-                {message.cmCmdWS &&
-                  message.cmMsgWS?.contents.tag != "TCSuccess" && (
-                    <Message
-                      content={getMessageContent(message.cmCmdWS)}
-                      type={message.taskStatWS}
-                      tag={message.cmCmdWS.tag}
-                      step={index + 1}
-                    />
+            messages.map((message, index) => {
+              const isLastMessage = index === messages.length - 1;
+              const hasCmdWS =
+                message.cmCmdWS && message.cmMsgWS?.contents.tag != "TCSuccess";
+              const hasMsgWS =
+                message.cmMsgWS && message.cmMsgWS.contents.tag != "TCSuccess";
+
+              return (
+                <React.Fragment key={index}>
+                  {hasCmdWS && (
+                    <div
+                      className={isLastMessage && !hasMsgWS ? "mb-[60px]" : ""}>
+                      <Message
+                        content={getMessageContent(message.cmCmdWS)}
+                        type={message.taskStatWS}
+                        tag={message.cmCmdWS.tag}
+                        step={index + 1}
+                      />
+                    </div>
                   )}
 
-                {message.cmMsgWS &&
-                  message.cmMsgWS.contents.tag != "TCSuccess" && (
-                    <Message
-                      content={getMessageContent(message.cmMsgWS)}
-                      type={message.taskStatWS}
-                      tag={message.cmMsgWS.tag}
-                      errorTag={message.cmMsgWS.contents.tag}
-                      taskNumber={taskNumber}
-                      step={index + 1}
-                    />
+                  {hasMsgWS && (
+                    <div className={isLastMessage ? "mb-[60px]" : ""}>
+                      <Message
+                        content={getMessageContent(message.cmMsgWS)}
+                        type={message.taskStatWS}
+                        tag={message.cmMsgWS.tag}
+                        errorTag={message.cmMsgWS.contents.tag}
+                        taskNumber={taskNumber}
+                        step={index + 1}
+                      />
+                    </div>
                   )}
-              </React.Fragment>
-            ))}
+                </React.Fragment>
+              );
+            })}
         </div>
       </div>
     );

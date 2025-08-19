@@ -11,7 +11,9 @@ const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
   return (
     <nav className="nav">
       <div className="nav-wrap">
-        <button className="Sidebar-toggle" onClick={onToggleSidebar}>
+        <button
+          className="Sidebar-toggle cursor-target"
+          onClick={onToggleSidebar}>
           <GridIcon width={20} height={20} />
         </button>
 

@@ -38,7 +38,7 @@ const LoginPage = () => {
 
   return (
     <>
-      {isAuthReady && username != null && navigate("/home")}
+      {isAuthReady && username != null}
       <LightRays raysColor="#6b46c1" followMouse={true} />
       <div className="login-page relative p-0">
         <div className=" flex flex-col login-container-wrap p-4 fixed z-50 md:w-100 w-[90vw] h-fit bg-white items-start justify-start rounded-2xl shadow-lg contain-layout top-[50%] left-[50%] translate-[-50%]">
@@ -60,13 +60,13 @@ const LoginPage = () => {
                 type="text"
                 id="username"
                 value={username}
-                className=" inputButton g-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+                className=" inputButton g-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 target-cursor"
                 onChange={(e) => setUsername(e.target.value)}
               />
               {errorMessage && (
                 <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
               )}
-              <button className="bg-purple-400 " type="submit">
+              <button className="bg-purple-400 target-cursor" type="submit">
                 Login
               </button>
             </form>

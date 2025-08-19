@@ -5,6 +5,7 @@ import InputComponent from "../uiComponents/InputComponent";
 import EmptyChat from "../uiComponents/EmptyChat";
 import ChatActive from "../uiComponents/ChatWithMessages";
 import axios from "axios";
+import "../uiComponents/chat.css";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -20,13 +21,16 @@ const Chat = () => {
   const [steps, setSteps] = useState("20");
   const [currentSteps, setCurrentSteps] = useState(0);
   const [llm, setLlm] = useState("gpt-3");
+  const scrollBottom = useRef(false);
 
   const API_LINK = import.meta.env.VITE_API_BASE;
 
   useEffect(() => {
-    axios.get(`${API_LINK}/tasks/${chatId}/states/latest`).then((response) => {
-      setCurrentSteps(response.data.stateData._stepCount);
-    });
+    axios
+      .get(`${API_LINK}/taskstate/${chatId}/states/latest`)
+      .then((response) => {
+        setCurrentSteps(response.data.stateData._stepCount);
+      });
 
     axios
       .get(`${API_LINK}/taskenv/${chatId}/env`)
@@ -40,18 +44,31 @@ const Chat = () => {
       });
   }, [chatId]);
 
-  const isTaskExceeded = (messageList) => {
-    if (!messageList || messageList.length === 0) return false;
-    const lastMessage = messageList[messageList.length - 1];
-    return lastMessage?.taskStatWS === "exceeded";
-  };
+  // const isTaskExceeded = (messageList) => {
+  //   if (!messageList || messageList.length === 0) return false;
+  //   const lastMessage = messageList[messageList.length - 1];
+  //   return lastMessage?.taskStatWS === "exceeded";
+  // };
 
-  const isTaskResolved = (messageList) => {
-    if (!messageList || messageList.length === 0) return false;
-    const lastMessage = messageList[messageList.length - 1];
-    return lastMessage?.taskStatWS === "resolved";
-  };
+  // const isTaskResolved = (messageList) => {
+  //   if (!messageList || messageList.length === 0) return false;
+  //   const lastMessage = messageList[messageList.length - 1];
+  //   return lastMessage?.taskStatWS === "resolved";
+  // };
+  const scrollToBottom = () => {
+    const chatElement = scrollBottom.current;
+    let height = chatElement.scrollHeight;
+    let currentScroll = chatElement.scrollTop;
 
+    if (chatElement || currentScroll > height / 2000) {
+      setTimeout(() => {
+        chatElement.scrollTo({
+          top: chatElement.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 100);
+    }
+  };
   const canUserRespond = (messageList) => {
     if (!messageList || messageList.length === 0) return true;
     const lastMessage = messageList[messageList.length - 1];
@@ -95,7 +112,7 @@ const Chat = () => {
         if (chatId) {
           try {
             const taskResponse = await axios.get(
-              `${API_LINK}/tasks/${chatId}/states/latest`
+              `${API_LINK}/taskstate/${chatId}/states/latest`
             );
             setCurrentSteps(taskResponse.data.stateData._stepCount);
           } catch (error) {
@@ -158,12 +175,10 @@ const Chat = () => {
     setExceeded(!canUserRespond(messages));
   }, [messages]);
 
+  // ? SCROLL BOTTOM
   useEffect(() => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [messages]);
+    scrollToBottom();
+  }, [chatId, messages]);
 
   useEffect(() => {
     if (!chatId) return;
@@ -227,7 +242,9 @@ const Chat = () => {
     messages[messages.length - 1]?.cmCmdWS?.tag === "UserReq";
 
   return (
-    <div className="Chat relative mx-auto w-full max-w-[700px] max-h-[100%]">
+    <div
+      className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px]   h-[90vh] overflow-y-scroll pb-[60px]   max-h-[100%]"
+      ref={scrollBottom}>
       {messages.length === 0 ? (
         <EmptyChat />
       ) : (

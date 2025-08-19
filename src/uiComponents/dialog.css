@@ -9,7 +9,7 @@
   --color-secondary: #4338ca;
   --color-background: rgb(255, 255, 255);
   --color-text: rgb(29, 33, 41);
-  --color-border: rgb(174, 186, 199);
+  --color-border: #aebac7;
 }
 .DialogOverlay {
   background-color: var(--black-a9);

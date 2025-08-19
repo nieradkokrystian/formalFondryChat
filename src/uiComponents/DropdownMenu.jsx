@@ -17,7 +17,7 @@ const DropdownMenuDemo = () => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="IconButton  " aria-label="Create Task">
+        <button className="IconButton cursor-target " aria-label="Create Task">
           <HamburgerMenuIcon width={25} height={25} />
           {username && <UserAvatar name={username} />}
         </button>
@@ -41,7 +41,7 @@ const DropdownMenuDemo = () => {
           {username ? (
             <DropdownMenu.Item
               onClick={handleLogout}
-              className="DropdownMenuItem">
+              className="DropdownMenuItem cursor-target">
               <span className="text-sm">Logout</span>{" "}
               <span className="RightSlot">
                 <ExitIcon />
