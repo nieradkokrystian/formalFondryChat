@@ -10,7 +10,7 @@ import { create } from "../utils/createTask";
 
 import axiosInstance from "./axios-cache"; // This is the key!
 
-const CreateTaskScreen = ({ onTaskCreated, text }) => {
+const CreateTaskScreen = ({ onTaskCreated, text, active}) => {
   const navigate = useNavigate();
   const { username, id } = useUser();
   const [TaskName, setTaskName] = useState("");
@@ -83,6 +83,7 @@ const CreateTaskScreen = ({ onTaskCreated, text }) => {
           />{" "}
         </button>
       </Dialog.Trigger>
+      { active && (
       <Dialog.Portal>
         <Dialog.Overlay className="DialogOverlay" />
         <Dialog.Content className="DialogContent">
@@ -160,7 +161,7 @@ const CreateTaskScreen = ({ onTaskCreated, text }) => {
             </button>
           </Dialog.Close>
         </Dialog.Content>
-      </Dialog.Portal>
+      </Dialog.Portal>)}
     </Dialog.Root>
   );
 };

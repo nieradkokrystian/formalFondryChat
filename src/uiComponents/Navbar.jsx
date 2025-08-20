@@ -20,6 +20,7 @@ const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
         <DropdownMenuDemo username={username} />
 
         <CreateTaskScreen
+        active={true}
           id={id}
           text={"Create Task"}
           onTaskCreated={onTaskCreated}

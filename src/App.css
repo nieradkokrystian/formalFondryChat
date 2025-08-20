@@ -63,6 +63,7 @@ button[type="submit"] {
 @theme {
   --animate-gradient: gradient 8s linear infinite;
   --color-custom-30: #4f46e5;
+  --bg-custom-30: #4f46e5;
   @keyframes gradient {
     0% {
       background-position: 0% 50%;

@@ -16,6 +16,7 @@ import axios from "axios";
 import SidebarComponent from "./uiComponents/Sidebar";
 import Docs from "./pages/Docs";
 import TargetCursor from "./animations/TargetCursor/TargetCursor";
+import Introduction from "./mdxPages/Introduction.mdx";
 
 function AppContent() {
   const { username, id, isAuthReady } = useUser();
@@ -96,7 +97,10 @@ function AppContent() {
               />
             }
           />
-          <Route path="/docs/introduction" element={<Docs />} />
+          <Route
+            path="/docs/introduction"
+            element={<Docs page={<Introduction />} />}
+          />
         </Routes>
       </div>
     </>

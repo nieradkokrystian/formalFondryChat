@@ -56,7 +56,7 @@ const TextType = ({
           }
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     );
 
     observer.observe(containerRef.current);
@@ -111,11 +111,11 @@ const TextType = ({
           timeout = setTimeout(
             () => {
               setDisplayedText(
-                (prev) => prev + processedText[currentCharIndex],
+                (prev) => prev + processedText[currentCharIndex]
               );
               setCurrentCharIndex((prev) => prev + 1);
             },
-            variableSpeed ? getRandomSpeed() : typingSpeed,
+            variableSpeed ? getRandomSpeed() : typingSpeed
           );
         } else if (textArray.length > 1) {
           timeout = setTimeout(() => {
@@ -161,17 +161,16 @@ const TextType = ({
       className: `inline-block whitespace-pre-wrap tracking-tight ${className}`,
       ...props,
     },
-    <span className="inline" style={{ color: getCurrentTextColor() }}>
-      {displayedText}
-    </span>,
+    <span className="inline">{displayedText}</span>,
     showCursor && (
       <span
         ref={cursorRef}
-        className={`ml-1 inline-block opacity-100 ${shouldHideCursor ? "hidden" : ""} ${cursorClassName}`}
-      >
+        className={`ml-1 inline-block opacity-100 ${
+          shouldHideCursor ? "hidden" : ""
+        } ${cursorClassName}`}>
         {cursorCharacter}
       </span>
-    ),
+    )
   );
 };
 
