@@ -19,7 +19,7 @@ export const H1 = ({ text, className, textColors, isTyped, header }) => {
       className={`text-4xl ${className} mb-4`}
       showBorder={false}>
       <TextType
-        className={` text-4xl ${header ? "lg:text-6xl text-md" : "lg:text-4xl text-xl"}  `}
+        className={` text-4xl ${header ? "lg:text-5xl text-md" : "lg:text-4xl text-xl"}  `}
         text={text}
         loop={true}
         typingSpeed={50}
@@ -33,7 +33,7 @@ export const H1 = ({ text, className, textColors, isTyped, header }) => {
     <GradientText
       colors={textColors}
       animationSpeed={3}
-      className={`text-4xl ${className} mb-4`}
+      className={`text-4xl ${className} mb-4 max-w-3/4 w-3/4 whitespace-break-spaces ${header ? "lg:text-5xl text-md" : "lg:text-4xl text-xl"}`}
       showBorder={false}>
       {text[0]}
     </GradientText>
@@ -194,30 +194,14 @@ export const CodeBlock = ({ code, className, theme, language }) => {
   );
 };
 
-export const AccordionDemo = ({ width, items, className }) => (
-  <Accordion.Root
-    className={`w-[${width}] rounded-md bg-mauve6 shadow-[0_2px_10px] shadow-black/5 ${className}`}
-    type="single"
-    defaultValue="item-1"
-    collapsible>
-    {items && items.length > 0
-      ? items.map((item, index) => (
-          <AccordionItem key={index} value={`item-${index + 1}`}>
-            <AccordionTrigger>{item.title}</AccordionTrigger>
-            <AccordionContent>{item.description}</AccordionContent>
-          </AccordionItem>
-        ))
-      : ""}
-  </Accordion.Root>
-);
-
-const AccordionItem = React.forwardRef(
+export const AccordionDemo = ({ width, items, className }) => {
+  const AccordionItem = React.forwardRef(
   ({ children, className, ...props }, forwardedRef) => (
     <Accordion.Item
-      className={classNames(
+      className={`
         "mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b focus-within:relative focus-within:z-10 focus-within:shadow-[0_0_0_2px] focus-within:shadow-mauve12",
-        className
-      )}
+        ${className}
+      )`}
       {...props}
       ref={forwardedRef}>
       {children}
@@ -229,10 +213,10 @@ const AccordionTrigger = React.forwardRef(
   ({ children, className, ...props }, forwardedRef) => (
     <Accordion.Header className="flex">
       <Accordion.Trigger
-        className={classNames(
-          "group flex h-[45px] flex-1 cursor-default items-center justify-between bg-mauve1 px-5 text-[15px] leading-none text-violet11 shadow-[0_1px_0] shadow-mauve6 outline-none hover:bg-mauve2",
-          className
-        )}
+        className={`
+          "group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white px-5 text-2xl leading-none text-gray-500 shadow-[0_1px_0] shadow-mauve6 outline-none hover:bg-yellow-200",
+          ${className}
+        )`}
         {...props}
         ref={forwardedRef}>
         {children}
@@ -248,16 +232,34 @@ const AccordionTrigger = React.forwardRef(
 const AccordionContent = React.forwardRef(
   ({ children, className, ...props }, forwardedRef) => (
     <Accordion.Content
-      className={classNames(
-        "overflow-hidden bg-mauve2 text-[15px] text-mauve11 data-[state=closed]:animate-slideUp data-[state=open]:animate-slideDown",
-        className
-      )}
+      className={`
+        "overflow-hidden bg-mauve2 text-lg  text-gray-500 data-[state=closed]:animate-slideUp data-[state=open]:animate-slideDown",
+        ${className}
+      `}
       {...props}
       ref={forwardedRef}>
       <div className="px-5 py-[15px]">{children}</div>
     </Accordion.Content>
   )
 );
+  return(
+  <Accordion.Root
+    className={`w-[${width}] rounded-md bg-white border-1 p-1 border-gray-200 ${className}`}
+    type="single"
+    defaultValue="item-1"
+    collapsible>
+    {items && items.length > 0
+      ? items.map((item, index) => (
+          <AccordionItem key={index} value={`item-${index + 1}`}>
+            <AccordionTrigger>{item.title}</AccordionTrigger>
+            <AccordionContent>{item.description}</AccordionContent>
+          </AccordionItem>
+        ))
+      : ""}
+  </Accordion.Root>)
+;}
+
+
 
 export const Important = ({ warning, text, className }) => {
   return warning == "bad" ? (

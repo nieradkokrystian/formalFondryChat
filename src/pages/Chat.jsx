@@ -44,31 +44,24 @@ const Chat = () => {
       });
   }, [chatId]);
 
-  // const isTaskExceeded = (messageList) => {
-  //   if (!messageList || messageList.length === 0) return false;
-  //   const lastMessage = messageList[messageList.length - 1];
-  //   return lastMessage?.taskStatWS === "exceeded";
-  // };
 
-  // const isTaskResolved = (messageList) => {
-  //   if (!messageList || messageList.length === 0) return false;
-  //   const lastMessage = messageList[messageList.length - 1];
-  //   return lastMessage?.taskStatWS === "resolved";
-  // };
-  const scrollToBottom = () => {
-    const chatElement = scrollBottom.current;
-    let height = chatElement.scrollHeight;
-    let currentScroll = chatElement.scrollTop;
+const scrollToBottom = () => {
+  const chatElement = scrollBottom.current;
+  if (!chatElement) return;
 
-    if (chatElement || currentScroll > height / 2000) {
-      setTimeout(() => {
-        chatElement.scrollTo({
-          top: chatElement.scrollHeight,
-          behavior: "smooth",
-        });
-      }, 100);
-    }
-  };
+  const isAtBottom =
+    chatElement.scrollHeight - chatElement.scrollTop <=
+    chatElement.clientHeight + 100; 
+
+  if (isAtBottom) {
+    setTimeout(() => {
+      chatElement.scrollTo({
+        top: chatElement.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 100);
+  }
+};
   const canUserRespond = (messageList) => {
     if (!messageList || messageList.length === 0) return true;
     const lastMessage = messageList[messageList.length - 1];
@@ -131,7 +124,7 @@ const Chat = () => {
   };
 
   const handleSend = async (inputValue) => {
-    if (inputValue.trim() === "") return;
+    // if (inputValue.trim() === "") return;
     if (!canUserRespond(messages)) return;
 
     const userMessage = {
@@ -241,19 +234,22 @@ const Chat = () => {
     messages.length > 0 &&
     messages[messages.length - 1]?.cmCmdWS?.tag === "UserReq";
 
-  return (
-    <div
-      className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px]   h-[90vh] overflow-y-scroll pb-[60px]   max-h-[100%]"
-      ref={scrollBottom}>
-      {messages.length === 0 ? (
-        <EmptyChat />
-      ) : (
-        <ChatActive
-          taskNumber={taskNumber}
-          messages={messages}
-          ref={chatContainerRef}
-        />
-      )}
+ const displayedMessages = messages.slice(-100);
+
+return (
+  <div
+    className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px]   h-[90vh] overflow-y-scroll pb-[60px]   max-h-[100%]"
+    ref={scrollBottom}>
+    {messages.length === 0 ? (
+      <EmptyChat />
+    ) : (
+      // Pass the filtered array to ChatActive
+      <ChatActive
+        taskNumber={taskNumber}
+        messages={displayedMessages}
+        ref={chatContainerRef}
+      />
+    )}
       <InputComponent
         exceeded={exceeded}
         LLM={llm}

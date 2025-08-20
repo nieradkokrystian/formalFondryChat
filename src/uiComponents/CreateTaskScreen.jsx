@@ -3,12 +3,12 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon, PlusCircledIcon } from "@radix-ui/react-icons";
 import PopoverSettings from "./Popover";
 import "../uiComponents/dialog.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../AuthContext";
 import { create } from "../utils/createTask";
-
-import axiosInstance from "./axios-cache"; // This is the key!
+import { ToastContainer, toast } from "react-toastify";
+import axiosInstance from "./axios-cache"; 
 
 const CreateTaskScreen = ({ onTaskCreated, text, active}) => {
   const navigate = useNavigate();
@@ -18,10 +18,23 @@ const CreateTaskScreen = ({ onTaskCreated, text, active}) => {
   const [taskList, setTaskList] = useState([]);
   const [provider, setProvider] = useState("OpenAI");
   const [model, setModel] = useState("gpt-3");
-
+  const [prompt, setPrompt] = useState("");
   const API_LINK = import.meta.env.VITE_API_BASE;
+  
+ 
+  function isJson(str) {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+     
+      return false;
 
-  React.useEffect(() => {
+    }
+  }
+
+
+  useEffect(() => {
     const fetchAvailableTasks = async () => {
       try {
         const response = await axiosInstance.get(`${API_LINK}/availableTasks`);
@@ -33,7 +46,8 @@ const CreateTaskScreen = ({ onTaskCreated, text, active}) => {
     fetchAvailableTasks();
   }, [API_LINK]);
 
-  const handleCreateTask = async () => {
+  const handleCreateTask = async (e) => {
+     if (isJson(prompt)){
     const uniqueId = Math.random().toString(36).substring(2, 9);
 
     const finalTaskName = TaskName.trim() === "" ? uniqueId : TaskName;
@@ -43,8 +57,9 @@ const CreateTaskScreen = ({ onTaskCreated, text, active}) => {
       navigate("/login");
       return;
     }
-
+   
     try {
+   
       const newTask = await create(
         `${API_LINK}/tasks`,
         TaskType,
@@ -70,8 +85,17 @@ const CreateTaskScreen = ({ onTaskCreated, text, active}) => {
     } catch (error) {
       console.error("Failed to create task:", error);
     }
-  };
-
+  }else{
+    e.preventDefault();
+    toast.error("Invalid JSON format. Please check your input.", {
+      position: "bottom-left",
+      closeOnClick: true,
+      autoClose: 1000,
+      theme: "colored",
+      className:' toast-1232',
+  });}
+}
+   
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -136,6 +160,8 @@ const CreateTaskScreen = ({ onTaskCreated, text, active}) => {
             <PopoverSettings
               setProvider={setProvider}
               setModel={setModel}
+              setPrompt={setPrompt}
+              prompt = {prompt}
               id="settings"
             />
           </div>
@@ -160,9 +186,16 @@ const CreateTaskScreen = ({ onTaskCreated, text, active}) => {
               <Cross2Icon />
             </button>
           </Dialog.Close>
+                <ToastContainer
+        position="bottom-left"
+        closeOnClick
+        autoClose={17000}
+        className="toast-1232"/>
         </Dialog.Content>
       </Dialog.Portal>)}
+
     </Dialog.Root>
+    
   );
 };
 

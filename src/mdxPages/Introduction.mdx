@@ -34,7 +34,7 @@ import { darcula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 />
 <SeparatorDemo className={"mb-10"}/>
 
-<H1 text={["Introduction"]} textColors={["#4f16e5", "#4338ca", "#4f46e5"]}  />
+<H2 text={["Introduction"]} textColors={["#4f16e5", "#4338ca", "#4f46e5"]}  />
 
 
 <Text className={"text-gray-300 mb-30"}>
@@ -53,7 +53,7 @@ so you can create your own documentation in the future. This is a simple example
 
 
 
-<H1 text={["This is an Example. Please don't take it too seriously. This is [<H1 />] component. "]}  />
+<H1 text={["This is an Example. Please don't take it too seriously. This is [<H1 />] component. "]}  header={true}/>
 <Text className={`mb-10`}> <Span>[H1]</Span> component is a typical heading. It takes a total of five props:
 <Span defaultColor={true}>text</Span>,<Span defaultColor={true}>className</Span>,<Span defaultColor={true}>textColors</Span>,<Span defaultColor={true}>isTyped</Span> and <Span defaultColor={true}>header</Span>.
 Respectively, the types are: <Span defaultColor={true}>array of strings</Span>, <Span defaultColor={true}>css classess</Span>, 
@@ -160,7 +160,10 @@ Brows and hhoose from many themes, available on <Span isLink={true} path={"https
 
 <SeparatorDemo className={"mb-10"}/>
 
-<H2 text={["What about highlighting content? Don't worry, [<Span> </Span>] is here to help! "]}/>
+<H1 text={["What about highlighting content? Don't worry, [<Span> </Span>] is here to help! "]} header={true} />
+
+<H2 text={["Quick quide over usage:"]} className={`mt-10`}/>
+
 <Text className={`leading-9`}> That's fairly simple! Its props are: <Span defaultColor={true}>defaultColor (boolean)</Span>: responsible for deciding between <Span defaultColor={true}>State one (true)</Span> and <Span defaultColor={false}>State two (false)</Span>.
 but you can also pass a <Span defaultColor={true}>className (css class or taliwind)</Span> prop to style it as you wish. <Span  defaultColor={true}>isLink (boolean)</Span> property allows you to set the span to be either a <Span isLink={true} defaultColor={true}> link (true)</Span>, or a <Span defaultColor={true}> boring text! (false)</Span>
 As you can see, options are endless! Of course, there's more! <Important className={`ml-0`} text={"Remember! The isLink property always has to be followed by a 'path' prop! Otherwise, some unexpected events might occur."} warning="mid"/> 
@@ -170,6 +173,32 @@ Brows and hhoose from many themes, available on <Span isLink={true} path={"https
 
 
 <SeparatorDemo className={"mb-10"}/>
+
+<H1 text={["Another powerful element: <AccordionDemo/>"]}/>
+<H2 text={["What's an Accordion?"]} className={`mt-10`}/>
+<Text className={'mb-10'} > <Span defaultColor={true}>Accordion</Span> is a powerful element which allows us to simplify FAQ sections, as well as provide us with many other options, such as displaying types of elements, or Task Types.
+It's a set of expendable elements, that allow us to further explain the topic, or add details.  </Text>
+
+<AccordionDemo
+  className={`mb-10`}
+  items={[
+    {
+      title: "What is an Accordion?",
+      description: "An accordion is a UI component that allows users to expand and collapse sections of content, making it easier to navigate through large amounts of information.",
+    },
+    {
+      title: "How do I use it?",
+      description: "You can use the AccordionDemo component by passing an array of items with titles and descriptions. Each item will be displayed as a collapsible section.",
+    },
+    {
+      title: "Can I customize the styles?",
+      description: "Yes, you can pass additional CSS classes to the AccordionDemo component to customize its appearance.",
+    },
+  ]}/>
+
+  <Text className={`mb-10`}> There appears to be a problem with accordion button styling. Do not worry, as this is only temporary at best. The cause is a css-file stricte originating from the chatbot project. I assume that the docs will be moved to a different repository all together. Without the custom css overriding all the changes Tailwind makes, the styling should work. In case it doesn't, consider creating an additional class for the sake of styling the accordion straight in the css file.  </Text>
+
+
 
 <NextButton> Next Article</NextButton> 
 <PrevButton> Previous Article</PrevButton>

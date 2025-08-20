@@ -88,7 +88,7 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
           className={`leading-normal whitespace-pre-wrap ${
             isCollapsible && !isExpanded ? "max-h-[6.4em] overflow-hidden" : ""
           }`}>
-          {content}
+          {content.length>1?content: "Confirmed"}
           {/* <span className="absolute bottom-0.7 right-1 text-xs"> {step} </span> */}
         </p>
         {isCollapsible && (

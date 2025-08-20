@@ -1,0 +1,30 @@
+CHANGE MESSAGES LOGIC  messages.jsx
+
+- Improve the tag generation. 
+
+- The whole logic on sensing what is "code" and what isn't is really risky. It uses .include("keyword"). in case the keyword ever changes, there might be problem with code generation.
+
+
+WORKSPACE:
+
+- need to move css files to styles folder, rewrite every pathname that will break
+
+
+chat.jsx add a filter
+- make a limit of last hundred messages shown. Perhaps a checkbox or whatnot. the mobile doesnt concern me as of yet, and if it does, tailwind makes it easy to set up. 
+
+COLOR PALLETE: app.css
+
+- will I even get one? This is a question... You can define colors in App.css using @theme taliwind namepsace. Visit tailwind docs for more details. 
+
+ADMIN PANEL IN THE FUTURE?
+
+CLEAR CONSOLE LOGS -- TOO LAZY
+
+SCROLLING MECHANIC IN CHAT.jsx
+
+
+
+
+
+REWORK EVERYTHING If WEBSOCKETs EVER APPEAR

@@ -85,9 +85,9 @@ const InputComponent = ({
       return;
     }
 
-    if (!inputValue.trim()) {
-      return;
-    }
+    // if (!inputValue.trim()) {
+    //   return;
+    // }
 
     onSend(inputValue);
     setInputValue("");
@@ -95,7 +95,7 @@ const InputComponent = ({
   };
 
   const isInputDisabled = () => {
-    return !inputValue.trim() || exceeded;
+    return  exceeded;
   };
 
   const getPlaceholderText = () => {
@@ -138,7 +138,7 @@ const InputComponent = ({
           disabled={isInputDisabled()}>
           <ArrowTopRightIcon />
         </button>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </div>
     </>
   );

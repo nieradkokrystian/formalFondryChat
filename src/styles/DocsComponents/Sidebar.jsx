@@ -37,7 +37,7 @@ const Sidebar = () => {
             placeholder="Search documentation..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full  p-2 border border-gray-300 rounded"
+            className="w-full  p-2rounded"
           />
           <MagnifyingGlassIcon />
         </div>

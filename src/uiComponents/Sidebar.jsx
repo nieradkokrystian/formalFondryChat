@@ -42,7 +42,7 @@ function SidebarComponent({
       <div className="Sidebar-Header relative justify-between flex">
         <h1>My Tasks</h1>
         <div className="w-4 h-4 flex justify-center items-center">
-          <CreateTaskScreen onTaskCreated={onTaskCreated} text={""} />
+          <CreateTaskScreen onTaskCreated={onTaskCreated} active={true} text={""} />
         </div>
       </div>
       <div className="Sidebar-Body ">
