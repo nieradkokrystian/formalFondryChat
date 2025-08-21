@@ -12,12 +12,20 @@ import {
   CenterContainer,
   NextButton,
   PrevButton,
-  Image
+  Image,
+  Footer
 } from "../mdxComponents/ComponentsMdx";
 import SeparatorDemo from "../uiComponents/Separator";
 import React from "react";
+import Logo from "../uiComponents/Logo";
 import {  okaidia, oneLight, dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {
+  MagnifyingGlassIcon,
+  QuestionMarkCircledIcon,
+
+} from "@radix-ui/react-icons"
+
 
 
 
@@ -198,7 +206,68 @@ It's a set of expendable elements, that allow us to further explain the topic, o
 
   <Text className={`mb-10`}> There appears to be a problem with accordion button styling. Do not worry, as this is only temporary at best. The cause is a css-file stricte originating from the chatbot project. I assume that the docs will be moved to a different repository all together. Without the custom css overriding all the changes Tailwind makes, the styling should work. In case it doesn't, consider creating an additional class for the sake of styling the accordion straight in the css file.  </Text>
 
+  <H1 text={["Last not the least, Carousel!"]} header={true}/>
 
+  <Text>Do you want to display content like a pro? Use <Span>Carousel2</Span> component to add an interactive carousel to your docs.
+  The usage if fairly easy; <Span defaultColor={true}> content </Span> is a prop responsible for providing content into our carousel. It should look something like this:</Text>
+
+  <CodeBlock language={`jsx`} code={`[
+    {
+      title: "What is a Task?",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      id: 1,
+      icon: <QuestionMarkCircledIcon width={50} height={50} />,
+    },
+    {
+      title: "What are Task Types?",
+      description:
+        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      icon: <MagnifyingGlassIcon width={50} height={50} />,
+      id: 2,
+    },
+    {
+      id: 3,
+      description:
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      icon: <MagnifyingGlassIcon width={50} height={50} />,
+      title: "What is it even for?",
+    },
+  ]`}/>
+
+  <Text>Simple, ain't it? But there's a lot more! <Span defaultColor={true}>className</Span> is self-explanatory again,
+  <Span defaultColor={true}>baseWidth</Span> specifies the width of the carousel. <Span defaultColor={true}>showDots</Span> is responsible for the little dots at the bottom of the carousel.
+  <Span defaultColor={true}>itemWidth</Span> width of the item. Lastly, <Span defaultColor={true}>round</Span>; it gives us the option to round the item size to the box wrapping it. For more details, visit
+  <Span defaultColor={false} isLink={true} path={`https://reactbits.dev/components/carousel`}>React Bits</Span>. </Text>
+
+
+  <Carousel2 baseWidth={700} content={[
+    {
+      title: "What is a Task?",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      id: 1,
+      icon: <QuestionMarkCircledIcon width={50} height={50} />,
+    },
+    {
+      title: "What are Task Types?",
+
+      description:
+        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      icon: <MagnifyingGlassIcon width={50} height={50} />,
+      id: 2,
+    },
+    {
+      id: 3,
+      description:
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      icon: <MagnifyingGlassIcon width={50} height={50} />,
+      title: "What is it even for?",
+    },
+  ]} className={`m-5`}/>
+
+<SeparatorDemo className={`mt-5`}/>
 
 <NextButton> Next Article</NextButton> 
 <PrevButton> Previous Article</PrevButton>
+
+
+<Footer/>

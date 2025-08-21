@@ -17,7 +17,10 @@ COLOR PALLETE: app.css
 
 - will I even get one? This is a question... You can define colors in App.css using @theme taliwind namepsace. Visit tailwind docs for more details. 
 
-ADMIN PANEL IN THE FUTURE?
+DOCS: 
+
+--Have fun making it responsive. Made with tailwind, so it should be fairly simple. No time to fix. 
+--make the sidebar an extendable, perhaps a button or a "peeking" sidebar(only a bit of it visible and expanded on click)
 
 CLEAR CONSOLE LOGS -- TOO LAZY
 

@@ -174,3 +174,9 @@
 .toast-1232{
    z-index: 10000 !important;
 }
+.brave-button{
+  margin-top: 80px;
+  color: var(--color-gray-300);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}

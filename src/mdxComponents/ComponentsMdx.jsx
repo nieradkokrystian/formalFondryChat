@@ -6,7 +6,13 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark, okaidia, oneLight, dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import * as React from "react";
 import { Accordion } from "radix-ui";
-import { ChevronDownIcon, InfoCircledIcon, CrossCircledIcon , CheckCircledIcon} from "@radix-ui/react-icons";
+import { ChevronDownIcon, InfoCircledIcon, CrossCircledIcon, CheckCircledIcon } from "@radix-ui/react-icons";
+import Logo from "../uiComponents/Logo";
+import { FiTwitter, FiLinkedin, FiGithub } from "react-icons/fi";
+import { IconContext } from "react-icons/lib";
+
+
+
 
 // ***  @text => Array of strings ***
 // ***  @className => Additional class names for styling ***/
@@ -330,4 +336,65 @@ export const Image = ({path})=>{
   return (
     <img src={path} alt="Placeholder" className="w-32 h-32 rounded-full shadow-lg" />
   );
+}
+
+export const Footer = () => {
+  const [on, setOn] = React.useState(false)
+  return (
+    <div className="p-4 mt-10  border-t-2 border-gray-400 bg-white items-center gap-10 w-full flex flex-row h-100">
+      <div className="column flex flex-col items-start  h-3/5 ">
+        <h1 className="text-gray-600 text-lg flex w-fit gap-1"><Logo /></h1>
+        <p className="text-gray-500 mt-2">Formal Foundry, LLC. </p>
+        <p className="text-gray-500 mt-2">218 NW 24th Street, 2nd Floor</p>
+        <p className="text-gray-500 mt-2">Miami FL 33127</p>
+        <Link></Link>
+        <button className="brave-button mt-8 text-gray-300" onClick={(e) => { setOn(!on) }}>Mystery?</button>
+        {on && (
+          <h1 className="text-sm text-gray-300"> Shameless plug? <br /> Yes it is! <br /> <Link target="_blank" className="text-purple-500" about="_blank" to={`https://github.com/exelenze`}> Find the brave Intern.</Link> </h1>
+        )}
+      </div>
+      <div className="column flex flex-col items-start  h-3/5 ">
+        <h1 className="text-3xl bold text-gray-800">Learn our tool</h1>
+          <ul className="text-gray-500">
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Introduction</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Getting Started</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Features</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Faq</Link></li>
+      </ul>
+      </div>
+      <div className="column flex flex-col items-start  h-3/5">
+        <h1 className="text-3xl bold text-gray-800">API Reference</h1>
+          <ul className="text-gray-500">
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Used API's</Link></li>
+  
+      </ul>
+      </div>
+      <div className="column flex flex-col items-start  h-3/5">
+        <h1 className="text-3xl bold text-gray-800">More</h1>
+          <ul className="text-gray-500">
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Terms of Service</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Formal Foundry</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Contact</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Legal </Link></li>
+      </ul>
+      </div>
+      <div className="column flex flex-col items-start h-3/5">
+        <h1 className="text-3xl bold text-gray-800">Community</h1>
+          <ul className="text-gray-500">
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Terms of Service</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Formal Foundry</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Contact</Link></li>
+        <li className="mt-1 hover:bg-purple-50 hover:text-purple-600"><Link>Legal </Link></li>
+        </ul>
+        <div className="socials flex flew-row mt-3 justify-start gap-2">
+          <IconContext.Provider value={{color:"purple", className: "text-2xl "}}>
+          <Link className=" aspect-square rounded-full p-3 border-1 border-purple-300 bg-purple-200 flex justify-center items-center hover:bg-purple-50 " to={`https://x.com/FormalFoundry`}><FiTwitter/></Link>
+          <Link className=" aspect-square rounded-full p-3 border-1 border-purple-300 bg-purple-200 flex justify-center items-center hover:bg-purple-50 " to={`https://www.linkedin.com/company/formalfoundry/`}><FiLinkedin/></Link>
+            <Link className=" aspect-square rounded-full p-3 border-1 border-purple-300 bg-purple-200 flex justify-center items-center hover:bg-purple-50 " to={`https://github.com/nieradkokrystian/`}><FiGithub /></Link>
+            </IconContext.Provider>
+        </div>
+     </div>
+    
+     </div>
+   )
 }
