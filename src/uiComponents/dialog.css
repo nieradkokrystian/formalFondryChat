@@ -124,6 +124,7 @@
   margin-bottom: 15px;
 }
 
+
 .Label {
   font-size: 15px;
   color: var(--color-gray-500);
@@ -147,6 +148,8 @@
 }
 .Input:focus {
   box-shadow: 0 0 0 2px var(--violet-8);
+  outline: 0;
+  
 }
 
 @keyframes overlayShow {

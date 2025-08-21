@@ -3,7 +3,7 @@ import SeparatorDemo from "../../uiComponents/Separator";
 import { useState } from "react";
 import Search from "../DocsComponents/Search";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-
+import { routesLink } from "../../routes/routes";
 const Sidebar = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -13,12 +13,7 @@ const Sidebar = () => {
     { name: "Features", path: "/docs/features" },
     { name: "FAQ", path: "/docs/faq" },
   ];
-  const deepLinks = [
-    { name: "Task Types", path: "/docs/advanced-usage" },
-    { name: "Additional Settings", path: "/docs/troubleshooting" },
-    { name: "Contributing", path: "/docs/contributing" },
-    
-  ];
+  const deepLinks = structuredClone(routesLink);
   const filteredIntroLinks = introLinks.filter((link) =>
     link.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -37,7 +32,7 @@ const Sidebar = () => {
             placeholder="Search documentation..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full  p-2rounded"
+            className="w-full  p-2rounded focus:border-0 focus:outline-0"
           />
           <MagnifyingGlassIcon />
         </div>

@@ -168,9 +168,10 @@ const scrollToBottom = () => {
     setExceeded(!canUserRespond(messages));
   }, [messages]);
 
+
   // ? SCROLL BOTTOM
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom(); 
   }, [chatId, messages]);
 
   useEffect(() => {

@@ -17,6 +17,7 @@ import SidebarComponent from "./uiComponents/Sidebar";
 import Docs from "./pages/Docs";
 import TargetCursor from "./animations/TargetCursor/TargetCursor";
 import Introduction from "./mdxPages/Introduction.mdx";
+import Admin from "./pages/Admin";
 
 function AppContent() {
   const { username, id, isAuthReady } = useUser();
@@ -101,7 +102,10 @@ function AppContent() {
             path="/docs/introduction"
             element={<Docs page={<Introduction />} />}
           />
+          <Route path="/admin/326483545732548981349134gfjkdgf4783gf7ig437fg437fg437f64gf874fgohurghdf78gdft7gfd87ogoftd67" element={<Admin/>} />
         </Routes>
+
+
       </div>
     </>
   );

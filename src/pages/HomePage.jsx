@@ -161,7 +161,7 @@ const HomePage = () => {
             <p className="text-md p-2 text-gray-600">
               You will find them in the{" "}
               <span className="bg-purple-300 p-1 rounded-md text-violet-700 italic">
-                top-right corner
+                top-left corner
               </span>{" "}
               of your screen. <br /> <br />
               <span className="bg-gray-100 p-1 rounded-md font-semibold text-gray-600">
@@ -200,7 +200,7 @@ const HomePage = () => {
               </li>
             </ul>
             {/* !LINK */} {/* !LINK */}
-            <Link to="/docs">
+            <Link to="/docs/introduction">
               For more detailed explanation, as well as additional infromatin
               about the whole project, visit{" "}
               <span className="bg-purple-300 p-1 rounded-md text-violet-700 italic underline">

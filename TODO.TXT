@@ -21,10 +21,19 @@ ADMIN PANEL IN THE FUTURE?
 
 CLEAR CONSOLE LOGS -- TOO LAZY
 
-SCROLLING MECHANIC IN CHAT.jsx
+SCROLLING MECHANIC IN CHAT.jsx  perhaps done lareayd? review
+
+THE VIEW WITH TABLE-LIKE DATA ON TASKS
+
+YOU CAN ADD ADDITIONAL COMPONENTS INTO ConponentsMdx.jsx to improve the doc-making components and add new functionality. Make it responsive, while you're at it, mysterious successor:) 
 
 
+ADMIN PANEL:
+admin/326483545732548981349134gfjkdgf4783gf7ig437fg437fg437f64gf874fgohurghdf78gdft7gfd87ogoftd67
+
+- Allow Cors In user creation. can't check cuz Cors, eventually debug if you're at it. (go to krystian)
 
 
+REWORK EVERYTHING If WEBSOCKETs EVER APPEAR 
 
-REWORK EVERYTHING If WEBSOCKETs EVER APPEAR
+

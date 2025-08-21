@@ -41,7 +41,7 @@ function SidebarComponent({
     <div className={`Sidebar ${isOpen ? "is-open" : ""}`}>
       <div className="Sidebar-Header relative justify-between flex">
         <h1>My Tasks</h1>
-        <div className="w-4 h-4 flex justify-center items-center">
+        <div className="w-4 h-4 overflow-clip aspect-square flex justify-center items-center">
           <CreateTaskScreen onTaskCreated={onTaskCreated} active={true} text={""} />
         </div>
       </div>

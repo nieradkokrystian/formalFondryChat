@@ -60,7 +60,7 @@ const LoginPage = () => {
                 type="text"
                 id="username"
                 value={username}
-                className=" inputButton g-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 target-cursor"
+                className=" inputButton g-blue-500 text-white font-bold py-2  rounded-lg px-3  transition duration-300 target-cursor outline-0"
                 onChange={(e) => setUsername(e.target.value)}
               />
               {errorMessage && (
