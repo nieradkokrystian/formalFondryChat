@@ -76,3 +76,29 @@ button[type="submit"] {
     }
   }
 }
+button.background{
+  z-index: 21;
+  width: 50%;
+  text-align: center;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#selectId{
+  padding: 8px; 
+  width: 60px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  -webkit-border-radius: var(--radius-md);
+  -moz-border-radius: var(--radius-md);
+  -ms-border-radius: var(--radius-md);
+  -o-border-radius: var(--radius-md);
+}
+#selectId:focus{
+  outline: none;
+}
+#checkTrimmedArray{
+  color: black;
+}

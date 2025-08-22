@@ -22,6 +22,7 @@ const Chat = () => {
   const [currentSteps, setCurrentSteps] = useState(0);
   const [llm, setLlm] = useState("gpt-3");
   const scrollBottom = useRef(false);
+  const [isChecked, setIsChecked] = useState(false)
 
   const API_LINK = import.meta.env.VITE_API_BASE;
 
@@ -235,23 +236,32 @@ const scrollToBottom = () => {
     messages.length > 0 &&
     messages[messages.length - 1]?.cmCmdWS?.tag === "UserReq";
 
- const displayedMessages = messages.slice(-100);
+ const displayedMessages = isChecked ? messages.slice(-100): messages;
 
+  const Checkbox = () => {
+console.log(isChecked, displayedMessages)
+      return (
+       <div className="fixed flex-row  flex top-30 right-50 h-10 items-center rounded-full px-3 justify-center border-1 border-gray-400 text-gray-500 bg-white gap-1  w-fit"> <h1>Last Hundred Messages?</h1><input type="checkbox" name="" className="w-7 text-gray-500 aspect-square" id="checkTrimmedArray" checked = {isChecked ? true:false} onChange={(e)=>setIsChecked(!isChecked)} /></div>
+         )
+  }
+  
 return (
   <div
     className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px]   h-[90vh] overflow-y-scroll pb-[60px]   max-h-[100%]"
     ref={scrollBottom}>
+
     {messages.length === 0 ? (
       <EmptyChat />
     ) : (
-      // Pass the filtered array to ChatActive
+      
       <ChatActive
         taskNumber={taskNumber}
         messages={displayedMessages}
         ref={chatContainerRef}
       />
     )}
-      <InputComponent
+    <InputComponent
+        Checkbox = {Checkbox}
         exceeded={exceeded}
         LLM={llm}
         steps={steps}

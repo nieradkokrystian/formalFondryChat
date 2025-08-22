@@ -175,7 +175,7 @@
    z-index: 10000 !important;
 }
 .brave-button{
-  margin-top: 80px;
+  margin-top: 20px;
   color: var(--color-gray-300);
   font-size: var(--text-sm);
   cursor: pointer;

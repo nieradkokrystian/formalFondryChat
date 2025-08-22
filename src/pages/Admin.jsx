@@ -1,10 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import axios from "axios";
 import SeparatorDemo from '../uiComponents/Separator'
 import {toast, ToastContainer} from "react-toastify"
+import { number } from "framer-motion";
 const Admin = () => {
   const [taskListAdmin, setTaskListAdmin] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [taskListUser, setTaskListUser] = useState([])
+  const [selectId, setSelectId] = useState(number)
+  const opt2 = useRef()
   const API_LINK = import.meta.env.VITE_API_BASE;
   useEffect(() => {
     const fetchTaskListAdmin = async () => {
@@ -16,16 +21,32 @@ const Admin = () => {
       }
     };
     fetchTaskListAdmin();
+     
   }, [API_LINK]);
 
-  if (!taskListAdmin || taskListAdmin.length === 0) {
-    return <div className="admin-page">No tasks available.</div>;
-  }
+  useEffect(() => {
+    const fetchTaskListUser = async () => {
+      try {
+        const response = await axios.get(`${API_LINK}/tasks/${selectId}`);
+        setTaskListUser(response.data);
+      } catch (error) {
+        console.error("Failed to fetch task list:", error);
+      }
+    };
+    fetchTaskListUser();
+  }, [selectId])
+ 
   const Record = ({ title, id, status, type }) => {
     const color = status == "running" ? "bg-indigo-100" : status == "resolved" ? "bg-green-100" : "bg-red-100" 
     return (
       <div className="record flex flex-row bg-gray-100 w-[90%] p-3 mb-1 rounded-md items-center">
-        id: <h1 className="w-5 aspect-square rounded-full flex justify-center items-center h-5 p-2 mr-4 bg-white ">{id}</h1> <h2 className={`w-50 bg-gray-50 capitalize p-2 rounded-2xl justify-center mr-5  flex align-center ${color}`}>{status}</h2>  <h2 className="capitalize">{ type}</h2>
+        id: <h1 className="w-5 aspect-square rounded-full flex justify-center items-center h-5 p-2 mr-4 bg-white ">{id}</h1>
+        {title && (
+          <>Name:<h1 className={`w-50 bg-gray-50 ml-1 capitalize p-2 rounded-2xl justify-center mr-5  flex align-center `}>  {title }</h1></>
+        )}
+        <p>Status:</p>
+           <h2 className={`w-50 bg-gray-50 ml-1  capitalize p-2 rounded-2xl justify-center mr-5  flex align-center ${color}`}>{status}</h2>
+         <p>Type:</p> <h2 className="capitalize ml-1 bg-indigo-300 p-2 rounded-2xl">{type}</h2>
       </div>
     )
   }
@@ -53,6 +74,7 @@ const Admin = () => {
     }
     return (
       <form action="" className="flex flex-col gap-4 justify-start items-start w-2/4">
+        <h1 className="text-lg text-gray-500">Create a user:</h1>
         <div className="fieldset flex justify-between flex-row items-center gap-4 m-1 w-full">
           <label className="text-purple-400 text-lg " htmlFor="email">Email:</label>
           <input type="text" onChange={(e)=>setEmail(e.target.value)}  id="email" className="inset-shadow-sm inset-shadow-gray-200 h-9 rounded-md " />
@@ -69,6 +91,7 @@ const Admin = () => {
       </form>
     )
   }
+  console.table(taskListUser)
 
 
   return (
@@ -81,11 +104,41 @@ const Admin = () => {
           <CreateUser/>
         </div>
         <div className="bento p-3 w-[91.3%] h-[40%] pt-4 mt-[-230px] flex flex-col items-start justify-start bg-white border-1 border-gray-200 shadow-xl overflow-y-scroll  rounded-2xl">
-          {taskListAdmin.map((item, index) => {
-            return (
-              <Record key={index}  id={item.taskId} status={ item.taskStatus} type={item.taskType} />
-            )
-          }) }
+          <div className="wrap flex gap-1 border-b-1 p-3 border-gray-300">
+            <h1 className="text-gray-500 items-center flex">User id</h1>
+            <input onChange={(e)=>setSelectId(e.target.value)} type="number" name="" min="0" id="selectId" />
+             <div className="smallnav w-fit px-5 py-3 bg-white border-2 border-purple-500 rounded-md flex flex-row gap-3 relative">
+
+            <button className={`background transition-colors duration-300 ${activeIndex === 0 ? 'text-purple-600' : 'text-gray-700'} `} onClick={() => setActiveIndex(0)}>tasks/Old</button>
+
+            <button onClick={() => setActiveIndex(1)} className={`background transition-colors duration-300 ${activeIndex === 0 ? 'text-purple-600' : 'text-gray-700'}} onClick={(e)=>shift("0%")`}>tasks/:user_id:</button>
+            
+            <span ref={opt2} className={` transition-transform duration-300 ease-in-out z-0 rounded-md absolute  top-0 left-0 w-1/2 h-full bg-purple-100 ${activeIndex === 0 ? 'transform translate-x-0' : 'transform translate-x-full'}`}></span>
+          </div>
+         </div>
+         
+          
+          {activeIndex === 0 ? (
+    taskListAdmin.map((item, index) => (
+        <Record 
+            key={index} 
+            id={item.taskId} 
+            status={item.taskStatus} 
+            type={item.taskType} 
+        />
+    ))
+) : activeIndex === 1 ? (
+    taskListUser.map((item, index) => (
+        <Record 
+            key={index} 
+            id={item.task_Id} 
+            status={item.task_Status} 
+        type={item.task_Type} 
+        title={item.task_Name}
+        />
+    ))
+) : null}
+          { (!taskListAdmin || taskListAdmin.length === 0) ? "No task data available. Check the server.":""}
         </div>
       </div>
       
