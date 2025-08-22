@@ -4,3 +4,14 @@
 
 ## Authors
 - Exelenze (<a href="https://x.com/exilenze" target="_blank" about="_blank">@exilenze</a>)
+
+
+
+## Installation 
+
+- Utwórz folder
+- Plik [git -clone {link_do_repo}] w folderze.
+- Cd nazwa_folderu. 
+- npm install (vite zainstaluje wszystkie dependencje)
+- npm run dev 
+- enter localhost://5173
