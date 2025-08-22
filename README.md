@@ -3,4 +3,4 @@
 ### Made for Formalfoundry:
 
 ## Authors
-- Exelenze ([@exilenze](https://x.com/exilenze))
+- Exelenze (<a href="https://x.com/exilenze" target="_blank">@exilenze</a>)
