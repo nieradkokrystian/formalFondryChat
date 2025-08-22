@@ -50,10 +50,12 @@ const LoginPage = () => {
           <div className="w-fit ">
             <form
               className="login-form bg-white w-full h-fit "
-              onSubmit={handleSubmit}>
+              onSubmit={handleSubmit}
+            >
               <label
                 htmlFor="username"
-                className="text-sm text-gray-600 tracking-wider">
+                className="text-sm text-gray-600 tracking-wider"
+              >
                 Username:
               </label>
               <input

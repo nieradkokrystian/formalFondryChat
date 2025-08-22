@@ -60,7 +60,7 @@ function AppContent() {
 
   return (
     <>
-      {username && (
+      {username && id != undefined && (
         <>
           <SidebarComponent
             isOpen={isSidebarOpen}
@@ -70,22 +70,25 @@ function AppContent() {
           />
           <div
             className={`Sidebar-backdrop ${isSidebarOpen ? "is-visible" : ""}`}
-            onClick={handleToggleSidebar}></div>
+            onClick={handleToggleSidebar}
+          ></div>
         </>
       )}
       <div className={`main-content ${isSidebarOpen ? "main-content" : ""}`}>
-        {username && !location.pathname.includes("/docs") && (
-          <Navbar
-            id={id}
-            onToggleSidebar={handleToggleSidebar}
-            onTaskCreated={fetchTaskList}
-          />
-        )}
+        {username &&
+          !location.pathname.includes("/docs") &&
+          !location.pathname.includes("/login") && (
+            <Navbar
+              id={id}
+              onToggleSidebar={handleToggleSidebar}
+              onTaskCreated={fetchTaskList}
+            />
+          )}
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="*" element={<HomePage />} />
+          <Route path="*" element={<LoginPage />} />
           <Route path="/docs" element={<Docs />} />
           <Route
             path="/chat/:chatId"
@@ -102,10 +105,11 @@ function AppContent() {
             path="/docs/introduction"
             element={<Docs page={<Introduction />} />}
           />
-          <Route path="/admin/326483545732548981349134gfjkdgf4783gf7ig437fg437fg437f64gf874fgohurghdf78gdft7gfd87ogoftd67" element={<Admin/>} />
+          <Route
+            path="/admin/326483545732548981349134gfjkdgf4783gf7ig437fg437fg437f64gf874fgohurghdf78gdft7gfd87ogoftd67"
+            element={<Admin />}
+          />
         </Routes>
-
-
       </div>
     </>
   );

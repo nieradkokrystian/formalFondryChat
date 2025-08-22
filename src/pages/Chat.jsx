@@ -30,7 +30,7 @@ const Chat = () => {
     axios
       .get(`${API_LINK}/taskstate/${chatId}/states/latest`)
       .then((response) => {
-        setCurrentSteps(response.data.stateData._stepCount);
+        setCurrentSteps(response.data.stateData?._stepCount);
       });
 
     axios

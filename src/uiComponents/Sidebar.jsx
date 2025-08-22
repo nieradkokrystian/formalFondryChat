@@ -19,7 +19,8 @@ function SidebarComponent({
         discover="none"
         to={`/chat/${id}`}
         prefetch="render"
-        preventScrollReset>
+        preventScrollReset
+      >
         <div
           className={`orb w-2 h-2 rounded-full left-[1px] absolute  aspect-square ${
             status == "resolved"
@@ -27,7 +28,8 @@ function SidebarComponent({
               : "" || status == "exceeded"
               ? "bg-red-500"
               : "bg-blue-400"
-          }`}></div>
+          }`}
+        ></div>
         <h1 className="w-[70%] overflow-hidden">{title}</h1>
 
         <div className="hidden group-hover:block">
@@ -36,13 +38,17 @@ function SidebarComponent({
       </Link>
     );
   };
-  console.table(taskList);
+
   return (
     <div className={`Sidebar ${isOpen ? "is-open" : ""}`}>
       <div className="Sidebar-Header relative justify-between flex">
         <h1>My Tasks</h1>
         <div className="w-4 h-4 overflow-clip aspect-square flex justify-center items-center">
-          <CreateTaskScreen onTaskCreated={onTaskCreated} active={true} text={""} />
+          <CreateTaskScreen
+            onTaskCreated={onTaskCreated}
+            active={true}
+            text={""}
+          />
         </div>
       </div>
       <div className="Sidebar-Body ">
