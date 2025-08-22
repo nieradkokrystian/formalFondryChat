@@ -8,6 +8,9 @@ CHANGE MESSAGES LOGIC  messages.jsx
 WORKSPACE:
 
 - need to move css files to styles folder, rewrite every pathname that will break
+- maybe change component names? Segregate them? 
+- move the animations/textype to src/animations
+- In case something doesn't work, and empty chat is displayed, make empty chat better (currently, it's nothing more than a placeholder)
 
 
 chat.jsx add a filter
@@ -21,6 +24,9 @@ DOCS:
 
 --Have fun making it responsive. Made with tailwind, so it should be fairly simple. No time to fix. 
 --make the sidebar an extendable, perhaps a button or a "peeking" sidebar(only a bit of it visible and expanded on click)
+!!! The entire page works by passing down an erlier created component e.g. "Introduction.mdx" to the Docs.jsx component in <Routes> in App.jsx. The "page" prop receives the component. !!!
+
+-perhaps make the routes auto generate? like one big JSON from which we read the paths? or use Routes.js i created to store the additional routes in an object and export it into app.jsx to generate them dynamically? 
 
 CLEAR CONSOLE LOGS -- TOO LAZY
 
@@ -55,3 +61,10 @@ REWORK EVERYTHING If WEBSOCKETs EVER APPEAR
 INPUTCOMPONENT.JSX 
 
 - FIT BOTH ENV INFO AND LAST HUNDRED MESSAGES CHECKBOX somewhere where it looks good (currently it glaring)
+
+
+
+
+DOCS.JSX:
+
+

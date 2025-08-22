@@ -96,7 +96,7 @@ const InputComponent = ({
   };
 
   const isInputDisabled = () => {
-    return  exceeded;
+    return exceeded;
   };
 
   const getPlaceholderText = () => {
@@ -108,7 +108,7 @@ const InputComponent = ({
 
   return (
     <>
-      <Checkbox/>
+      <Checkbox />
       <div className="fixed  lg:left-500 left-4 top-13 flex items-center text-xs opacity-100 z-20 bg-white border-1 overflow-clip border-gray-400 lg:min-h-[40px] min-h-[16px] max-w-[60px] box-border h-7  min-w-fit text-md shadow-md rounded-4xl text-gray-500">
         <span className="lg:h-[40px] h-[16px] pr-1 text-base-sm/6  hover:text-gray-900 hover:bg-gray-300 p-3 flex items-center">
           {LLM}
@@ -118,9 +118,10 @@ const InputComponent = ({
           Steps: {currentSteps}/{steps}
         </span>{" "}
       </div>
-      
+
       <div
-        className={`input-wrap ${exceeded || isResolved ? "opacity-0" : ""}`}>
+        className={`input-wrap ${exceeded || isResolved ? "opacity-0" : ""}`}
+      >
         <textarea
           placeholder={getPlaceholderText()}
           onChange={(e) => {
@@ -138,7 +139,8 @@ const InputComponent = ({
         <button
           className="SubmitPrompt"
           onClick={handleSend}
-          disabled={isInputDisabled()}>
+          disabled={isInputDisabled()}
+        >
           <ArrowTopRightIcon />
         </button>
         {/* <ToastContainer /> */}

@@ -22,7 +22,7 @@ const Chat = () => {
   const [currentSteps, setCurrentSteps] = useState(0);
   const [llm, setLlm] = useState("gpt-3");
   const scrollBottom = useRef(false);
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(false);
 
   const API_LINK = import.meta.env.VITE_API_BASE;
 
@@ -45,24 +45,23 @@ const Chat = () => {
       });
   }, [chatId]);
 
+  const scrollToBottom = () => {
+    const chatElement = scrollBottom.current;
+    if (!chatElement) return;
 
-const scrollToBottom = () => {
-  const chatElement = scrollBottom.current;
-  if (!chatElement) return;
+    const isAtBottom =
+      chatElement.scrollHeight - chatElement.scrollTop <=
+      chatElement.clientHeight + 100;
 
-  const isAtBottom =
-    chatElement.scrollHeight - chatElement.scrollTop <=
-    chatElement.clientHeight + 100; 
-
-  if (isAtBottom) {
-    setTimeout(() => {
-      chatElement.scrollTo({
-        top: chatElement.scrollHeight,
-        behavior: "smooth",
-      });
-    }, 100);
-  }
-};
+    if (isAtBottom) {
+      setTimeout(() => {
+        chatElement.scrollTo({
+          top: chatElement.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 100);
+    }
+  };
   const canUserRespond = (messageList) => {
     if (!messageList || messageList.length === 0) return true;
     const lastMessage = messageList[messageList.length - 1];
@@ -169,10 +168,9 @@ const scrollToBottom = () => {
     setExceeded(!canUserRespond(messages));
   }, [messages]);
 
-
   // ? SCROLL BOTTOM
   useEffect(() => {
-    scrollToBottom(); 
+    scrollToBottom();
   }, [chatId, messages]);
 
   useEffect(() => {
@@ -236,32 +234,42 @@ const scrollToBottom = () => {
     messages.length > 0 &&
     messages[messages.length - 1]?.cmCmdWS?.tag === "UserReq";
 
- const displayedMessages = isChecked ? messages.slice(-100): messages;
+  const displayedMessages = isChecked ? messages.slice(-100) : messages;
 
   const Checkbox = () => {
-console.log(isChecked, displayedMessages)
-      return (
-       <div className="fixed flex-row  flex top-30 right-50 h-10 items-center rounded-full px-3 justify-center border-1 border-gray-400 text-gray-500 bg-white gap-1  w-fit"> <h1>Last Hundred Messages?</h1><input type="checkbox" name="" className="w-7 text-gray-500 aspect-square" id="checkTrimmedArray" checked = {isChecked ? true:false} onChange={(e)=>setIsChecked(!isChecked)} /></div>
-         )
-  }
-  
-return (
-  <div
-    className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px]   h-[90vh] overflow-y-scroll pb-[60px]   max-h-[100%]"
-    ref={scrollBottom}>
+    console.log(isChecked, displayedMessages);
+    return (
+      <div className="fixed flex-row  flex top-30 right-50 h-10 items-center rounded-full px-3 justify-center border-1 border-gray-400 text-gray-500 bg-white gap-1  w-fit">
+        {" "}
+        <h1>Last Hundred Messages?</h1>
+        <input
+          type="checkbox"
+          name=""
+          className="w-7 text-gray-500 aspect-square"
+          id="checkTrimmedArray"
+          checked={isChecked ? true : false}
+          onChange={(e) => setIsChecked(!isChecked)}
+        />
+      </div>
+    );
+  };
 
-    {messages.length === 0 ? (
-      <EmptyChat />
-    ) : (
-      
-      <ChatActive
-        taskNumber={taskNumber}
-        messages={displayedMessages}
-        ref={chatContainerRef}
-      />
-    )}
-    <InputComponent
-        Checkbox = {Checkbox}
+  return (
+    <div
+      className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px]   h-[90vh] overflow-y-scroll pb-[60px]   max-h-[100%]"
+      ref={scrollBottom}
+    >
+      {messages.length === 0 ? (
+        <EmptyChat />
+      ) : (
+        <ChatActive
+          taskNumber={taskNumber}
+          messages={displayedMessages}
+          ref={chatContainerRef}
+        />
+      )}
+      <InputComponent
+        Checkbox={Checkbox}
         exceeded={exceeded}
         LLM={llm}
         steps={steps}

@@ -18,7 +18,6 @@ import { useState } from "react";
 const Docs = ({ page }) => {
   const [open, setOpen] = useState(false);
 
-
   const Card = ({ text, icon, title }) => {
     return (
       <div className="card flex flex-col p-4 bg-white rounded-lg shadow-md min-w-64 w-fit">
@@ -58,7 +57,11 @@ const Docs = ({ page }) => {
   return (
     <div className="docs-page  h-full w-full bg-yellow-100 flex">
       <div className="side relative w-[15%] h-full overflow-y-scroll">
-        <Sidebar className={`fixed top-0 left-0 ${open ? "scale-x-100":"scale-x-10"}`} />
+        <Sidebar
+          className={`fixed top-0 left-0 ${
+            open ? "scale-x-100" : "scale-x-10"
+          }`}
+        />
       </div>
       <div className="main-docs w-[70%] h-full max-h-full  overflow-y-scroll flex flex-col items-start justify-start ">
         <div className="MainBlock overflow-y-scroll bg-white h-fit min-h-full min-w-[50%] max-w-[100%] p-4 rounded-lg shadow-lg pl-30 pt-30">
