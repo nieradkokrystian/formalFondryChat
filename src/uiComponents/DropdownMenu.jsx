@@ -3,7 +3,7 @@ import { HamburgerMenuIcon, PersonIcon, ExitIcon } from "@radix-ui/react-icons";
 import "../uiComponents/dropdown.css";
 
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../AuthContext";
+import { useUser } from "../hooks/useUser";
 import UserAvatar from "./userAvatar";
 const DropdownMenuDemo = () => {
   const navigate = useNavigate();
@@ -28,7 +28,8 @@ const DropdownMenuDemo = () => {
           className="DropdownMenuContent"
           sideOffset={15}
           side="bottom"
-          align="start">
+          align="start"
+        >
           {username && (
             <DropdownMenu.Item className="DropdownMenuItem">
               <span className=" ">{username}</span>
@@ -41,7 +42,8 @@ const DropdownMenuDemo = () => {
           {username ? (
             <DropdownMenu.Item
               onClick={handleLogout}
-              className="DropdownMenuItem cursor-target">
+              className="DropdownMenuItem cursor-target"
+            >
               <span className="text-sm">Logout</span>{" "}
               <span className="RightSlot">
                 <ExitIcon />
@@ -50,7 +52,8 @@ const DropdownMenuDemo = () => {
           ) : (
             <DropdownMenu.Item
               onClick={() => navigate("/login")}
-              className="DropdownMenuItem">
+              className="DropdownMenuItem"
+            >
               <span className="text-sm">Login</span>{" "}
               <span className="RightSlot">
                 <PersonIcon />

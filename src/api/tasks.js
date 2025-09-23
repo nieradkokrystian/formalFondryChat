@@ -1,0 +1,62 @@
+import axios from "axios";
+import axiosInstance from "./axios-cache";
+const API_LINK = import.meta.env.VITE_API_BASE;
+
+// Fetch task by user id
+export async function fetchTasks(userId) {
+  const response = await axios.get(`${API_LINK}/tasks/${userId}`);
+  return response.data;
+}
+
+// Fetch available tasks
+export async function fetchAvailableTasks() {
+  const response = await axiosInstance.get(`${API_LINK}/availableTasks`);
+  return response.data;
+}
+
+// Create task
+export async function createTask(type, name, id, provider, model) {
+  const response = await axios.post(`${API_LINK}/tasks`, {
+    task_type: type,
+    task_name: name,
+    user_id: parseInt(id),
+    provider: provider,
+    model: model,
+  });
+
+  return response.data;
+}
+
+// Get latest task state
+export async function getLatestTaskState(chatId) {
+  const response = await axios.get(
+    `${API_LINK}/taskstate/${chatId}/states/latest`
+  );
+  return response.data;
+}
+
+// Get task environment
+export async function getTaskEnvironment(chatId) {
+  const response = await axios.get(`${API_LINK}/taskenv/${chatId}/env`);
+  return response.data;
+}
+
+// Get messages history
+export async function getMessagesHistory(chatId) {
+  const response = await axios.get(
+    `${API_LINK}/taskmsg/${chatId}/messages-history`
+  );
+  return response.data;
+}
+
+// Send user response
+export async function sendUserResponse(chatId, content) {
+  const response = await axios.put(
+    `${API_LINK}/tasks/${chatId}/messages/latest/user-response`,
+    {
+      content: content,
+      task_id: chatId,
+    }
+  );
+  return response.data;
+}

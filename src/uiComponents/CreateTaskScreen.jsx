@@ -1,63 +1,61 @@
-import * as React from "react";
+import "../uiComponents/dialog.css";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon, PlusCircledIcon } from "@radix-ui/react-icons";
-import PopoverSettings from "./Popover";
-import "../uiComponents/dialog.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../AuthContext";
-import { create } from "../utils/createTask";
 import { ToastContainer, toast } from "react-toastify";
-import axiosInstance from "./axios-cache";
+import { useUser } from "../hooks/useUser";
+import { createTask, fetchAvailableTasks } from "../api/tasks";
+import PopoverSettings from "./Popover";
 
-const CreateTaskScreen = ({ onTaskCreated, text, active }) => {
+const CreateTaskScreen = ({ text, active }) => {
   const navigate = useNavigate();
-  const { username, id } = useUser();
-  const [TaskName, setTaskName] = useState("");
-  const [TaskType, setTaskType] = useState("typeRefiner");
+  const { username, id, logout } = useUser();
+  const [taskName, setTaskName] = useState("");
+  const [taskType, setTaskType] = useState("typeRefiner");
   const [taskList, setTaskList] = useState([]);
   const [provider, setProvider] = useState("OpenAI");
   const [model, setModel] = useState("gpt-3");
   const [prompt, setPrompt] = useState("");
-  const API_LINK = import.meta.env.VITE_API_BASE;
-  console.log(taskList);
+
   function isJson(str) {
     try {
       JSON.parse(str);
       return true;
-    } catch (e) {
+    } catch {
       return false;
     }
   }
 
   useEffect(() => {
-    const fetchAvailableTasks = async () => {
+    const fetchAvTasks = async () => {
       try {
-        const response = await axiosInstance.get(`${API_LINK}/availableTasks`);
-        setTaskList(response.data);
+        const avTasks = await fetchAvailableTasks();
+        setTaskList(avTasks);
       } catch (error) {
-        console.error("Failed to fetch available tasks:", error);
+        console.error("Failed to fetch available tasks: ", error);
       }
     };
-    fetchAvailableTasks();
-  }, [API_LINK]);
+
+    fetchAvTasks();
+  }, []);
 
   const handleCreateTask = async (e) => {
     if (isJson(prompt)) {
       const uniqueId = Math.random().toString(36).substring(2, 9);
 
-      const finalTaskName = TaskName.trim() === "" ? uniqueId : TaskName;
+      const finalTaskName = taskName.trim() === "" ? uniqueId : taskName;
 
       if (!username) {
         console.warn("User not logged in. Cannot create chat task.");
+        logout();
         navigate("/login");
         return;
       }
 
       try {
-        const newTask = await create(
-          `${API_LINK}/tasks`,
-          TaskType,
+        const newTask = await createTask(
+          taskType,
           finalTaskName,
           id,
           provider,
@@ -70,7 +68,7 @@ const CreateTaskScreen = ({ onTaskCreated, text, active }) => {
           navigate(`/chat/${newTaskId}`, {
             state: {
               TaskName: finalTaskName,
-              TaskType,
+              TaskType: taskType,
               username: username,
             },
           });
@@ -82,6 +80,7 @@ const CreateTaskScreen = ({ onTaskCreated, text, active }) => {
       }
     } else {
       e.preventDefault();
+
       toast.error("Invalid JSON format. Please check your input.", {
         position: "bottom-left",
         closeOnClick: true,
@@ -100,7 +99,7 @@ const CreateTaskScreen = ({ onTaskCreated, text, active }) => {
           <PlusCircledIcon
             alignmentBaseline="center"
             style={{ fontSize: "18px", width: "18px", height: "18px" }}
-          />{" "}
+          />
         </button>
       </Dialog.Trigger>
       {active && (
@@ -118,10 +117,12 @@ const CreateTaskScreen = ({ onTaskCreated, text, active }) => {
               <input
                 className="Input"
                 type="text"
+                value={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
                 placeholder="If empty, we'll set it to a generated name"
               />
             </fieldset>
+
             <fieldset className="Fieldset">
               <label className="Label" htmlFor="Type">
                 Task Type
@@ -131,7 +132,7 @@ const CreateTaskScreen = ({ onTaskCreated, text, active }) => {
                 className="Input"
                 id="Type"
                 onChange={(e) => setTaskType(e.target.value)}
-                value={TaskType}
+                value={taskType}
               >
                 {taskList?.map((name, index) => {
                   return (

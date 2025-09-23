@@ -1,21 +1,21 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
-
   const [id, setId] = useState(null);
   const [isAuthReady, setIsAuthReady] = useState(false);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     const storedId = localStorage.getItem("id");
+
     if (storedUsername) {
       setUsername(storedUsername);
-
       setId(storedId);
     }
+
     setIsAuthReady(true);
   }, []);
 
@@ -40,10 +40,4 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
-  }
-  return context;
-};
+export default UserContext;

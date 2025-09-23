@@ -1,11 +1,10 @@
-import * as React from "react";
 import { Popover } from "radix-ui";
 import { GearIcon, Cross2Icon } from "@radix-ui/react-icons";
 import "../uiComponents/popover.css";
 import { useState, useEffect } from "react";
-import axiosInstance from "./axios-cache";
+import { fetchLlmList } from "../api/app";
 
-const PopoverSettings = ({ setModel, setProvider ,setPrompt, prompt }) => {
+const PopoverSettings = ({ setModel, setProvider, setPrompt, prompt }) => {
   const [llmProviders, setLlmProviders] = useState([]);
   const [selectedProvider, setSelectedProvider] = useState("");
   const [availableModels, setAvailableModels] = useState([]);
@@ -14,12 +13,13 @@ const PopoverSettings = ({ setModel, setProvider ,setPrompt, prompt }) => {
   const API_LINK = import.meta.env.VITE_API_BASE;
 
   useEffect(() => {
-    const fetchLlmList = async () => {
+    const getLlmList = async () => {
       try {
-        const response = await axiosInstance.get(`${API_LINK}/llm_list`);
-        setLlmProviders(response.data);
-        if (response.data.length > 0) {
-          const firstProvider = response.data[0];
+        const listData = await fetchLlmList();
+
+        setLlmProviders(listData);
+        if (listData.length > 0) {
+          const firstProvider = listData[0];
           setSelectedProvider(firstProvider.provider_name);
           setAvailableModels(firstProvider.models);
           const firstModel = firstProvider.models[0];
@@ -32,7 +32,7 @@ const PopoverSettings = ({ setModel, setProvider ,setPrompt, prompt }) => {
         console.error("Failed to fetch LLM list:", error);
       }
     };
-    fetchLlmList();
+    getLlmList();
   }, [API_LINK, setModel, setProvider]);
 
   const handleProviderChange = (e) => {
@@ -76,11 +76,13 @@ const PopoverSettings = ({ setModel, setProvider ,setPrompt, prompt }) => {
                 className="Input"
                 id="provider"
                 onChange={handleProviderChange}
-                value={selectedProvider}>
+                value={selectedProvider}
+              >
                 {llmProviders.map((provider) => (
                   <option
                     key={provider.provider_name}
-                    value={provider.provider_name}>
+                    value={provider.provider_name}
+                  >
                     {provider.provider_name}
                   </option>
                 ))}
@@ -94,7 +96,8 @@ const PopoverSettings = ({ setModel, setProvider ,setPrompt, prompt }) => {
                 className="Input"
                 id="model"
                 onChange={handleModelChange}
-                value={selectedModel}>
+                value={selectedModel}
+              >
                 {availableModels.map((model) => (
                   <option key={model} value={model}>
                     {model}
@@ -105,10 +108,15 @@ const PopoverSettings = ({ setModel, setProvider ,setPrompt, prompt }) => {
             <fieldset className="Fieldset flex flex-col">
               <label className="Label" htmlFor="Prompt">
                 Your Custom Prompt (JSON format):
-              </label> 
-              <textarea className="Input min-w-4/5 w-full h-fit min-h-30 p-2 pt-1" id="prompt" onChange={(e)=> {
-                setPrompt(e.target.value);
-              }} value={prompt} />
+              </label>
+              <textarea
+                className="Input min-w-4/5 w-full h-fit min-h-30 p-2 pt-1"
+                id="prompt"
+                onChange={(e) => {
+                  setPrompt(e.target.value);
+                }}
+                value={prompt}
+              />
             </fieldset>
           </div>
           <Popover.Close className="PopoverClose" aria-label="Close">

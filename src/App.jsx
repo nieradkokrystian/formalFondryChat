@@ -1,42 +1,35 @@
 import "./App.css";
-import LoginPage from "./pages/LoginPage";
-import { HomePage } from "./pages/HomePage";
-import { Chat } from "./pages/Chat";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
-import Navbar from "./uiComponents/Navbar";
-import { UserProvider, useUser } from "./AuthContext";
+import { useUser } from "./hooks/useUser";
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import SidebarComponent from "./uiComponents/Sidebar";
-import Docs from "./pages/Docs";
-import TargetCursor from "./animations/TargetCursor/TargetCursor";
-import Introduction from "./mdxPages/Introduction.mdx";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import AuthPage from "./pages/AuthPage";
+import HomePage from "./pages/HomePage";
+import Chat from "./pages/Chat";
 import Admin from "./pages/Admin";
+import Docs from "./pages/Docs";
+import Navbar from "./uiComponents/Navbar";
+import SidebarComponent from "./uiComponents/Sidebar";
+import Introduction from "./mdxPages/Introduction.mdx";
+import { fetchTasks } from "./api/tasks";
 
-function AppContent() {
-  const { username, id, isAuthReady } = useUser();
-  const [taskList, setTaskList] = useState([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const API_LINK = import.meta.env.VITE_API_BASE;
+function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname);
+
+  const [taskList, setTaskList] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { username, id, isAuthReady } = useUser();
+
   const fetchTaskList = useCallback(async () => {
     if (id) {
       try {
-        const response = await axios.get(`${API_LINK}/tasks/${id}`);
-        setTaskList(response.data);
+        const userTasks = await fetchTasks(id);
+        setTaskList(userTasks);
       } catch (error) {
-        console.error("Failed to fetch task list:", error);
+        console.error("Failed to fetch task list: ", error);
       }
     }
-  }, [API_LINK, id]);
+  }, [id]);
 
   useEffect(() => {
     if (username) {
@@ -54,13 +47,13 @@ function AppContent() {
     );
   }
 
-  const handleToggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const handleToggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+
+  const isAuthenticated = username && id != undefined;
 
   return (
     <>
-      {username && id != undefined && (
+      {isAuthenticated && (
         <>
           <SidebarComponent
             isOpen={isSidebarOpen}
@@ -74,54 +67,47 @@ function AppContent() {
           ></div>
         </>
       )}
+
       <div className={`main-content ${isSidebarOpen ? "main-content" : ""}`}>
-        {username &&
-          !location.pathname.includes("/docs") &&
-          !location.pathname.includes("/login") && (
-            <Navbar
-              id={id}
-              onToggleSidebar={handleToggleSidebar}
-              onTaskCreated={fetchTaskList}
-            />
-          )}
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="*" element={<LoginPage />} />
-          <Route path="/docs" element={<Docs />} />
-          <Route
-            path="/chat/:chatId"
-            element={
-              <Chat
-                id={id}
-                isSidebarOpen={isSidebarOpen}
-                onToggleSidebar={handleToggleSidebar}
-                onTaskCreated={fetchTaskList}
+        {isAuthenticated && !location.pathname.includes("/docs") && (
+          <Navbar
+            id={id}
+            onToggleSidebar={handleToggleSidebar}
+            onTaskCreated={fetchTaskList}
+          />
+        )}
+
+        {!isAuthenticated && (
+          <Routes>
+            <Route path="*" element={<AuthPage />} />
+            <Route path="/login" element={<AuthPage />} />
+          </Routes>
+        )}
+
+        {isAuthenticated && (
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/docs">
+              <Route index element={<Docs />} />
+              <Route
+                path="introduction"
+                element={<Docs page={<Introduction />} />}
               />
-            }
-          />
-          <Route
-            path="/docs/introduction"
-            element={<Docs page={<Introduction />} />}
-          />
-          <Route
-            path="/admin/326483545732548981349134gfjkdgf4783gf7ig437fg437fg437f64gf874fgohurghdf78gdft7gfd87ogoftd67"
-            element={<Admin />}
-          />
-        </Routes>
+            </Route>
+
+            <Route path="/chat/:chatId" element={<Chat />} />
+
+            <Route
+              path="/admin/326483545732548981349134gfjkdgf4783gf7ig437fg437fg437f64gf874fgohurghdf78gdft7gfd87ogoftd67"
+              element={<Admin />}
+            />
+
+            <Route path="*" element={<HomePage />} />
+          </Routes>
+        )}
       </div>
     </>
-  );
-}
-
-function App() {
-  return (
-    <UserProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </UserProvider>
   );
 }
 

@@ -1,11 +1,17 @@
+import App from "./App.jsx";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { UserProvider } from "./AuthContext.jsx";
+import { BrowserRouter } from "react-router";
+
 import "./index.css";
-import App from "./App.jsx";
-import TargetCursor from "./animations/TargetCursor/TargetCursor.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <UserProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </UserProvider>
   </StrictMode>
 );

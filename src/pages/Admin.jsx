@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import axios from "axios";
 import SeparatorDemo from "../uiComponents/Separator";
 import { toast, ToastContainer } from "react-toastify";
-import { useUser } from "../AuthContext";
 
 const Admin = () => {
   const [taskListAdmin, setTaskListAdmin] = useState([]);

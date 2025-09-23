@@ -1,48 +1,55 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useUser } from "../AuthContext";
+import { useUser } from "../hooks/useUser";
 import InputComponent from "../uiComponents/InputComponent";
 import EmptyChat from "../uiComponents/EmptyChat";
 import ChatActive from "../uiComponents/ChatWithMessages";
-import axios from "axios";
-import "../uiComponents/chat.css";
+import "../uiComponents/Chat/chat.css";
+import {
+  getLatestTaskState,
+  getTaskEnvironment,
+  getMessagesHistory,
+  sendUserResponse,
+} from "../api/tasks";
 
 const Chat = () => {
   const navigate = useNavigate();
   const { chatId } = useParams();
   const { username, isAuthReady, id: userId } = useUser();
+
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLLMThinking, setIsLLMThinking] = useState(false);
   const [exceeded, setExceeded] = useState(false);
   const [taskNumber, setTaskNumber] = useState("");
-  const pollingInterval = useRef(null);
-  const chatContainerRef = useRef(null);
   const [steps, setSteps] = useState("20");
   const [currentSteps, setCurrentSteps] = useState(0);
   const [llm, setLlm] = useState("gpt-3");
-  const scrollBottom = useRef(false);
   const [isChecked, setIsChecked] = useState(false);
 
-  const API_LINK = import.meta.env.VITE_API_BASE;
+  const pollingInterval = useRef(null);
+  const chatContainerRef = useRef(null);
+  const scrollBottom = useRef(false);
 
   useEffect(() => {
-    axios
-      .get(`${API_LINK}/taskstate/${chatId}/states/latest`)
-      .then((response) => {
-        setCurrentSteps(response.data.stateData?._stepCount);
-      });
+    const fetchInitialData = async () => {
+      try {
+        const taskStateData = await getLatestTaskState(chatId);
+        setCurrentSteps(taskStateData.stateData?._stepCount);
+      } catch (error) {
+        console.error("Error fetching task state:", error);
+      }
 
-    axios
-      .get(`${API_LINK}/taskenv/${chatId}/env`)
-      .then((response) => {
-        setSteps(response.data._maxSteps);
-        setLlm(response.data._llmModel);
-        console.log("worked here", steps, llm);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      try {
+        const envData = await getTaskEnvironment(chatId);
+        setSteps(envData._maxSteps);
+        setLlm(envData._llmModel);
+      } catch (error) {
+        console.error("Error fetching task environment:", error);
+      }
+    };
+
+    fetchInitialData();
   }, [chatId]);
 
   const scrollToBottom = () => {
@@ -62,6 +69,7 @@ const Chat = () => {
       }, 100);
     }
   };
+
   const canUserRespond = (messageList) => {
     if (!messageList || messageList.length === 0) return true;
     const lastMessage = messageList[messageList.length - 1];
@@ -92,26 +100,23 @@ const Chat = () => {
 
     pollingInterval.current = setInterval(async () => {
       try {
-        const response = await axios.get(
-          `${API_LINK}/taskmsg/${chatId}/messages-history`
-        );
-        const newMessages = response.data;
+        const newMessages = await getMessagesHistory(chatId);
 
         const filteredNewMessages = newMessages.filter(
           (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
         );
         setMessages(filteredNewMessages);
         setIsLLMThinking(false);
+
         if (chatId) {
           try {
-            const taskResponse = await axios.get(
-              `${API_LINK}/taskstate/${chatId}/states/latest`
-            );
-            setCurrentSteps(taskResponse.data.stateData._stepCount);
+            const taskData = await getLatestTaskState(chatId);
+            setCurrentSteps(taskData.stateData._stepCount);
           } catch (error) {
-            console.error("Error fetching task state:", error);
+            console.error("Error fetching task state during polling:", error);
           }
         }
+
         if (shouldStopPolling(newMessages)) {
           clearInterval(pollingInterval.current);
           pollingInterval.current = null;
@@ -145,14 +150,7 @@ const Chat = () => {
     setIsLLMThinking(true);
 
     try {
-      await axios.put(
-        `${API_LINK}/tasks/${chatId}/messages/latest/user-response`,
-        {
-          content: inputValue,
-          task_id: chatId,
-        }
-      );
-
+      await sendUserResponse(chatId, inputValue);
       startPolling();
     } catch (error) {
       console.error("Error sending message:", error);
@@ -179,15 +177,14 @@ const Chat = () => {
     const fetchInitialMessages = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(
-          `${API_LINK}/taskmsg/${chatId}/messages-history`
-        );
-        const initialMessages = response.data.filter(
+        const messagesData = await getMessagesHistory(chatId);
+
+        const initialMessages = messagesData.filter(
           (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
         );
         setMessages(initialMessages);
 
-        const lastMessage = response.data[response.data.length - 1];
+        const lastMessage = messagesData[messagesData.length - 1];
         const shouldBeThinking =
           lastMessage?.cmCmdWS?.tag === "UserRes" &&
           lastMessage?.taskStatWS === "running";
@@ -200,7 +197,7 @@ const Chat = () => {
           };
           setMessages((prev) => [...prev, thinkingMessage]);
           startPolling();
-        } else if (!shouldStopPolling(response.data)) {
+        } else if (!shouldStopPolling(messagesData)) {
           startPolling();
         }
       } catch (error) {
@@ -219,7 +216,7 @@ const Chat = () => {
         pollingInterval.current = null;
       }
     };
-  }, [chatId, API_LINK]);
+  }, [chatId]);
 
   useEffect(() => {
     if (isAuthReady && !username) {
@@ -230,29 +227,12 @@ const Chat = () => {
   if (!isAuthReady || isLoading) {
     return <div>Loading...</div>;
   }
+
   const lastMessageIsUserReq =
     messages.length > 0 &&
     messages[messages.length - 1]?.cmCmdWS?.tag === "UserReq";
 
   const displayedMessages = isChecked ? messages.slice(-100) : messages;
-
-  const Checkbox = () => {
-    console.log(isChecked, displayedMessages);
-    return (
-      <div className="fixed flex-row  flex top-30 right-50 h-10 items-center rounded-full px-3 justify-center border-1 border-gray-400 text-gray-500 bg-white gap-1  w-fit">
-        {" "}
-        <h1>Last Hundred Messages?</h1>
-        <input
-          type="checkbox"
-          name=""
-          className="w-7 text-gray-500 aspect-square"
-          id="checkTrimmedArray"
-          checked={isChecked ? true : false}
-          onChange={(e) => setIsChecked(!isChecked)}
-        />
-      </div>
-    );
-  };
 
   return (
     <div
@@ -269,7 +249,8 @@ const Chat = () => {
         />
       )}
       <InputComponent
-        Checkbox={Checkbox}
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}
         exceeded={exceeded}
         LLM={llm}
         steps={steps}
@@ -282,4 +263,4 @@ const Chat = () => {
   );
 };
 
-export { Chat };
+export default Chat;

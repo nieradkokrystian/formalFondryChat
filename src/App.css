@@ -39,14 +39,16 @@
 button[type="submit"] {
   background-color: var(--color-primary);
   color: var(--color-background);
-  margin-top: var(--text-xs);
+  /* margin-top: var(--text-xs); */
   padding: 8px;
   border-radius: var(--radius-md);
   -webkit-border-radius: var(--radius-md);
   -moz-border-radius: var(--radius-md);
   -ms-border-radius: var(--radius-md);
   -o-border-radius: var(--radius-md);
+  cursor: pointer;
 }
+
 .inputButton {
   color: black;
   box-shadow: inset 0px 1px 2px 1px var(--color-gray-300);
@@ -76,18 +78,18 @@ button[type="submit"] {
     }
   }
 }
-button.background{
+button.background {
   z-index: 21;
   width: 50%;
   text-align: center;
-  
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-#selectId{
-  padding: 8px; 
+#selectId {
+  padding: 8px;
   width: 60px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -96,9 +98,9 @@ button.background{
   -ms-border-radius: var(--radius-md);
   -o-border-radius: var(--radius-md);
 }
-#selectId:focus{
+#selectId:focus {
   outline: none;
 }
-#checkTrimmedArray{
+#checkTrimmedArray {
   color: black;
 }

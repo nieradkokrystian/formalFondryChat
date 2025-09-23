@@ -1,7 +1,7 @@
 import ShinyText from "./ShinyText";
 import "./emptychat.css";
 import { extractNameFromEmail } from "../utils/extractName";
-import { useUser } from "../AuthContext";
+import { useUser } from "../hooks/useUser";
 import GlassPanel from "./Pulsing";
 
 const EmptyChat = () => {

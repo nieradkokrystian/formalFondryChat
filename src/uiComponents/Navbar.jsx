@@ -3,7 +3,7 @@ import "../styles/navbar.css";
 import "./sidebar.css";
 import DropdownMenuDemo from "./DropdownMenu";
 import CreateTaskScreen from "./CreateTaskScreen";
-import { useUser } from "../AuthContext";
+import { useUser } from "../hooks/useUser";
 
 const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
   const { username } = useUser();
@@ -13,14 +13,15 @@ const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
       <div className="nav-wrap">
         <button
           className="Sidebar-toggle cursor-target"
-          onClick={onToggleSidebar}>
+          onClick={onToggleSidebar}
+        >
           <GridIcon width={20} height={20} />
         </button>
 
         <DropdownMenuDemo username={username} />
 
         <CreateTaskScreen
-        active={true}
+          active={true}
           id={id}
           text={"Create Task"}
           onTaskCreated={onTaskCreated}

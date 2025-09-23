@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../AuthContext";
-import axios from "axios";
+import { useUser } from "../hooks/useUser";
 import Logo from "../uiComponents/Logo";
 import CreateTaskScreen from "../uiComponents/CreateTaskScreen";
 import { GridIcon } from "@radix-ui/react-icons";
@@ -17,6 +16,7 @@ import {
   MobileIcon,
   MagnifyingGlassIcon,
 } from "@radix-ui/react-icons";
+
 const HomePage = () => {
   const navigate = useNavigate();
   const { username, isAuthReady } = useUser();
@@ -77,7 +77,8 @@ const HomePage = () => {
           colors={["#4f46e5", "#aebac7", "#4338ca", "#4f46e5"]}
           animationSpeed={7}
           className="text-4xl "
-          showBorder={false}>
+          showBorder={false}
+        >
           <TextType
             className=" text-3xl mb-1"
             text={[
@@ -109,11 +110,11 @@ const HomePage = () => {
           easing="ease-in-out"
           delay={100}
           threshold={0.1}
-          initialOpacity={0}>
+          initialOpacity={0}
+        >
           <div
-            className={`introduction ${
-              display ? "opacity-100" : "opacity-10"
-            }`}>
+            className={`introduction ${display ? "opacity-100" : "opacity-10"}`}
+          >
             <h1 className="w-full  p-2 flex justify-start items-center">
               <GradientText
                 colors={[
@@ -127,7 +128,8 @@ const HomePage = () => {
                 ]}
                 animationSpeed={3}
                 className="text-4xl "
-                showBorder={false}>
+                showBorder={false}
+              >
                 Quick Introduction
               </GradientText>
             </h1>
@@ -223,7 +225,8 @@ const HomePage = () => {
                   ]}
                   animationSpeed={3}
                   className="text-4xl "
-                  showBorder={false}>
+                  showBorder={false}
+                >
                   {" "}
                   Feeling Lost? Check this out!
                 </GradientText>
@@ -261,4 +264,4 @@ const HomePage = () => {
   );
 };
 
-export { HomePage };
+export default HomePage;
