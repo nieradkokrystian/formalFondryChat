@@ -4,12 +4,12 @@ import { useState, useEffect, useCallback } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
-import Chat from "./pages/Chat";
-import Admin from "./pages/Admin";
-import Docs from "./pages/Docs";
-import Navbar from "./uiComponents/Navbar";
-import SidebarComponent from "./uiComponents/Sidebar";
-import Introduction from "./mdxPages/Introduction.mdx";
+import Chat from "./pages/ChatPage";
+import Admin from "./pages/AdminPage";
+import Docs from "./pages/DocsPage";
+import Navbar from "./components/navbar/Navbar";
+import SidebarComponent from "./components/sidebar/Sidebar";
+import Introduction from "./documentation/mdxPages/Introduction.mdx";
 import { fetchTasks } from "./api/tasks";
 
 function App() {

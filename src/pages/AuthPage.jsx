@@ -1,7 +1,7 @@
 import { useState } from "react";
-import LightRays from "../uiComponents/FUN";
-import LoginForm from "../uiComponents/Auth/LoginForm";
-import RegisterForm from "../uiComponents/Auth/RegisterForm";
+import LightRays from "../components/auth/LightRays";
+import LoginForm from "../components/auth/LoginForm";
+import RegisterForm from "../components/auth/RegisterForm";
 
 const LoginPage = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);

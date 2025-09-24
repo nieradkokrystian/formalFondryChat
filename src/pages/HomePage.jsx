@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
-import Logo from "../uiComponents/Logo";
-import CreateTaskScreen from "../uiComponents/CreateTaskScreen";
 import { GridIcon } from "@radix-ui/react-icons";
-import TextType from "../animations/TextType";
-import FadeContent from "../animations/FadeContent";
-import SeparatorDemo from "../uiComponents/Separator";
-import GradientText from "../animations/TextAnimations/GradientText/GradientText";
-import TrueFocus from "../animations/TextAnimations/TrueFocus/TrueFocus";
-import Carousel from "../animations/Components/Carousel/Carousel";
-import { Link } from "react-router-dom";
 import {
   QuestionMarkCircledIcon,
   MobileIcon,
   MagnifyingGlassIcon,
 } from "@radix-ui/react-icons";
 
+import Logo from "../components/ui/Logo";
+import CreateTaskScreen from "../components/navbar/CreateTaskScreen";
+import FadeContent from "../components/animations/FadeContent";
+import Separator from "../components/ui/Separator";
+import GradientText from "../components/animations/GradientText";
+import TrueFocus from "../components/animations/TrueFocus";
+import Carousel from "../components/animations/Carousel";
+import TextType from "../components/animations/TextType";
+
 const HomePage = () => {
   const navigate = useNavigate();
   const { username, isAuthReady } = useUser();
-  const [redirect, setRedirect] = useState("");
-  const [value, setValue] = useState([]);
+  // const [redirect, setRedirect] = useState("");
+  // const [value, setValue] = useState([]);
   const [display, setDisplay] = useState(false);
   useEffect(() => {
     if (isAuthReady && !username) {
@@ -40,7 +40,7 @@ const HomePage = () => {
         <div className="card-title text-md lg:text-2xl whitespace-nowrap">
           {title}
         </div>
-        <SeparatorDemo></SeparatorDemo>
+        <Separator></Separator>
         <div className="card-text text-gray-500">{text}</div>
       </div>
     );
@@ -92,7 +92,7 @@ const HomePage = () => {
             pauseDuration={1500}
             textColors={"#000000"}
             startOnVisible={true}
-            onSentenceComplete={(sentence, index) => {
+            onSentenceComplete={() => {
               setDisplay(true);
             }}
           />
@@ -100,7 +100,7 @@ const HomePage = () => {
 
         <Logo />
       </div>
-      <SeparatorDemo orientation={"horizontal"} decorative={true} />
+      <Separator orientation={"horizontal"} decorative={true} />
 
       {display && (
         <FadeContent
@@ -210,7 +210,7 @@ const HomePage = () => {
               </span>{" "}
             </Link>
             {/* !LINK */} {/* !LINK */}
-            <SeparatorDemo></SeparatorDemo>
+            <Separator></Separator>
             <div className="info">
               <h1 className="p-2">
                 <GradientText

@@ -1,0 +1,270 @@
+import React from "react";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  H1,
+  Span,
+  Carousel2,
+  List,
+  Text,
+  CodeBlock,
+  AccordionDemo,
+  Important,
+  H2,
+  CenterContainer,
+  NextButton,
+  PrevButton,
+  Image,
+  Footer
+} from "../../documentation/mdxComponents/ComponentsMdx";
+import Separator from "../../components/ui/Separator";
+import Logo from "../../components/ui/Logo";
+import {  okaidia, oneLight, dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { darcula } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {
+  MagnifyingGlassIcon,
+  QuestionMarkCircledIcon,
+
+} from "@radix-ui/react-icons"
+
+<H1
+  text={[
+    "Welcome to Formal Foundry Docs.",
+    "This is an Introduction.",
+    "Let's get started!",
+  ]}
+  textColors={["#4f16e5", "#aebac7", "#4338ca", "#4f46e5"]}
+  isTyped={true}
+  className="  text-gray-600 mb-8"
+  header={true}
+/>
+<Separator className={"mb-10"}/>
+
+<H2 text={["Introduction"]} textColors={["#4f16e5", "#4338ca", "#4f46e5"]}  />
+
+
+<Text className={"text-gray-300 mb-30"}>
+
+Instead of doing docs manually every time you want to add or tweak something already existing, this set of components will allow your Mdx
+files to <Span defaultColor={false} isLink={false}>Shine</Span> and be more readable. This is only placeholder documentation---I'm fairly certain I would not make it to next week, thus, I'm leaving this here as a guide,
+so you can create your own documentation in the future. This is a simple example of how to use the components, and how to create your own documentation.
+
+
+</Text>
+
+<Important text={"This is <Important/> component."} warning={"bad"}/>
+<Important text={"It takes one prop, with three possible options."} warning={"mid"}/>
+<Important text={"[Good], [Mid], [Bad]; those names can be changed in the ComponentsMdx.jsx file. You can guess which keyword is which."} warning={"good"}/>
+<Separator className={"mb-10"}/>
+
+
+
+<H1 text={["This is an Example. Please don't take it too seriously. This is [<H1 />] component. "]}  header={true}/>
+<Text className={`mb-10`}> <Span>[H1]</Span> component is a typical heading. It takes a total of five props:
+<Span defaultColor={true}>text</Span>,<Span defaultColor={true}>className</Span>,<Span defaultColor={true}>textColors</Span>,<Span defaultColor={true}>isTyped</Span> and <Span defaultColor={true}>header</Span>.
+Respectively, the types are: <Span defaultColor={true}>array of strings</Span>, <Span defaultColor={true}>css classess</Span>, 
+<Span defaultColor={true}>array of colors in hex</Span>, <Span defaultColor={true}>boolean</Span> and <Span defaultColor={true}>boolean</Span>. </Text>
+
+<List Items={[{title: "text", description:"The texts to display. If only one is chosen, or isTyped == false, the text will be just static."},{title: "className", description:"Self-explanatory."},{title: "textColors", description:"Array of colors for gradient. If you don't want to use gradients, it's fine - it works great even if a single color is provided."},{title: "isTyped", description:"Enables the typing animation and multiple interchangeable texts."},{title: "header", description:"Changes the font size to a bigger one."}]} />
+
+
+<Text className={`mb-10`}> As you probably see, we can place blocks here and all those beautiful things.
+ This is a placeholder, since it's my last week, I probably won't have a chance to finish the whole documentation
+  in time. This is a comprehensive guide to how to create the documentation by yourself if need arises.
+   This is a <Span>Code Block</Span>; you can use it in various ways, such as displaying objects or full
+    <Span defaultColor={true}> code snippets. </Span> </Text>
+<CodeBlock language={"json"} code={`[
+   {
+       "models": [
+           "gpt-4o",
+           "gpt-4-turbo",
+           "gpt-4",
+           "gpt-3.5-turbo",
+           "text-davinci-003"
+       ],
+       "provider_name": "OpenAI"
+   },
+   {
+       "models": [
+           "claude-3-opus-20240229",
+           "claude-3-sonnet-20240229",
+           "claude-3-haiku-20240307",
+           "claude-2.1",
+           "claude-instant-1.2"
+       ],
+       "provider_name": "Anthropic"
+   },
+   {
+       "models": [
+           "mistral-tiny",
+           "mistral-small",
+           "mistral-medium",
+           "mistral-7b-instruct",
+           "mixtral-8x7b"
+       ],
+       "provider_name": "Mistral"
+   }
+]
+`}/>  
+
+
+<H2 text={["Supported Languages Consist of:"]} className={`mt-10`}/>
+<Text className={`mb-10`}>
+  The following languages are supported by the <Span defaultColor={true}>CodeBlock</Span> component. It takes the prop <Span defaultColor={true}>language</Span> to specify the language of the code snippet, and <Span> code </Span>, which is a string containing the code to be displayed.
+  You can use it to display code snippets in various languages, such as: 
+</Text>
+<List isLink={true} defaultColor={false} Items = {[{title:"Agda", description:""},{title:"Javascript", description:""},{title:"JSON", description:""},{title:"Elixir", description:""},{title:"Rust", description:""},{title:"python", description:""}]} />
+
+<Text className={`mb-10`}>
+  And many, many more! You can find the full list of supported languages in the
+  <Span defaultColor={true} isLink={true} defaultColor={true} path={"https://github.com/react-syntax-highlighter/react-syntax-highlighter#supported-languages"}> React Syntax Highlighter documentation</Span>.
+  It wouldn't be the end without some grand topping, would it? With the use of <Span defaultColor={true}>theme</Span> prop, you can style the code output as you wish! 
+Brows and hhoose from many themes, available on <Span isLink={true} path={"https://github.com/react-syntax-highlighter/react-syntax-highlighter/blob/master/AVAILABLE_STYLES_PRISM.MD"}> here!</Span> 
+</Text>
+
+
+<H2 text={["Here, another theme!"]} className={`mt-10`}/>
+<CodeBlock language={"json"} theme={okaidia} code={`[
+   {
+       "models": [
+           "gpt-4o",
+           "gpt-4-turbo",
+           "gpt-4",
+           "gpt-3.5-turbo",
+           "text-davinci-003"
+       ],
+       "provider_name": "OpenAI"
+   },
+   {
+       "models": [
+           "claude-3-opus-20240229",
+           "claude-3-sonnet-20240229",
+           "claude-3-haiku-20240307",
+           "claude-2.1",
+           "claude-instant-1.2"
+       ],
+       "provider_name": "Anthropic"
+   },
+   {
+       "models": [
+           "mistral-tiny",
+           "mistral-small",
+           "mistral-medium",
+           "mistral-7b-instruct",
+           "mixtral-8x7b"
+       ],
+       "provider_name": "Mistral"
+   }
+]
+`}/>  
+
+<Text className={`mb-10`}>
+  As you can see, the <Span defaultColor={true}>theme</Span> prop is used to specify the theme of the code block. You can use any theme from the list of available themes in the React Syntax Highlighter documentation.
+  
+  <Important className={`ml-0`} text={"Remember! The prop you pass for example: 'darcula', must be imported on top of the file. Otherwise, some unexpected events might occur."} warning="bad"/>
+</Text>
+
+<Separator className={"mb-10"}/>
+
+<H1 text={["What about highlighting content? Don't worry, [<Span> </Span>] is here to help! "]} header={true} />
+
+<H2 text={["Quick quide over usage:"]} className={`mt-10`}/>
+
+<Text className={`leading-9`}> That's fairly simple! Its props are: <Span defaultColor={true}>defaultColor (boolean)</Span>: responsible for deciding between <Span defaultColor={true}>State one (true)</Span> and <Span defaultColor={false}>State two (false)</Span>.
+but you can also pass a <Span defaultColor={true}>className (css class or taliwind)</Span> prop to style it as you wish. <Span  defaultColor={true}>isLink (boolean)</Span> property allows you to set the span to be either a <Span isLink={true} defaultColor={true}> link (true)</Span>, or a <Span defaultColor={true}> boring text! (false)</Span>
+As you can see, options are endless! Of course, there's more! <Important className={`ml-0`} text={"Remember! The isLink property always has to be followed by a 'path' prop! Otherwise, some unexpected events might occur."} warning="mid"/> 
+It wouldn't be the end without some grand topping, would it? With the use of <Span defaultColor={true}>theme</Span> prop, you can style the code output as you wish! 
+Brows and hhoose from many themes, available on <Span isLink={true} path={"https://github.com/react-syntax-highlighter/react-syntax-highlighter/blob/master/AVAILABLE_STYLES_PRISM.MD"}> here!</Span> </Text>
+
+
+
+<Separator className={"mb-10"}/>
+
+<H1 text={["Another powerful element: <AccordionDemo/>"]}/>
+<H2 text={["What's an Accordion?"]} className={`mt-10`}/>
+<Text className={'mb-10'} > <Span defaultColor={true}>Accordion</Span> is a powerful element which allows us to simplify FAQ sections, as well as provide us with many other options, such as displaying types of elements, or Task Types.
+It's a set of expendable elements, that allow us to further explain the topic, or add details.  </Text>
+
+<AccordionDemo
+  className={`mb-10`}
+  items={[
+    {
+      title: "What is an Accordion?",
+      description: "An accordion is a UI component that allows users to expand and collapse sections of content, making it easier to navigate through large amounts of information.",
+    },
+    {
+      title: "How do I use it?",
+      description: "You can use the AccordionDemo component by passing an array of items with titles and descriptions. Each item will be displayed as a collapsible section.",
+    },
+    {
+      title: "Can I customize the styles?",
+      description: "Yes, you can pass additional CSS classes to the AccordionDemo component to customize its appearance.",
+    },
+  ]}/>
+
+  <Text className={`mb-10`}> There appears to be a problem with accordion button styling. Do not worry, as this is only temporary at best. The cause is a css-file stricte originating from the chatbot project. I assume that the docs will be moved to a different repository all together. Without the custom css overriding all the changes Tailwind makes, the styling should work. In case it doesn't, consider creating an additional class for the sake of styling the accordion straight in the css file.  </Text>
+
+  <H1 text={["Last not the least, Carousel!"]} header={true}/>
+
+  <Text>Do you want to display content like a pro? Use <Span>Carousel2</Span> component to add an interactive carousel to your docs.
+  The usage if fairly easy; <Span defaultColor={true}> content </Span> is a prop responsible for providing content into our carousel. It should look something like this:</Text>
+
+  <CodeBlock language={`jsx`} code={`[
+    {
+      title: "What is a Task?",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      id: 1,
+      icon: <QuestionMarkCircledIcon width={50} height={50} />,
+    },
+    {
+      title: "What are Task Types?",
+      description:
+        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      icon: <MagnifyingGlassIcon width={50} height={50} />,
+      id: 2,
+    },
+    {
+      id: 3,
+      description:
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      icon: <MagnifyingGlassIcon width={50} height={50} />,
+      title: "What is it even for?",
+    },
+  ]`}/>
+
+  <Text>Simple, ain't it? But there's a lot more! <Span defaultColor={true}>className</Span> is self-explanatory again,
+  <Span defaultColor={true}>baseWidth</Span> specifies the width of the carousel. <Span defaultColor={true}>showDots</Span> is responsible for the little dots at the bottom of the carousel.
+  <Span defaultColor={true}>itemWidth</Span> width of the item. Lastly, <Span defaultColor={true}>round</Span>; it gives us the option to round the item size to the box wrapping it. For more details, visit
+  <Span defaultColor={false} isLink={true} path={`https://reactbits.dev/components/carousel`}>React Bits</Span>. </Text>
+
+
+  <Carousel2 baseWidth={700} content={[
+    {
+      title: "What is a Task?",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      id: 1,
+      icon: <QuestionMarkCircledIcon width={50} height={50} />,
+    },
+    {
+      title: "What are Task Types?",
+
+      description:
+        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      icon: <MagnifyingGlassIcon width={50} height={50} />,
+      id: 2,
+    },
+    {
+      id: 3,
+      description:
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      icon: <MagnifyingGlassIcon width={50} height={50} />,
+      title: "What is it even for?",
+    },
+  ]} className={`m-5`}/>
+
+<Separator className={`mt-5`}/>
+
+<NextButton> Next Article</NextButton> 
+<PrevButton> Previous Article</PrevButton>
+
+
+<Footer/>
