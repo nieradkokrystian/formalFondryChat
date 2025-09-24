@@ -8,7 +8,7 @@ import Chat from "./pages/ChatPage";
 import Admin from "./pages/AdminPage";
 import Docs from "./pages/DocsPage";
 import Navbar from "./components/navbar/Navbar";
-import SidebarComponent from "./components/sidebar/Sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
 import Introduction from "./documentation/mdxPages/Introduction.mdx";
 import { fetchTasks } from "./api/tasks";
 
@@ -55,7 +55,7 @@ function App() {
     <>
       {isAuthenticated && (
         <>
-          <SidebarComponent
+          <Sidebar
             isOpen={isSidebarOpen}
             taskList={taskList}
             id={id}

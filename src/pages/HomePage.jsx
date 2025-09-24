@@ -4,7 +4,6 @@ import { useUser } from "../hooks/useUser";
 import { GridIcon } from "@radix-ui/react-icons";
 import {
   QuestionMarkCircledIcon,
-  MobileIcon,
   MagnifyingGlassIcon,
 } from "@radix-ui/react-icons";
 
@@ -13,16 +12,14 @@ import CreateTaskScreen from "../components/navbar/CreateTaskScreen";
 import FadeContent from "../components/animations/FadeContent";
 import Separator from "../components/ui/Separator";
 import GradientText from "../components/animations/GradientText";
-import TrueFocus from "../components/animations/TrueFocus";
 import Carousel from "../components/animations/Carousel";
 import TextType from "../components/animations/TextType";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { username, isAuthReady } = useUser();
-  // const [redirect, setRedirect] = useState("");
-  // const [value, setValue] = useState([]);
   const [display, setDisplay] = useState(false);
+
   useEffect(() => {
     if (isAuthReady && !username) {
       navigate("/login");
@@ -32,19 +29,6 @@ const HomePage = () => {
   if (!isAuthReady) {
     return <div>Loading authentication state...</div>;
   }
-
-  const Card = ({ text, icon, title }) => {
-    return (
-      <div className="card flex flex-col p-4 bg-white rounded-lg shadow-md min-w-64 w-fit">
-        <div className="card-icon mx-auto text-gray-600 mb-4">{icon}</div>
-        <div className="card-title text-md lg:text-2xl whitespace-nowrap">
-          {title}
-        </div>
-        <Separator></Separator>
-        <div className="card-text text-gray-500">{text}</div>
-      </div>
-    );
-  };
 
   const CardContent = [
     {
@@ -71,8 +55,8 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="landing-page m-auto p-8 rounded-2xl  bg-transparent border-1 border-gray-400 shadow-lg w-3xl h-2xl mt-20 min-h-fit max-h-9xl overflow-y-scroll">
-      <div className="title-block flex justify-between items-center p-2 ">
+    <div className="landing-page mx-auto p-8 rounded-2xl border-1 border-gray-400 shadow-lg w-3xl mt-20">
+      <div className="title-block flex justify-between items-center p-2">
         <GradientText
           colors={["#4f46e5", "#aebac7", "#4338ca", "#4f46e5"]}
           animationSpeed={7}
@@ -149,7 +133,6 @@ const HomePage = () => {
                 </div>
               </div>
               <div className="tip flex flex-col p-3 bg-white rounded-lg">
-                {" "}
                 <h1 className="text-lg m-3">
                   To access your existing Tasks, press:
                 </h1>
@@ -247,14 +230,6 @@ const HomePage = () => {
                   showDots={true}
                   showIndicators={true}
                 />
-                {/* {CardContent.map((card) => (
-                  <Card
-                    key={card.key}
-                    text={card.text}
-                    title={card.title}
-                    icon={card.icon}
-                  />
-                ))} */}
               </div>
             </div>
           </div>

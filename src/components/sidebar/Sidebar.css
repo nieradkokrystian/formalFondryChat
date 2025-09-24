@@ -1,21 +1,3 @@
-/* src/styles/sidebar.css */
-@import "@radix-ui/colors/violet.css";
-@import "tailwindcss";
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  --color-primary: #6b46c1;
-  --color-secondary: #620ef3;
-  --color-background: #faf7f7;
-  --color-text: #1d2129;
-  --color-border: #aebac7;
-}
 .Sidebar {
   position: fixed;
   top: 0;
