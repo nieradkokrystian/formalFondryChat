@@ -1,6 +1,6 @@
+import "./Tooltip.css";
 import { Tooltip as TooltipCMP } from "radix-ui";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import "./Tooltip.css";
 
 const Tooltip = ({ status, type }) => {
   return (

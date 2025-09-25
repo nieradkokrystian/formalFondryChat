@@ -1,112 +1,25 @@
+import "./Message.css";
 import {
-  FileIcon,
-  GearIcon,
   CheckIcon,
   CommitIcon,
   KeyboardIcon,
   ChevronDownIcon,
   MagicWandIcon,
 } from "@radix-ui/react-icons";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-  // dracula,
-  // dark,
-  // oneLight,
-  // okaidia,
-  oneDark,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useState, memo } from "react";
-import "./Message.css";
+import { useState } from "react";
+import { countCollapsible, trimCode } from "../../utils/messagesFormating";
+import MessageUser from "./MessageUser";
+import MessageHighlight from "./MessageHighlight";
 
-const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
+const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const isCollapsible = countCollapsible(content);
+  const isUserMessage = tag === "UserMessage" || tag === "UserRes";
+  const isUserRequest = tag === "UserReq";
   let color;
   let icon;
   let hasShadow = false;
-  // const [isCode, setIsCode] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  // let shouldExpand = true || false;
-
-  function Highlight({ text }) {
-    const codeString =
-      typeof text == String ? text.toString() : text.toString();
-
-    const customStyle = {
-      whiteSpace: "pre-wrap",
-      wordBreak: "break-word",
-      fontSize: "0.8rem",
-    };
-
-    if (codeString.includes("Agda snippet inline: ")) {
-      let trimmed = codeString.replace(/[\/\\]/g, "");
-      let textSplit = trimmed.split("Agda snippet inline:");
-      return (
-        <>
-          <p>{textSplit[0]}</p>
-          <SyntaxHighlighter
-            language="agda"
-            style={oneDark}
-            customStyle={customStyle}
-            showInlineLineNumbers={true}
-            startingLineNumber={3}
-          >
-            {textSplit[1]}
-            {/* {text[1]} */}
-          </SyntaxHighlighter>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <SyntaxHighlighter
-          language="agda"
-          style={oneDark}
-          customStyle={customStyle}
-          showInlineLineNumbers={true}
-          startingLineNumber={3}
-        >
-          {codeString}
-          {/* {text[1]} */}
-        </SyntaxHighlighter>
-      </>
-    );
-  }
-  const TrimCode = (code) => {
-    return code.replace(/```/, "").replace(/```$/, "").replace(/```/, "");
-  };
-  const COLLAPSIBLE_LENGTH_LIMIT = 200;
-  const isCollapsible =
-    (typeof content === "string" && (content.match(/\n/g) || []).length > 3) ||
-    content?.length > COLLAPSIBLE_LENGTH_LIMIT;
-
-  const isUserMessage = tag === "UserMessage" || tag === "UserRes";
-
-  const isUserRequest = tag === "UserReq";
-
-  const MessageUser = ({ content }) => {
-    return (
-      <div className="message-user message max-w-[80%] text-sm whitespace-pre-wrap   text-gray-900 mt-6 bg-indigo-100 w-fit min-h-fit h-fit p-4 rounded-4xl rounded-tr-xs wrap-normal flex justify-start relative">
-        <p
-          className={`leading-normal whitespace-pre-wrap ${
-            isCollapsible && !isExpanded ? "max-h-[6.4em] overflow-hidden" : ""
-          }`}
-        >
-          {content.length > 1 ? content : "Confirmed"}
-          {/* <span className="absolute bottom-0.7 right-1 text-xs"> {step} </span> */}
-        </p>
-        {isCollapsible && (
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className={`absolute top-2 right-2 text-gray-500 hover:text-gray-900 transition-transform duration-200 ${
-              isExpanded ? "rotate-180" : ""
-            }`}
-          >
-            <ChevronDownIcon width={20} height={20} />
-          </button>
-        )}
-      </div>
-    );
-  };
 
   if (isUserRequest) {
     color = " text-gray-700  bg-blue-100";
@@ -171,11 +84,13 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
 
   return (
     <>
-      {isUserMessage ? (
+      {isUserMessage && (
         <div className="flex max-w-[100%] justify-end  lg:w-[100%]  h-fit items-baseline relative">
           <MessageUser content={content} step={step} />
         </div>
-      ) : (
+      )}
+
+      {!isUserMessage && (
         <div
           className={`message h-fit rounded-tl-none lg:w-[85%] max-w-[90%] lg:overflow-x-hidden  z-8 lg:p-4 p-2 rounded-4xl flex items-start space-x-3 transition-colors duration-200 ${color} mt-6 relative ${
             hasShadow ? "shadow-md" : "shadow-none"
@@ -245,20 +160,20 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                 </div>
 
                 <div
-                  className={`codeWrap  text-sm p-2 rounded-md     ${
+                  className={`codeWrap  text-sm p-2 rounded-md ${
                     errorTag == "TCErr" ? "text-red-500 " : ""
                   }`}
                 >
                   {" "}
                   {content.includes("import") ? (
-                    <Highlight
+                    <MessageHighlight
                       className=" max-w-[100%] overflow-x-hidden"
-                      text={TrimCode(content)}
+                      text={trimCode(content)}
                     >
                       {/* {(shouldExpand = false)} */}
-                    </Highlight>
+                    </MessageHighlight>
                   ) : (
-                    <code className="">{TrimCode(content)}</code>
+                    <code className="">{trimCode(content)}</code>
                   )}
                 </div>
               </div>
@@ -342,9 +257,9 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
                   } mb-3`}
                 >
                   {errorTag == "TCErr" ? (
-                    <Highlight text={content} />
+                    <MessageHighlight text={content} />
                   ) : tag == "UserReq" && content.includes("Agda snippet") ? (
-                    <Highlight text={content} />
+                    <MessageHighlight text={content} />
                   ) : (
                     <>{content}</>
                   )}
@@ -373,6 +288,6 @@ const Message = memo(({ content, type, tag, errorTag, taskNumber, step }) => {
       )}
     </>
   );
-});
+};
 
 export default Message;

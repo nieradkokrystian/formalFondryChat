@@ -1,7 +1,9 @@
 import "./App.css";
 import { useUser } from "./hooks/useUser";
-import { useState, useEffect, useCallback } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getTasks } from "./store/features/tasksSlice";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import Chat from "./pages/ChatPage";
@@ -10,34 +12,27 @@ import Docs from "./pages/DocsPage";
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import Introduction from "./documentation/mdxPages/Introduction.mdx";
-import { fetchTasks } from "./api/tasks";
 
 function App() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
 
-  const [taskList, setTaskList] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { username, id, isAuthReady } = useUser();
 
-  const fetchTaskList = useCallback(async () => {
-    if (id) {
+  useEffect(() => {
+    if (!username || !id) return;
+
+    async function fetchTasksList() {
       try {
-        const userTasks = await fetchTasks(id);
-        setTaskList(userTasks);
+        await dispatch(getTasks(id)).unwrap();
       } catch (error) {
         console.error("Failed to fetch task list: ", error);
       }
     }
-  }, [id]);
 
-  useEffect(() => {
-    if (username) {
-      fetchTaskList();
-    } else if (isAuthReady) {
-      navigate("/");
-    }
-  }, [username, isAuthReady, fetchTaskList, navigate]);
+    fetchTasksList();
+  }, [dispatch, username, id]);
 
   if (!isAuthReady) {
     return (
@@ -55,12 +50,7 @@ function App() {
     <>
       {isAuthenticated && (
         <>
-          <Sidebar
-            isOpen={isSidebarOpen}
-            taskList={taskList}
-            id={id}
-            onToggleSidebar={handleToggleSidebar}
-          />
+          <Sidebar isOpen={isSidebarOpen} />
           <div
             className={`Sidebar-backdrop ${isSidebarOpen ? "is-visible" : ""}`}
             onClick={handleToggleSidebar}
@@ -69,13 +59,11 @@ function App() {
       )}
 
       <div className={`main-content ${isSidebarOpen ? "main-content" : ""}`}>
-        {isAuthenticated && !location.pathname.includes("/docs") && (
-          <Navbar
-            id={id}
-            onToggleSidebar={handleToggleSidebar}
-            onTaskCreated={fetchTaskList}
-          />
-        )}
+        {isAuthenticated &&
+          !location.pathname.includes("/docs") &&
+          !location.pathname.includes("/admin") && (
+            <Navbar id={id} onToggleSidebar={handleToggleSidebar} />
+          )}
 
         {!isAuthenticated && (
           <Routes>

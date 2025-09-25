@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import InputComponent from "../components/chat/InputComponent";
 import EmptyChat from "../components/chat/EmptyChat";
-import ChatActive from "../components/chat/ActiveChat";
+import ActiveChat from "../components/chat/ActiveChat";
 import {
   getLatestTaskState,
   getTaskEnvironment,
@@ -15,7 +15,9 @@ import {
 const Chat = () => {
   const navigate = useNavigate();
   const { chatId } = useParams();
-  const { username, isAuthReady, id: userId } = useUser();
+  const { username, isAuthReady } = useUser();
+
+  console.log("Chat!!!");
 
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -236,18 +238,18 @@ const Chat = () => {
 
   return (
     <div
-      className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px]   h-[90vh] overflow-y-scroll pb-[60px]   max-h-[100%]"
+      className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px] h-[90vh] overflow-y-scroll pb-[60px] max-h-[100%]"
       ref={scrollBottom}
     >
-      {messages.length === 0 ? (
-        <EmptyChat />
-      ) : (
-        <ChatActive
+      {!messages.length && <EmptyChat />}
+      {messages.length > 0 && (
+        <ActiveChat
           taskNumber={taskNumber}
           messages={displayedMessages}
           ref={chatContainerRef}
         />
       )}
+
       <InputComponent
         isChecked={isChecked}
         setIsChecked={setIsChecked}

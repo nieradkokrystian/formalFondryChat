@@ -1,7 +1,6 @@
+import "./DropdownMenu.css";
 import * as Dropdown from "@radix-ui/react-dropdown-menu";
 import { HamburgerMenuIcon, PersonIcon, ExitIcon } from "@radix-ui/react-icons";
-import "./DropdownMenu.css";
-
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import UserAvatar from "./UserAvatar";

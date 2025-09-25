@@ -1,4 +1,4 @@
-import React, { forwardRef, memo } from "react";
+import React from "react";
 import Message from "./Message";
 import "./ActiveChat.css";
 
@@ -19,56 +19,55 @@ const getMessageContent = (messageObject) => {
   return "";
 };
 
-const ActiveChat = memo(
-  forwardRef(({ messages, taskNumber }, ref) => {
-    return (
-      <div className="screen-messages  sm:w-[100%] w-full h-full  max-h-full overflow-none ">
-        <div
-          className="messages w-full  h-full   max-h-full sm:w-[100%] "
-          ref={ref}
-        >
-          {messages &&
-            messages.map((message, index) => {
-              const isLastMessage = index === messages.length - 1;
-              const hasCmdWS =
-                message.cmCmdWS && message.cmMsgWS?.contents.tag != "TCSuccess";
-              const hasMsgWS =
-                message.cmMsgWS && message.cmMsgWS.contents.tag != "TCSuccess";
+function ActiveChat({ messages, taskNumber, ref }) {
+  console.log(messages);
 
-              return (
-                <React.Fragment key={index}>
-                  {hasCmdWS && (
-                    <div
-                      className={isLastMessage && !hasMsgWS ? "mb-[60px]" : ""}
-                    >
-                      <Message
-                        content={getMessageContent(message.cmCmdWS)}
-                        type={message.taskStatWS}
-                        tag={message.cmCmdWS.tag}
-                        step={index + 1}
-                      />
-                    </div>
-                  )}
+  return (
+    <div className="screen-messages sm:w-[100%] w-full h-full max-h-full overflow-none">
+      <div className="messages w-full h-full max-h-full sm:w-[100%]" ref={ref}>
+        {messages &&
+          messages.map((message, index) => {
+            const isLastMessage = index === messages.length - 1;
+            const hasCmdWS =
+              message.cmCmdWS && message.cmCmdWS?.contents.tag != "TCSuccess";
+            // const hasCmdWS =
+            //   message.cmCmdWS && message.cmMsgWS?.contents.tag != "TCSuccess";
+            const hasMsgWS =
+              message.cmMsgWS && message.cmMsgWS.contents.tag != "TCSuccess";
 
-                  {hasMsgWS && (
-                    <div className={isLastMessage ? "mb-[60px]" : ""}>
-                      <Message
-                        content={getMessageContent(message.cmMsgWS)}
-                        type={message.taskStatWS}
-                        tag={message.cmMsgWS.tag}
-                        errorTag={message.cmMsgWS.contents.tag}
-                        taskNumber={taskNumber}
-                        step={index + 1}
-                      />
-                    </div>
-                  )}
-                </React.Fragment>
-              );
-            })}
-        </div>
+            return (
+              <React.Fragment key={index}>
+                {hasCmdWS && (
+                  <div
+                    className={isLastMessage && !hasMsgWS ? "mb-[60px]" : ""}
+                  >
+                    <Message
+                      content={getMessageContent(message.cmCmdWS)}
+                      type={message.taskStatWS}
+                      tag={message.cmCmdWS.tag}
+                      step={index + 1}
+                    />
+                  </div>
+                )}
+
+                {hasMsgWS && (
+                  <div className={isLastMessage ? "mb-[60px]" : ""}>
+                    <Message
+                      content={getMessageContent(message.cmMsgWS)}
+                      type={message.taskStatWS}
+                      tag={message.cmMsgWS.tag}
+                      errorTag={message.cmMsgWS.contents.tag}
+                      taskNumber={taskNumber}
+                      step={index + 1}
+                    />
+                  </div>
+                )}
+              </React.Fragment>
+            );
+          })}
       </div>
-    );
-  })
-);
+    </div>
+  );
+}
 
 export default ActiveChat;

@@ -1,67 +1,33 @@
-import { PlusIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import "./Sidebar.css";
-import { Link } from "react-router-dom";
-import Tooltip from "./Tooltip";
+import { useSelector } from "react-redux";
 import CreateTaskScreen from "../navbar/CreateTaskScreen";
 import SidebarBottom from "./SidebarBottom";
+import MenuItem from "./MenuItem";
 
-function SidebarComponent({
-  isOpen,
-  // onCreateNewTaskClick,
-  taskList,
-  // id,
-  onTaskCreated,
-}) {
-  const MenuItem = ({ title, status, id, type }) => {
-    return (
-      <Link
-        className={`group relative h-[30px] pl-3 w-full Sidebar-item p-1 flex items-center justify-between last:mb-30 overflow-x-clip pr-3 cursor-target`}
-        discover="none"
-        to={`/chat/${id}`}
-        prefetch="render"
-        preventScrollReset
-      >
-        <div
-          className={`orb w-2 h-2 rounded-full left-[1px] absolute  aspect-square ${
-            status == "resolved"
-              ? "bg-green-500"
-              : status == "exceeded"
-              ? "bg-red-500"
-              : "bg-blue-400"
-          }`}
-        ></div>
-        <h1 className="w-[70%] overflow-hidden">{title}</h1>
-
-        <div className="hidden group-hover:block">
-          <Tooltip type={type} status={status} />
-        </div>
-      </Link>
-    );
-  };
+function Sidebar({ isOpen }) {
+  const tasks = useSelector((s) => s.tasks.tasks);
 
   return (
     <div className={`Sidebar ${isOpen ? "is-open" : ""}`}>
       <div className="Sidebar-Header relative justify-between flex">
         <h1>My Tasks</h1>
         <div className="w-4 h-4 overflow-clip aspect-square flex justify-center items-center">
-          <CreateTaskScreen
-            onTaskCreated={onTaskCreated}
-            active={true}
-            text={""}
-          />
+          <CreateTaskScreen text={""} />
         </div>
       </div>
-      <div className="Sidebar-Body ">
-        {Object.keys(taskList).map((key) => (
-          <MenuItem
-            key={key}
-            title={taskList[key].task_Name}
-            status={taskList[key].task_Status}
-            id={taskList[key].task_Id}
-            type={taskList[key].task_Type}
-          />
-        ))}
-        {Object.keys(taskList).length === 0 && (
+      <div className="Sidebar-Body">
+        {tasks.length > 0 &&
+          tasks.map((task) => (
+            <MenuItem
+              key={task.task_Id}
+              title={task.task_Name}
+              status={task.task_Status}
+              id={task.task_Id}
+              type={task.task_Type}
+            />
+          ))}
+
+        {!tasks.length && (
           <div className="Sidebar-item p-2 text-center text-gray-500">
             No tasks yet.
           </div>
@@ -72,4 +38,4 @@ function SidebarComponent({
   );
 }
 
-export default SidebarComponent;
+export default Sidebar;

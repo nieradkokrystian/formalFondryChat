@@ -1,12 +1,9 @@
-import { PlusCircledIcon, GridIcon } from "@radix-ui/react-icons";
+import { GridIcon } from "@radix-ui/react-icons";
 import "./Navbar.css";
 import DropdownMenu from "./DropdownMenu";
 import CreateTaskScreen from "./CreateTaskScreen";
-import { useUser } from "../../hooks/useUser";
 
-const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
-  const { username } = useUser();
-
+const Navbar = ({ onToggleSidebar }) => {
   return (
     <nav className="nav">
       <div className="nav-wrap">
@@ -17,14 +14,9 @@ const Navbar = ({ onToggleSidebar, onTaskCreated, id }) => {
           <GridIcon width={20} height={20} />
         </button>
 
-        <DropdownMenu username={username} />
+        <DropdownMenu />
 
-        <CreateTaskScreen
-          active={true}
-          id={id}
-          text={"Create Task"}
-          onTaskCreated={onTaskCreated}
-        />
+        <CreateTaskScreen text={"Create Task"} />
       </div>
     </nav>
   );

@@ -8,7 +8,7 @@ import { Cross2Icon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { createTask, fetchAvailableTasks } from "../../api/tasks";
 import Popover from "./Popover";
 
-const CreateTaskScreen = ({ text, active }) => {
+const CreateTaskScreen = ({ text }) => {
   const navigate = useNavigate();
   const { username, id, logout } = useUser();
   const [taskName, setTaskName] = useState("");
@@ -102,100 +102,99 @@ const CreateTaskScreen = ({ text, active }) => {
           />
         </button>
       </Dialog.Trigger>
-      {active && (
-        <Dialog.Portal>
-          <Dialog.Overlay className="DialogOverlay" />
-          <Dialog.Content className="DialogContent">
-            <Dialog.Title className="DialogTitle">Create Task</Dialog.Title>
-            <Dialog.Description className="DialogDescription">
-              Bring your new task to life here! Click create when you're done.
-            </Dialog.Description>
-            <fieldset className="Fieldset">
-              <label className="Label" htmlFor="Name">
-                Task Name
-              </label>
-              <input
-                className="Input"
-                type="text"
-                value={taskName}
-                onChange={(e) => setTaskName(e.target.value)}
-                placeholder="If empty, we'll set it to a generated name"
-              />
-            </fieldset>
 
-            <fieldset className="Fieldset">
-              <label className="Label" htmlFor="Type">
-                Task Type
-              </label>
-              <select
-                name="Type"
-                className="Input"
-                id="Type"
-                onChange={(e) => setTaskType(e.target.value)}
-                value={taskType}
-              >
-                {taskList?.map((name, index) => {
-                  return (
-                    <option key={index} value={name}>
-                      {name}
-                    </option>
-                  );
-                })}
-              </select>
-            </fieldset>
-            <div
-              style={{
-                display: "flex",
-                marginTop: 25,
-                justifyContent: "end",
-                alignItems: "center",
-                width: "100%",
-                gap: 10,
-              }}
-            >
-              <label htmlFor="settings" className="Label w-fit text-violet-500">
-                Additional Settings
-              </label>
-              <Popover
-                setProvider={setProvider}
-                setModel={setModel}
-                setPrompt={setPrompt}
-                prompt={prompt}
-                id="settings"
-              />
-            </div>
+      <Dialog.Portal>
+        <Dialog.Overlay className="DialogOverlay" />
+        <Dialog.Content className="DialogContent">
+          <Dialog.Title className="DialogTitle">Create Task</Dialog.Title>
+          <Dialog.Description className="DialogDescription">
+            Bring your new task to life here! Click create when you're done.
+          </Dialog.Description>
+          <fieldset className="Fieldset">
+            <label className="Label" htmlFor="Name">
+              Task Name
+            </label>
+            <input
+              className="Input"
+              type="text"
+              value={taskName}
+              onChange={(e) => setTaskName(e.target.value)}
+              placeholder="If empty, we'll set it to a generated name"
+            />
+          </fieldset>
 
-            <div
-              style={{
-                display: "flex",
-                marginTop: 25,
-                justifyContent: "flex-end",
-              }}
+          <fieldset className="Fieldset">
+            <label className="Label" htmlFor="Type">
+              Task Type
+            </label>
+            <select
+              name="Type"
+              className="Input"
+              id="Type"
+              onChange={(e) => setTaskType(e.target.value)}
+              value={taskType}
             >
-              <Dialog.Close asChild>
-                <button
-                  className="Button green"
-                  type="submit"
-                  onClick={handleCreateTask}
-                >
-                  Create Task
-                </button>
-              </Dialog.Close>
-            </div>
+              {taskList?.map((name, index) => {
+                return (
+                  <option key={index} value={name}>
+                    {name}
+                  </option>
+                );
+              })}
+            </select>
+          </fieldset>
+          <div
+            style={{
+              display: "flex",
+              marginTop: 25,
+              justifyContent: "end",
+              alignItems: "center",
+              width: "100%",
+              gap: 10,
+            }}
+          >
+            <label htmlFor="settings" className="Label w-fit text-violet-500">
+              Additional Settings
+            </label>
+            <Popover
+              setProvider={setProvider}
+              setModel={setModel}
+              setPrompt={setPrompt}
+              prompt={prompt}
+              id="settings"
+            />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              marginTop: 25,
+              justifyContent: "flex-end",
+            }}
+          >
             <Dialog.Close asChild>
-              <button className="IconButtonClose" aria-label="Close">
-                <Cross2Icon />
+              <button
+                className="Button green"
+                type="submit"
+                onClick={handleCreateTask}
+              >
+                Create Task
               </button>
             </Dialog.Close>
-            <ToastContainer
-              position="bottom-left"
-              closeOnClick
-              autoClose={17000}
-              className="toast-1232"
-            />
-          </Dialog.Content>
-        </Dialog.Portal>
-      )}
+          </div>
+          <Dialog.Close asChild>
+            <button className="IconButtonClose" aria-label="Close">
+              <Cross2Icon />
+            </button>
+          </Dialog.Close>
+          <ToastContainer
+            position="bottom-left"
+            closeOnClick
+            autoClose={17000}
+            className="toast-1232"
+          />
+        </Dialog.Content>
+      </Dialog.Portal>
     </Dialog.Root>
   );
 };

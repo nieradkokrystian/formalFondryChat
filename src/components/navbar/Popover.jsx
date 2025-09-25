@@ -10,14 +10,12 @@ const Popover = ({ setModel, setProvider, setPrompt, prompt }) => {
   const [availableModels, setAvailableModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState("");
 
-  const API_LINK = import.meta.env.VITE_API_BASE;
-
   useEffect(() => {
     const getLlmList = async () => {
       try {
         const listData = await fetchLlmList();
-
         setLlmProviders(listData);
+
         if (listData.length > 0) {
           const firstProvider = listData[0];
           setSelectedProvider(firstProvider.provider_name);
@@ -33,7 +31,7 @@ const Popover = ({ setModel, setProvider, setPrompt, prompt }) => {
       }
     };
     getLlmList();
-  }, [API_LINK, setModel, setProvider]);
+  }, [setModel, setProvider]);
 
   const handleProviderChange = (e) => {
     const providerName = e.target.value;
