@@ -9,8 +9,14 @@ export async function fetchTasks(userId) {
 }
 
 // Fetch available tasks
-export async function fetchAvailableTasks() {
+export async function fetchAvailableTypes() {
   const response = await axiosInstance.get(`${API_LINK}/availableTasks`);
+  return response.data;
+}
+
+// Fetch llm list
+export async function fetchLlmList() {
+  const response = await axiosInstance.get(`${API_LINK}/llm_list`);
   return response.data;
 }
 

@@ -6,15 +6,12 @@
   bottom: 10px;
   width: var(--width);
   height: 100px;
-  /* padding: 20px; */
   border-radius: var(--radius-md);
   border: 1px solid var(--violet-9);
   max-width: var(--width);
   align-items: center;
   left: 50%;
   transform: translateX(-50%);
-  /* backdrop-filter: blur(100px); */
-  /* background-color: #4338ca; */
   box-shadow: 10px 0px 40px 40px var(--color-background);
 }
 
@@ -28,7 +25,7 @@
   }
 }
 
-textarea {
+.chat-input {
   width: 100%;
   resize: none;
   height: 100%;
@@ -57,7 +54,7 @@ textarea {
   align-items: center;
 }
 
-.input-wrap > textarea:focus {
+.input-wrap > .chat-input:focus {
   border: 1px solid var(--color-primary);
   outline: 1px solid var(--color-primary);
 }

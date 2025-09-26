@@ -104,7 +104,6 @@ button {
   font-family: inherit;
   border-radius: var(--radius-sm);
 
-  /* width: 100px; */
   min-width: fit-content;
   display: inline-flex;
   align-items: center;
@@ -121,7 +120,6 @@ button {
   height: 40px;
 }
 .IconButton:hover {
-  /* transition: 50ms; */
   color: var(--violet-9);
   background-color: var(--violet-3);
   border: 1px solid var(--violet-6);

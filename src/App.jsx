@@ -1,6 +1,6 @@
 import "./App.css";
 import { useUser } from "./hooks/useUser";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getTasks } from "./store/features/tasksSlice";
@@ -17,7 +17,6 @@ function App() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { username, id, isAuthReady } = useUser();
 
   useEffect(() => {
@@ -42,28 +41,16 @@ function App() {
     );
   }
 
-  const handleToggleSidebar = () => setIsSidebarOpen((prev) => !prev);
-
   const isAuthenticated = username && id != undefined;
 
   return (
     <>
-      {isAuthenticated && (
-        <>
-          <Sidebar isOpen={isSidebarOpen} />
-          <div
-            className={`Sidebar-backdrop ${isSidebarOpen ? "is-visible" : ""}`}
-            onClick={handleToggleSidebar}
-          ></div>
-        </>
-      )}
+      {isAuthenticated && <Sidebar />}
 
-      <div className={`main-content ${isSidebarOpen ? "main-content" : ""}`}>
+      <div className="main-content">
         {isAuthenticated &&
           !location.pathname.includes("/docs") &&
-          !location.pathname.includes("/admin") && (
-            <Navbar id={id} onToggleSidebar={handleToggleSidebar} />
-          )}
+          !location.pathname.includes("/admin") && <Navbar />}
 
         {!isAuthenticated && (
           <Routes>

@@ -5,80 +5,67 @@ import { ToastContainer, toast } from "react-toastify";
 import { useUser } from "../../hooks/useUser";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon, PlusCircledIcon } from "@radix-ui/react-icons";
-import { createTask, fetchAvailableTasks } from "../../api/tasks";
-import Popover from "./Popover";
+import { createTask, fetchAvailableTypes, fetchLlmList } from "../../api/tasks";
+import CreateTaskJsonEditor from "./CreateTaskJsonEditor";
+// import { isValidJson } from "../../utils/isValidJson";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../store/features/uiSlice";
 
 const CreateTaskScreen = ({ text }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { username, id, logout } = useUser();
   const [taskName, setTaskName] = useState("");
-  const [taskType, setTaskType] = useState("typeRefiner");
-  const [taskList, setTaskList] = useState([]);
-  const [provider, setProvider] = useState("OpenAI");
+  const [taskType, setTaskType] = useState();
+  const [avTypes, setAvTypes] = useState([]);
+  const [availableModels, setAvailableModels] = useState([]);
   const [model, setModel] = useState("gpt-3");
-  const [prompt, setPrompt] = useState("");
-
-  function isJson(str) {
-    try {
-      JSON.parse(str);
-      return true;
-    } catch {
-      return false;
-    }
-  }
+  const [prompt, setPrompt] = useState();
 
   useEffect(() => {
-    const fetchAvTasks = async () => {
+    const fetchAvTypes = async () => {
       try {
-        const avTasks = await fetchAvailableTasks();
-        setTaskList(avTasks);
+        const types = await fetchAvailableTypes();
+
+        if (types.length > 0) {
+          setAvTypes(types);
+          setPrompt(types[0].envExample);
+        }
       } catch (error) {
-        console.error("Failed to fetch available tasks: ", error);
+        console.error("Failed to fetch available types: ", error);
       }
     };
 
-    fetchAvTasks();
+    const getLlmList = async () => {
+      try {
+        const list = await fetchLlmList();
+
+        if (list.length > 0) {
+          const provider = list.find((prov) => prov.provider_name === "OpenAI");
+          setAvailableModels(provider.models);
+          setModel(provider.models[0]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch LLM list:", error);
+      }
+    };
+
+    fetchAvTypes();
+    getLlmList();
   }, []);
 
   const handleCreateTask = async (e) => {
-    if (isJson(prompt)) {
-      const uniqueId = Math.random().toString(36).substring(2, 9);
+    if (!username || !id) {
+      console.warn("User not logged in. Cannot create chat task.");
+      logout();
+      navigate("/login");
+      return;
+    }
 
-      const finalTaskName = taskName.trim() === "" ? uniqueId : taskName;
-
-      if (!username) {
-        console.warn("User not logged in. Cannot create chat task.");
-        logout();
-        navigate("/login");
-        return;
-      }
-
-      try {
-        const newTask = await createTask(
-          taskType,
-          finalTaskName,
-          id,
-          provider,
-          model
-        );
-
-        if (newTask && newTask.taskId) {
-          const newTaskId = newTask.taskId;
-
-          navigate(`/chat/${newTaskId}`, {
-            state: {
-              TaskName: finalTaskName,
-              TaskType: taskType,
-              username: username,
-            },
-          });
-        } else {
-          throw new Error("API did not return a valid task ID.");
-        }
-      } catch (error) {
-        console.error("Failed to create task:", error);
-      }
-    } else {
+    let parsedPrompt;
+    try {
+      parsedPrompt = JSON.parse(prompt);
+    } catch {
       e.preventDefault();
 
       toast.error("Invalid JSON format. Please check your input.", {
@@ -89,12 +76,48 @@ const CreateTaskScreen = ({ text }) => {
         className: " toast-1232",
       });
     }
+
+    console.log(parsedPrompt);
+
+    const uniqueId = Math.random().toString(36).substring(2, 9);
+    const finalTaskName = taskName.trim() === "" ? uniqueId : taskName;
+
+    console.log("NEW TASK: ", {
+      taskType,
+      finalTaskName,
+      id,
+      model,
+      prompt,
+    });
+
+    // try {
+    //   const newTask = await createTask(taskType, finalTaskName, id, model);
+
+    //   if (newTask && newTask.taskId) {
+    //     const newTaskId = newTask.taskId;
+
+    //     navigate(`/chat/${newTaskId}`, {
+    //       state: {
+    //         TaskName: finalTaskName,
+    //         TaskType: taskType,
+    //         username: username,
+    //       },
+    //     });
+    //   } else {
+    //     throw new Error("API did not return a valid task ID.");
+    //   }
+    // } catch (error) {
+    //   console.error("Failed to create task:", error);
+    // }
   };
 
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button className="create-task-button lg:text-lg text-sm cursor-target">
+        <button
+          className="create-task-button"
+          onClick={() => dispatch(uiActions.closeSidebar())}
+        >
           {text}
           <PlusCircledIcon
             alignmentBaseline="center"
@@ -110,11 +133,14 @@ const CreateTaskScreen = ({ text }) => {
           <Dialog.Description className="DialogDescription">
             Bring your new task to life here! Click create when you're done.
           </Dialog.Description>
+
           <fieldset className="Fieldset">
-            <label className="Label" htmlFor="Name">
+            <label className="Label" htmlFor="name">
               Task Name
             </label>
             <input
+              name="name"
+              id="name"
               className="Input"
               type="text"
               value={taskName}
@@ -131,67 +157,71 @@ const CreateTaskScreen = ({ text }) => {
               name="Type"
               className="Input"
               id="Type"
-              onChange={(e) => setTaskType(e.target.value)}
+              onChange={(e) => {
+                const newType = e.target.value;
+                setTaskType(newType);
+                setPrompt(newType.envExample);
+                setModel(newType.envExample._llmModel);
+              }}
               value={taskType}
             >
-              {taskList?.map((name, index) => {
+              {avTypes?.map((type) => {
                 return (
-                  <option key={index} value={name}>
-                    {name}
+                  <option key={type.taskName} value={type}>
+                    {type.taskName}
                   </option>
                 );
               })}
             </select>
           </fieldset>
-          <div
-            style={{
-              display: "flex",
-              marginTop: 25,
-              justifyContent: "end",
-              alignItems: "center",
-              width: "100%",
-              gap: 10,
-            }}
-          >
-            <label htmlFor="settings" className="Label w-fit text-violet-500">
-              Additional Settings
-            </label>
-            <Popover
-              setProvider={setProvider}
-              setModel={setModel}
-              setPrompt={setPrompt}
-              prompt={prompt}
-              id="settings"
-            />
-          </div>
 
-          <div
-            style={{
-              display: "flex",
-              marginTop: 25,
-              justifyContent: "flex-end",
-            }}
-          >
-            <Dialog.Close asChild>
-              <button
-                className="Button green"
-                type="submit"
-                onClick={handleCreateTask}
-              >
-                Create Task
-              </button>
-            </Dialog.Close>
-          </div>
+          <fieldset className="Fieldset">
+            <label className="Label" htmlFor="model">
+              LLM model:
+            </label>
+            <select
+              name="model"
+              className="Input"
+              id="model"
+              onChange={(e) => {
+                const newModel = e.target.value;
+                setModel(newModel);
+                setPrompt((prevPrompt) => ({
+                  ...prevPrompt,
+                  _llmModel: newModel,
+                }));
+              }}
+              value={model}
+            >
+              {availableModels.map((model) => (
+                <option key={model} value={model}>
+                  {model}
+                </option>
+              ))}
+            </select>
+          </fieldset>
+
+          <fieldset className="Fieldset-json">
+            <label className="Label">Your Custom Prompt (JSON format):</label>
+            <CreateTaskJsonEditor prompt={prompt} setPrompt={setPrompt} />
+          </fieldset>
+
           <Dialog.Close asChild>
-            <button className="IconButtonClose" aria-label="Close">
+            <button className="create-task-btn" onClick={handleCreateTask}>
+              Create Task
+            </button>
+          </Dialog.Close>
+
+          <Dialog.Close asChild>
+            <button className="create-task-btn-close">
               <Cross2Icon />
             </button>
           </Dialog.Close>
+
           <ToastContainer
             position="bottom-left"
             closeOnClick
             autoClose={17000}
-            className="toast-1232"
           />
         </Dialog.Content>
       </Dialog.Portal>

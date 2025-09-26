@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Checkbox from "./Checkbox";
 import "./InputComponent.css";
 
@@ -13,7 +13,6 @@ const InputComponent = ({
   LLM,
   steps,
   currentSteps,
-  // Checkbox,
   isChecked,
   setIsChecked,
 }) => {
@@ -89,10 +88,6 @@ const InputComponent = ({
       return;
     }
 
-    // if (!inputValue.trim()) {
-    //   return;
-    // }
-
     onSend(inputValue);
     setInputValue("");
     scrollToBottom();
@@ -127,6 +122,7 @@ const InputComponent = ({
         className={`input-wrap ${exceeded || isResolved ? "opacity-0" : ""}`}
       >
         <textarea
+          className="chat-input"
           placeholder={getPlaceholderText()}
           onChange={(e) => {
             setInputValue(e.target.value);
@@ -147,7 +143,6 @@ const InputComponent = ({
         >
           <ArrowTopRightIcon />
         </button>
-        {/* <ToastContainer /> */}
       </div>
     </>
   );
