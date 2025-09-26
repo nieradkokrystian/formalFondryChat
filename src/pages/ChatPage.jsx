@@ -11,10 +11,7 @@ const ChatPage = () => {
   const containerRef = useRef(false);
 
   return (
-    <div
-      className="Chat relative mx-auto w-full max-w-[750px] lg:w-[750px] h-[90vh] overflow-y-scroll pb-[60px] max-h-[100%]"
-      ref={containerRef}
-    >
+    <div className="chat-container" ref={containerRef}>
       {isLogView && <LogsView scrollBottom={containerRef} />}
       {!isLogView && <ChatView scrollBottom={containerRef} />}
     </div>

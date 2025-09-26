@@ -21,8 +21,8 @@ const getMessageContent = (messageObject) => {
 
 function ActiveChat({ messages, taskNumber, ref }) {
   return (
-    <div className="screen-messages sm:w-[100%] w-full h-full max-h-full overflow-none">
-      <div className="messages w-full h-full max-h-full sm:w-[100%]" ref={ref}>
+    <div className="screen-messages">
+      <div className="messages" ref={ref}>
         {messages &&
           messages.map((message, index) => {
             const isLastMessage = index === messages.length - 1;
@@ -37,7 +37,7 @@ function ActiveChat({ messages, taskNumber, ref }) {
               <React.Fragment key={index}>
                 {hasCmdWS && (
                   <div
-                    className={isLastMessage && !hasMsgWS ? "mb-[60px]" : ""}
+                    className={isLastMessage && !hasMsgWS ? "mb-[100px]" : ""}
                   >
                     <Message
                       content={getMessageContent(message.cmCmdWS)}
@@ -49,7 +49,7 @@ function ActiveChat({ messages, taskNumber, ref }) {
                 )}
 
                 {hasMsgWS && (
-                  <div className={isLastMessage ? "mb-[60px]" : ""}>
+                  <div className={isLastMessage ? "mb-[100px]" : ""}>
                     <Message
                       content={getMessageContent(message.cmMsgWS)}
                       type={message.taskStatWS}

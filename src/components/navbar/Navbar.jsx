@@ -25,10 +25,10 @@ const Navbar = () => {
 
         <CreateTaskScreen text={"Create Task"} />
       </div>
-      <div className="nav-wrap">
+      <div className="nav-wrap place-center">
         {location.pathname.includes("/chat") && <ChatLogSwitch />}
       </div>
-      <div className="nav-wrap">
+      <div className="nav-wrap place-right">
         {location.pathname.includes("/chat") && <ChatLimitCheckbox />}
       </div>
     </nav>

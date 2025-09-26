@@ -40,7 +40,7 @@ const LogsView = ({ scrollBottom }) => {
   );
 
   return (
-    <div className="p-4 space-y-3">
+    <div className="mt-[60px] p-4 space-y-3">
       {sortedLogs.map((log) => (
         <div
           key={log.timestamp}
