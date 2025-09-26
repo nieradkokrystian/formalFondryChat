@@ -67,48 +67,15 @@ function RegisterForm({ toggleMode }) {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      {/* <label htmlFor="name" className="text-sm text-gray-600 tracking-wider">
-        First Name:
-      </label>
-      <input
-        type="text"
-        id="name"
-        value={name}
-        className="inputButton g-blue-500 text-white font-bold py-2 rounded-lg px-3 transition duration-300 target-cursor outline-0"
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      <label
-        htmlFor="lastname"
-        className="text-sm text-gray-600 tracking-wider"
-      >
-        Last Name:
-      </label>
-      <input
-        type="text"
-        id="lastname"
-        value={lastname}
-        className="inputButton g-blue-500 text-white font-bold py-2 rounded-lg px-3 transition duration-300 target-cursor outline-0"
-        onChange={(e) => setLastname(e.target.value)}
-      />
-
-      <label htmlFor="email" className="text-sm text-gray-600 tracking-wider">
-        Email:
-      </label>
-      <input
-        type="email"
-        id="email"
-        value={email}
-        className="inputButton g-blue-500 text-white font-bold py-2 rounded-lg px-3 transition duration-300 target-cursor outline-0"
-        onChange={(e) => setEmail(e.target.value)}
-      /> */}
 
       {errorMessage && (
         <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
       )}
 
       <div className="w-fit mt-4 flex gap-3 items-center">
-        <button type="submit">Register</button>
+        <button className="auth-submit-btn" type="submit">
+          Register
+        </button>
         <span>
           Already have an account?{" "}
           <a

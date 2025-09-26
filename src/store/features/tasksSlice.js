@@ -5,7 +5,7 @@ const initialState = {
   tasks: [],
 };
 
-export const getTasks = createAsyncThunk("getTasks", async (userId) => {
+export const getTasks = createAsyncThunk("tasks/getTasks", async (userId) => {
   const tasks = await fetchTasks(userId);
   return tasks;
 });

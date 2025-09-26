@@ -8,7 +8,7 @@ function AuthFormInput({ id, value, onChange, type, text }) {
         type={type}
         id={id}
         value={value}
-        className="inputButton g-blue-500 text-white font-bold py-2 rounded-lg px-3 transition duration-300 target-cursor outline-0"
+        className="inputButton g-blue-500 text-white font-bold py-2 rounded-lg px-3 transition duration-300 outline-0"
         onChange={onChange}
       />
     </>

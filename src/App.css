@@ -28,13 +28,13 @@
   border-radius: 10px;
 }
 
-/* button[type="submit"] {
+.auth-submit-btn {
   background-color: var(--color-primary);
   color: var(--color-background);
   padding: 8px;
   border-radius: var(--radius-md);
   cursor: pointer;
-} */
+}
 
 .inputButton {
   color: black;

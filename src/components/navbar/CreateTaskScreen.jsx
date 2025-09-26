@@ -1,6 +1,5 @@
 import "./CreateTaskScreen.css";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useUser } from "../../hooks/useUser";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -13,8 +12,7 @@ import { uiActions } from "../../store/features/uiSlice";
 
 const CreateTaskScreen = ({ text }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { username, id, logout } = useUser();
+  const { id } = useUser();
   const [taskName, setTaskName] = useState("");
   const [taskType, setTaskType] = useState();
   const [avTypes, setAvTypes] = useState([]);
@@ -55,12 +53,7 @@ const CreateTaskScreen = ({ text }) => {
   }, []);
 
   const handleCreateTask = async (e) => {
-    if (!username || !id) {
-      console.warn("User not logged in. Cannot create chat task.");
-      logout();
-      navigate("/login");
-      return;
-    }
+    if (!id) return;
 
     let parsedPrompt;
     try {
@@ -115,7 +108,7 @@ const CreateTaskScreen = ({ text }) => {
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <button
-          className="create-task-button"
+          className="navbar-btn"
           onClick={() => dispatch(uiActions.closeSidebar())}
         >
           {text}

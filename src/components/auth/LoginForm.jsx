@@ -49,7 +49,9 @@ function LoginForm({ toggleMode }) {
       )}
 
       <div className="w-fit mt-4 flex gap-3 items-center">
-        <button type="submit">Login</button>
+        <button className="auth-submit-btn" type="submit">
+          Login
+        </button>
         <span>
           Don't have an account?{" "}
           <a

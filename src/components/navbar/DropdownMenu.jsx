@@ -17,49 +17,34 @@ const DropdownMenu = () => {
   return (
     <Dropdown.Root>
       <Dropdown.Trigger asChild>
-        <button className="IconButton cursor-target" aria-label="Create Task">
+        <button className="navbar-btn">
           <HamburgerMenuIcon width={25} height={25} />
-          {username && <UserAvatar name={username} />}
+          <UserAvatar name={username} />
         </button>
       </Dropdown.Trigger>
 
       <Dropdown.Portal>
         <Dropdown.Content
           className="DropdownMenuContent"
-          sideOffset={15}
+          sideOffset={10}
           side="bottom"
           align="start"
         >
-          {username && (
-            <Dropdown.Item className="DropdownMenuItem">
-              <span className=" ">{username}</span>
-              <span className="RightSlot">
-                <PersonIcon />
-              </span>
-            </Dropdown.Item>
-          )}
-          {username && <Dropdown.Separator />}{" "}
-          {username ? (
-            <Dropdown.Item
-              onClick={handleLogout}
-              className="DropdownMenuItem cursor-target"
-            >
-              <span className="text-sm">Logout</span>{" "}
-              <span className="RightSlot">
-                <ExitIcon />
-              </span>
-            </Dropdown.Item>
-          ) : (
-            <Dropdown.Item
-              onClick={() => navigate("/login")}
-              className="DropdownMenuItem"
-            >
-              <span className="text-sm">Login</span>{" "}
-              <span className="RightSlot">
-                <PersonIcon />
-              </span>
-            </Dropdown.Item>
-          )}
+          <Dropdown.Item className="DropdownMenuItem">
+            <span>{username}</span>
+            <span className="RightSlot">
+              <PersonIcon />
+            </span>
+          </Dropdown.Item>
+
+          <Dropdown.Separator />
+
+          <Dropdown.Item onClick={handleLogout} className="DropdownMenuItem">
+            <span className="text-sm">Logout</span>
+            <span className="RightSlot">
+              <ExitIcon />
+            </span>
+          </Dropdown.Item>
         </Dropdown.Content>
       </Dropdown.Portal>
     </Dropdown.Root>

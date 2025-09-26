@@ -1,27 +1,24 @@
+import "./InputComponent.css";
 import { useState } from "react";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { toast } from "react-toastify";
-import Checkbox from "./Checkbox";
-import "./InputComponent.css";
 
 const InputComponent = ({
   onSend,
   exceeded,
   isResolved,
   isExceeded,
-  lastMessageIsUserReq,
+  lastMsgIsUserReq,
   LLM,
   steps,
   currentSteps,
-  isChecked,
-  setIsChecked,
 }) => {
   const [inputValue, setInputValue] = useState("");
 
   const getDisabledReason = () => {
     if (isResolved) return "resolved";
     if (isExceeded) return "exceeded";
-    if (!lastMessageIsUserReq) return "no-user-req";
+    if (!lastMsgIsUserReq) return "no-user-req";
     return null;
   };
 
@@ -100,14 +97,12 @@ const InputComponent = ({
   const getPlaceholderText = () => {
     if (isResolved) return "Task completed! Create a new task to continue...";
     if (isExceeded) return "Step limit exceeded! Create a new task...";
-    if (!lastMessageIsUserReq) return "Waiting for system response...";
+    if (!lastMsgIsUserReq) return "Waiting for system response...";
     return "Your prompt goes here!";
   };
 
   return (
     <>
-      <Checkbox isChecked={isChecked} setIsChecked={setIsChecked} />
-
       <div className="fixed  lg:left-500 left-4 top-13 flex items-center text-xs opacity-100 z-20 bg-white border-1 overflow-clip border-gray-400 lg:min-h-[40px] min-h-[16px] max-w-[60px] box-border h-7  min-w-fit text-md shadow-md rounded-4xl text-gray-500">
         <span className="lg:h-[40px] h-[16px] pr-1 text-base-sm/6  hover:text-gray-900 hover:bg-gray-300 p-3 flex items-center">
           {LLM}

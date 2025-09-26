@@ -48,25 +48,20 @@ li {
   align-items: center;
 }
 
-button.create-task-button {
+.navbar-btn {
   color: var(--color-background);
   background-color: var(--color-secondary);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  width: fit-content;
   display: inline-flex;
   align-items: center;
   height: 40px;
   gap: 10px;
   padding: 0px 4px;
-  -webkit-border-radius: var(--radius-sm);
-  -moz-border-radius: var(--radius-sm);
-  -ms-border-radius: var(--radius-sm);
-  -o-border-radius: var(--radius-sm);
 }
 
-button.create-task-button:hover {
+.navbar-btn:hover {
   color: var(--violet-9);
   background-color: var(--violet-3);
   border: 1px solid var(--violet-6);
@@ -74,41 +69,17 @@ button.create-task-button:hover {
 }
 
 @media screen and (max-width: 600px) {
-  .create-task-button {
+  .navbar-btn {
+    line-height: 1;
     max-width: fit-content;
     font-size: var(--text-xs);
     max-height: 30px;
   }
 }
 
-.Sidebar-toggle {
-  background: none;
-  border: 1px solid transparent;
-  color: var(--color-background);
-  background-color: var(--color-secondary);
-  cursor: pointer;
-  font-size: 16px;
-  height: 40px;
+.toggle {
   aspect-ratio: 1/1;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* z-index: 99999999999; */
-  border-radius: var(--radius-sm);
-}
-
-.Sidebar-toggle:hover {
-  opacity: 1;
-  color: var(--violet-9);
-  background-color: var(--violet-3);
-  border: 1px solid var(--violet-6);
-  border-radius: var(--radius-sm);
-}
-
-@media screen and (max-width: 600px) {
-  .Sidebar-toggle {
-    max-width: 30px;
-    aspect-ratio: 1/1;
-    max-height: 30px;
-  }
 }

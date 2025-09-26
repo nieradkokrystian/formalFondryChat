@@ -1,0 +1,66 @@
+.switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid var(--violet-8);
+  border-radius: var(--radius-sm);
+  height: 40px;
+}
+
+.SwitchRoot {
+  width: 42px;
+  height: 25px;
+  background-color: var(--violet-9);
+  border-radius: 9999px;
+  position: relative;
+  box-shadow: 0 2px 10px var(--violet-7);
+  &[data-state="unchecked"] {
+    background-color: var(--violet-8);
+  }
+  cursor: pointer;
+}
+
+.SwitchThumb {
+  display: block;
+  width: 21px;
+  height: 21px;
+  background-color: white;
+  border-radius: 9999px;
+  box-shadow: 0 2px 2px var(--black-a7);
+  transition: transform 100ms;
+  transform: translateX(2px);
+  will-change: transform;
+  &[data-state="checked"] {
+    transform: translateX(19px);
+  }
+}
+
+.switch-label {
+  color: var(--violet-9);
+  font-size: 15px;
+  user-select: none;
+  padding: 0 15px;
+  cursor: pointer;
+  min-width: 70px;
+}
+
+.switch-label.active {
+  font-weight: bold;
+  cursor: default;
+}
+
+@media screen and (max-width: 600px) {
+  .switch-wrapper {
+    line-height: 1;
+    max-width: fit-content;
+    font-size: var(--text-xs);
+    max-height: 30px;
+  }
+
+  .switch-label {
+    padding: 0 5px;
+    min-width: 50px;
+    font-size: 13px;
+  }
+}

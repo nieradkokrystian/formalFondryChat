@@ -1,0 +1,45 @@
+.messages-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  border: 1px solid #9ca3af;
+  background-color: #ffffff;
+  color: #6b7280;
+  gap: 4px;
+}
+
+.messages-toggle h1 {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.messages-toggle-input {
+  width: 28px;
+  aspect-ratio: 1 / 1;
+}
+
+@media screen and (max-width: 600px) {
+  .messages-toggle {
+    height: 30px;
+    gap: 1px;
+    padding: 0 6px;
+  }
+
+  .messages-toggle h1 {
+    font-size: 11px;
+  }
+
+  .messages-toggle-input {
+    width: 14px;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .messages-toggle h1 {
+    font-size: 13px;
+  }
+}

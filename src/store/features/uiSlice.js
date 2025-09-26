@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isSidebarOpen: false,
+  isLogView: false,
 };
 
 export const uiSlice = createSlice({
@@ -13,6 +14,15 @@ export const uiSlice = createSlice({
     },
     closeSidebar(state) {
       state.isSidebarOpen = false;
+    },
+    setLogView(state) {
+      state.isLogView = true;
+    },
+    disableLogView(state) {
+      state.isLogView = false;
+    },
+    toggleLogView(state) {
+      state.isLogView = !state.isLogView;
     },
   },
 });

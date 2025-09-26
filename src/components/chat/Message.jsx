@@ -96,7 +96,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
             hasShadow ? "shadow-md" : "shadow-none"
           } `}
         >
-          <div className="flex-1  relative overflow-x-hidden ">
+          <div className="flex-1 relative overflow-x-hidden">
             {tag == "LLMRes" || tag == "TCReq" ? (
               <div
                 className={`text-xs lg:text-sm text-grey-500 leading-normal whitespace-pre-wrap ${

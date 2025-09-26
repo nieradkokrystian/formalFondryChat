@@ -137,7 +137,7 @@ const HomePage = () => {
                   To access your existing Tasks, press:
                 </h1>
                 <div className="wrap mx-auto">
-                  <button className="Sidebar-toggle cursor-target aspect-square ">
+                  <button className="Sidebar-toggle aspect-square ">
                     <GridIcon width={20} height={20} />
                   </button>
                 </div>

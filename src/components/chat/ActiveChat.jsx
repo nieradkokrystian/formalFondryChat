@@ -20,8 +20,6 @@ const getMessageContent = (messageObject) => {
 };
 
 function ActiveChat({ messages, taskNumber, ref }) {
-  console.log(messages);
-
   return (
     <div className="screen-messages sm:w-[100%] w-full h-full max-h-full overflow-none">
       <div className="messages w-full h-full max-h-full sm:w-[100%]" ref={ref}>

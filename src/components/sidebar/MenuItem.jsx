@@ -4,7 +4,7 @@ import Tooltip from "./Tooltip";
 const MenuItem = ({ title, status, id, type }) => {
   return (
     <Link
-      className={`group relative h-[30px] pl-3 w-full Sidebar-item p-1 flex items-center justify-between last:mb-30 overflow-x-clip pr-3 cursor-target`}
+      className={`group relative h-[30px] pl-3 w-full Sidebar-item p-1 flex items-center justify-between last:mb-30 overflow-x-clip pr-3`}
       discover="none"
       to={`/chat/${id}`}
       prefetch="render"
