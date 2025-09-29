@@ -7,6 +7,7 @@ const getMessageContent = (messageObject) => {
     return "";
   }
   const { contents } = messageObject;
+  console.log(contents);
   if (typeof contents === "string") {
     return contents;
   }
@@ -23,15 +24,11 @@ function ActiveChat({ messages, taskNumber, ref }) {
   return (
     <div className="screen-messages">
       <div className="messages" ref={ref}>
-        {messages &&
+        {messages.length > 0 &&
           messages.map((message, index) => {
             const isLastMessage = index === messages.length - 1;
-            const hasCmdWS =
-              message.cmCmdWS && message.cmCmdWS?.contents.tag != "TCSuccess";
-            // const hasCmdWS =
-            //   message.cmCmdWS && message.cmMsgWS?.contents.tag != "TCSuccess";
-            const hasMsgWS =
-              message.cmMsgWS && message.cmMsgWS.contents.tag != "TCSuccess";
+            const hasCmdWS = message.cmCmdWS?.contents.tag !== "TCSuccess";
+            const hasMsgWS = message.cmMsgWS?.contents.tag !== "TCSuccess";
 
             return (
               <React.Fragment key={index}>

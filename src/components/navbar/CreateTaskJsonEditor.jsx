@@ -9,6 +9,7 @@ function CreateTaskJsonEditor({ prompt, setPrompt }) {
       maxWidth="100%"
       rootName="prompt"
       rootFontSize="13px"
+      enableClipboard={false}
     />
   );
 }

@@ -6,11 +6,13 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { createTask, fetchAvailableTypes, fetchLlmList } from "../../api/tasks";
 import CreateTaskJsonEditor from "./CreateTaskJsonEditor";
-// import { isValidJson } from "../../utils/isValidJson";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/features/uiSlice";
+import { useNavigate } from "react-router";
+const API_GPT_KEY = import.meta.env.VITE_API_GPT_KEY;
 
 const CreateTaskScreen = ({ text }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useUser();
   const [taskName, setTaskName] = useState("");
@@ -55,13 +57,34 @@ const CreateTaskScreen = ({ text }) => {
   const handleCreateTask = async (e) => {
     if (!id) return;
 
-    let parsedPrompt;
+    const uniqueId = Math.random().toString(36).substring(2, 9);
+    const finalTaskName = taskName.trim() === "" ? uniqueId : taskName;
+
+    const taskData = {
+      task_type: taskType.taskName,
+      task_name: finalTaskName,
+      user_id: +id,
+      envStart: { ...prompt, _apiGptKey: API_GPT_KEY },
+    };
+
+    console.log("NEW TASK: ", taskData);
+
     try {
-      parsedPrompt = JSON.parse(prompt);
-    } catch {
+      const newTask = await createTask(taskData);
+
+      if (newTask && newTask?.taskId) {
+        const newTaskId = newTask.taskId;
+
+        navigate(`/chat/${newTaskId}`);
+      } else {
+        throw new Error("API did not return a valid task ID.");
+      }
+    } catch (error) {
       e.preventDefault();
 
-      toast.error("Invalid JSON format. Please check your input.", {
+      console.error("Failed to create task:", error);
+
+      toast.error("Failed to create task. Please try again.", {
         position: "bottom-left",
         closeOnClick: true,
         autoClose: 1000,
@@ -69,39 +92,6 @@ const CreateTaskScreen = ({ text }) => {
         className: " toast-1232",
       });
     }
-
-    console.log(parsedPrompt);
-
-    const uniqueId = Math.random().toString(36).substring(2, 9);
-    const finalTaskName = taskName.trim() === "" ? uniqueId : taskName;
-
-    console.log("NEW TASK: ", {
-      taskType,
-      finalTaskName,
-      id,
-      model,
-      prompt,
-    });
-
-    // try {
-    //   const newTask = await createTask(taskType, finalTaskName, id, model);
-
-    //   if (newTask && newTask.taskId) {
-    //     const newTaskId = newTask.taskId;
-
-    //     navigate(`/chat/${newTaskId}`, {
-    //       state: {
-    //         TaskName: finalTaskName,
-    //         TaskType: taskType,
-    //         username: username,
-    //       },
-    //     });
-    //   } else {
-    //     throw new Error("API did not return a valid task ID.");
-    //   }
-    // } catch (error) {
-    //   console.error("Failed to create task:", error);
-    // }
   };
 
   return (
@@ -150,17 +140,17 @@ const CreateTaskScreen = ({ text }) => {
               name="Type"
               className="Input"
               id="Type"
+              value={taskType?.taskName}
               onChange={(e) => {
-                const newType = e.target.value;
-                setTaskType(newType);
-                setPrompt(newType.envExample);
-                setModel(newType.envExample._llmModel);
+                const type = avTypes.find((t) => t.taskName === e.target.value);
+                setTaskType(type);
+                setPrompt(type.envExample);
+                setModel(type.envExample._llmModel);
               }}
-              value={taskType}
             >
               {avTypes?.map((type) => {
                 return (
-                  <option key={type.taskName} value={type}>
+                  <option key={type.taskName} value={type.taskName}>
                     {type.taskName}
                   </option>
                 );
@@ -176,6 +166,7 @@ const CreateTaskScreen = ({ text }) => {
               name="model"
               className="Input"
               id="model"
+              value={model}
               onChange={(e) => {
                 const newModel = e.target.value;
                 setModel(newModel);
@@ -184,7 +175,6 @@ const CreateTaskScreen = ({ text }) => {
                   _llmModel: newModel,
                 }));
               }}
-              value={model}
             >
               {availableModels.map((model) => (
                 <option key={model} value={model}>

@@ -21,13 +21,12 @@ export async function fetchLlmList() {
 }
 
 // Create task
-export async function createTask(type, name, id, provider, model) {
+export async function createTask(data) {
   const response = await axios.post(`${API_LINK}/tasks`, {
-    task_type: type,
-    task_name: name,
-    user_id: parseInt(id),
-    provider: provider,
-    model: model,
+    task_type: data.task_type,
+    task_name: data.task_name,
+    user_id: data.user_id,
+    envStart: data.envStart,
   });
 
   return response.data;
@@ -35,9 +34,7 @@ export async function createTask(type, name, id, provider, model) {
 
 // Get latest task state
 export async function getLatestTaskState(chatId) {
-  const response = await axios.get(
-    `${API_LINK}/taskstate/${chatId}/states/latest`
-  );
+  const response = await axios.get(`${API_LINK}/tasks/${chatId}/states/latest`);
   return response.data;
 }
 

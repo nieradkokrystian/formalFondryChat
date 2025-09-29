@@ -1,20 +1,20 @@
 /* Input + textarea */
 .input-wrap {
   --width: 750px;
-  z-index: 33;
-  display: flex;
+  width: var(--width);
+  max-width: var(--width);
   position: fixed;
   bottom: 10px;
   left: 50%;
+  z-index: 33;
   transform: translateX(-50%);
-  width: var(--width);
   height: 100px;
-  max-width: var(--width);
+  display: flex;
   align-items: center;
   border-radius: var(--radius-md);
   border: 1px solid var(--violet-9);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   background: white;
+  box-shadow: 10px 0px 40px 40px var(--color-background);
 }
 
 @media only screen and (max-width: 600px) {

@@ -22,10 +22,10 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
   let hasShadow = false;
 
   if (isUserRequest) {
-    color = " text-gray-700  bg-blue-100";
+    color = "text-gray-700 bg-blue-100";
     icon = (
-      <div className=" bg-blue-500  rounded-full mr-1.5">
-        <KeyboardIcon className=" m-2 text-white" width={20} height={20} />
+      <div className="bg-blue-500  rounded-full mr-1.5">
+        <KeyboardIcon className="m-2 text-white" width={20} height={20} />
       </div>
     );
     // hasShadow = false;
@@ -44,7 +44,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
               className={`${
                 tag == "LLM_Thinking" ? "animate-pulse" : ""
               } aspect-square m-2`}
-            />{" "}
+            />
           </div>
         );
         break;
@@ -67,7 +67,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
       default:
         color = "bg-purple-100 mb-2";
         icon = (
-          <div className=" flex  rounded-full mr-1.5">
+          <div className="flex rounded-full mr-1.5">
             <MagicWandIcon
               color="black "
               width={20}
@@ -75,7 +75,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
               className={`${
                 tag == "LLM_Thinking" ? "animate-pulse" : ""
               } aspect-square `}
-            />{" "}
+            />
           </div>
         );
         break;
@@ -85,7 +85,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
   return (
     <>
       {isUserMessage && (
-        <div className="flex max-w-[100%] justify-end  lg:w-[100%]  h-fit items-baseline relative">
+        <div className="flex max-w-[100%] justify-end lg:w-[100%] h-fit items-baseline relative">
           <MessageUser content={content} step={step} />
         </div>
       )}
@@ -108,13 +108,12 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                     : "max-h-fit"
                 }  `}
               >
-                <div className="flexflex-row mb-1  items-center text-gray-700 ">
+                <div className="flex flex-row mb-1  items-center text-gray-700 ">
                   <span className="text-xs lg:text-sm  flex justify-start items-center flex-row w-fit">
                     {taskNumber?.length > 0 ? `${taskNumber}/20` : ""}
 
                     {tag == "LLMRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-between  flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
-                        {" "}
+                      <h1 className="text-gray-700 p-1 pl-2 justify-between  flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {icon}
                         LLM Response
                       </h1>
@@ -122,8 +121,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "LLMReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
-                        {" "}
+                      <h1 className="text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {icon}
                         LLM Request
                       </h1>
@@ -131,8 +129,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "TCReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
-                        {" "}
+                      <h1 className="text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {icon}
                         LLM Request
                       </h1>
@@ -140,8 +137,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "TCRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
-                        {" "}
+                      <h1 className="text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {icon}
                         TC Response
                       </h1>
@@ -150,7 +146,6 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                     )}
                     {errorTag == "TCErr" ? (
                       <h1 className="text-white p-1 pl-2 justify-start flex items-center rounded-2xl  bg-red-500 border-red-800">
-                        {" "}
                         Error
                       </h1>
                     ) : (
@@ -164,10 +159,9 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                     errorTag == "TCErr" ? "text-red-500 " : ""
                   }`}
                 >
-                  {" "}
                   {content.includes("import") ? (
                     <MessageHighlight
-                      className=" max-w-[100%] overflow-x-hidden"
+                      className="max-w-[100%] overflow-x-hidden"
                       text={trimCode(content)}
                     >
                       {/* {(shouldExpand = false)} */}
@@ -195,10 +189,8 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                   >
                     {tag == "UserReq" ? (
                       <>
-                        {" "}
                         {icon}
-                        <h1 className=" text-white p-1 pl-2 justify-start flex items-center pr-2 rounded-2xl  bg-orange-500 border-blue-800">
-                          {" "}
+                        <h1 className="text-white p-1 pl-2 justify-start flex items-center pr-2 rounded-2xl  bg-orange-500 border-blue-800">
                           Clarifications Requested
                         </h1>
                       </>
@@ -206,8 +198,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "LLMRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
-                        {" "}
+                      <h1 className="text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {icon}
                         LLM Response
                       </h1>
@@ -215,8 +206,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "LLMReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
-                        {" "}
+                      <h1 className="text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {icon}
                         LLM Request
                       </h1>
@@ -224,8 +214,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "TCReq" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
-                        {" "}
+                      <h1 className="text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {icon}
                         LLM Request
                       </h1>
@@ -233,8 +222,7 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                       ""
                     )}
                     {tag == "TCRes" ? (
-                      <h1 className=" text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
-                        {" "}
+                      <h1 className="text-gray-700 p-1 pl-2 justify-start flex items-center pr-2 border-1  bg-[transparent] border-purple-200">
                         {icon}
                         LLM Response
                       </h1>
@@ -243,7 +231,6 @@ const Message = ({ content, type, tag, errorTag, taskNumber, step }) => {
                     )}
                     {errorTag == "TCErr" ? (
                       <h1 className="text-white p-1 rounded-2xl  bg-red-500 border-red-800">
-                        {" "}
                         Error occurred in Agda code
                       </h1>
                     ) : (

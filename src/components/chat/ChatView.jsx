@@ -17,7 +17,7 @@ const ChatView = ({ scrollBottom }) => {
 
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLLMThinking, setIsLLMThinking] = useState(false);
+  // const [isLLMThinking, setIsLLMThinking] = useState(false);
   const [exceeded, setExceeded] = useState(false);
   const [taskNumber, setTaskNumber] = useState("");
   const [steps, setSteps] = useState("20");
@@ -100,7 +100,7 @@ const ChatView = ({ scrollBottom }) => {
           (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
         );
         setMessages(filteredNewMessages);
-        setIsLLMThinking(false);
+        // setIsLLMThinking(false);
 
         if (chatId) {
           try {
@@ -117,13 +117,12 @@ const ChatView = ({ scrollBottom }) => {
         }
       } catch (error) {
         console.error("Polling error:", error);
-        setIsLLMThinking(false);
+        // setIsLLMThinking(false);
       }
     }, 3000);
   };
 
   const handleSend = async (inputValue) => {
-    // if (inputValue.trim() === "") return;
     if (!canUserRespond(messages)) return;
 
     const userMessage = {
@@ -141,7 +140,7 @@ const ChatView = ({ scrollBottom }) => {
       userMessage,
       thinkingMessage,
     ]);
-    setIsLLMThinking(true);
+    // setIsLLMThinking(true);
 
     try {
       await sendUserResponse(chatId, inputValue);
@@ -152,7 +151,7 @@ const ChatView = ({ scrollBottom }) => {
       setMessages((prevMessages) =>
         prevMessages.filter((msg) => msg.cmMsgWS?.tag !== "LLM_Thinking")
       );
-      setIsLLMThinking(false);
+      // setIsLLMThinking(false);
     }
   };
 
@@ -172,6 +171,7 @@ const ChatView = ({ scrollBottom }) => {
       setIsLoading(true);
       try {
         const messagesData = await getMessagesHistory(chatId);
+        console.log(messagesData);
 
         const initialMessages = messagesData.filter(
           (msg) => msg.cmMsgWS?.tag !== "LLM_Thinking"
@@ -184,7 +184,7 @@ const ChatView = ({ scrollBottom }) => {
           lastMessage?.taskStatWS === "running";
 
         if (shouldBeThinking) {
-          setIsLLMThinking(true);
+          // setIsLLMThinking(true);
           const thinkingMessage = {
             cmMsgWS: { contents: "LLM is thinking...", tag: "LLM_Thinking" },
             taskStatWS: "running",
