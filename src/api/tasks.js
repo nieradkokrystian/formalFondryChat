@@ -1,5 +1,5 @@
 import axios from "axios";
-import axiosInstance from "./axios-cache";
+// import axiosInstance from "./axios-cache";
 const API_LINK = import.meta.env.VITE_API_BASE;
 
 // Fetch task by user id
@@ -10,13 +10,13 @@ export async function fetchTasks(userId) {
 
 // Fetch available tasks
 export async function fetchAvailableTypes() {
-  const response = await axiosInstance.get(`${API_LINK}/availableTasks`);
+  const response = await axios.get(`${API_LINK}/availableTasks`);
   return response.data;
 }
 
 // Fetch llm list
 export async function fetchLlmList() {
-  const response = await axiosInstance.get(`${API_LINK}/llm_list`);
+  const response = await axios.get(`${API_LINK}/llm_list`);
   return response.data;
 }
 

@@ -22,30 +22,32 @@ const CreateTaskScreen = ({ text }) => {
   const [model, setModel] = useState("");
   const [prompt, setPrompt] = useState();
 
-  const fetchAvTypes = async () => {
-    try {
-      const types = await fetchAvailableTypes();
-
-      if (types.length > 0) {
-        setAvTypes(types);
-        setPrompt(types[0].envExample);
+  const handleOpen = async (open) => {
+    if (open) {
+      try {
+        const types = await fetchAvailableTypes();
+        if (types.length > 0) {
+          setAvTypes(types);
+          setTaskType(types[0]);
+          setPrompt(types[0].envExample);
+        }
+      } catch (error) {
+        console.error("Failed to fetch available types: ", error);
       }
-    } catch (error) {
-      console.error("Failed to fetch available types: ", error);
-    }
-  };
 
-  const getLlmList = async () => {
-    try {
-      const list = await fetchLlmList();
-
-      if (list.length > 0) {
-        const provider = list.find((prov) => prov.provider_name === "OpenAI");
-        setAvailableModels(provider.models);
-        setModel(provider.models[0]);
+      try {
+        const list = await fetchLlmList();
+        if (list.length > 0) {
+          const provider = list.find((prov) => prov.provider_name === "OpenAI");
+          setAvailableModels(provider.models);
+          setModel(provider.models[0]);
+          setPrompt((prev) => ({ ...prev, _llmModel: provider.models[0] }));
+        }
+      } catch (error) {
+        console.error("Failed to fetch LLM list:", error);
       }
-    } catch (error) {
-      console.error("Failed to fetch LLM list:", error);
+    } else {
+      resetModal();
     }
   };
 
@@ -99,16 +101,7 @@ const CreateTaskScreen = ({ text }) => {
   };
 
   return (
-    <Dialog.Root
-      onOpenChange={(open) => {
-        if (open) {
-          fetchAvTypes();
-          getLlmList();
-        } else {
-          resetModal();
-        }
-      }}
-    >
+    <Dialog.Root onOpenChange={handleOpen}>
       <Dialog.Trigger asChild>
         <button
           className="navbar-btn"
@@ -157,8 +150,7 @@ const CreateTaskScreen = ({ text }) => {
               onChange={(e) => {
                 const type = avTypes.find((t) => t.taskName === e.target.value);
                 setTaskType(type);
-                setPrompt(type.envExample);
-                setModel(type.envExample._llmModel);
+                setPrompt({ ...type.envExample, _llmModel: model });
               }}
             >
               {avTypes?.map((type) => {
