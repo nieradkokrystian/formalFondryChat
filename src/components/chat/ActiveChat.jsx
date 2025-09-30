@@ -1,41 +1,24 @@
+import "./ActiveChat.css";
 import React from "react";
 import Message from "./Message";
-import "./ActiveChat.css";
+import { getMessageContent } from "../../utils/messageHelpers";
 
-const getMessageContent = (messageObject) => {
-  if (!messageObject) {
-    return "";
-  }
-  const { contents } = messageObject;
-  console.log(contents);
-  if (typeof contents === "string") {
-    return contents;
-  }
-  if (Array.isArray(contents)) {
-    return contents.map((item) => item.content).join("\n");
-  }
-  if (typeof contents === "object" && contents !== null) {
-    return contents.contents;
-  }
-  return "";
-};
-
-function ActiveChat({ messages, taskNumber, ref }) {
+function ActiveChat({ messages }) {
   return (
     <div className="screen-messages">
-      <div className="messages" ref={ref}>
+      <div className="messages">
         {messages.length > 0 &&
           messages.map((message, index) => {
-            const isLastMessage = index === messages.length - 1;
-            const hasCmdWS = message.cmCmdWS?.contents.tag !== "TCSuccess";
-            const hasMsgWS = message.cmMsgWS?.contents.tag !== "TCSuccess";
+            const isLastMsg = index === messages.length - 1;
+            const cmMsgSuccess = message.cmMsgWS?.contents.tag !== "TCSuccess";
+
+            const hasCmdWS = message.cmCmdWS && cmMsgSuccess;
+            const hasMsgWS = message.cmMsgWS && cmMsgSuccess;
 
             return (
               <React.Fragment key={index}>
                 {hasCmdWS && (
-                  <div
-                    className={isLastMessage && !hasMsgWS ? "mb-[100px]" : ""}
-                  >
+                  <div className={isLastMsg && !hasMsgWS ? "mb-[100px]" : ""}>
                     <Message
                       content={getMessageContent(message.cmCmdWS)}
                       type={message.taskStatWS}
@@ -46,13 +29,12 @@ function ActiveChat({ messages, taskNumber, ref }) {
                 )}
 
                 {hasMsgWS && (
-                  <div className={isLastMessage ? "mb-[100px]" : ""}>
+                  <div className={isLastMsg ? "mb-[100px]" : ""}>
                     <Message
                       content={getMessageContent(message.cmMsgWS)}
                       type={message.taskStatWS}
                       tag={message.cmMsgWS.tag}
                       errorTag={message.cmMsgWS.contents.tag}
-                      taskNumber={taskNumber}
                       step={index + 1}
                     />
                   </div>

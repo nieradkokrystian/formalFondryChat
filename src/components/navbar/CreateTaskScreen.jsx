@@ -9,6 +9,7 @@ import CreateTaskJsonEditor from "./CreateTaskJsonEditor";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/features/uiSlice";
 import { useNavigate } from "react-router";
+import { getTasks } from "../../store/features/tasksSlice";
 const API_GPT_KEY = import.meta.env.VITE_API_GPT_KEY;
 
 const CreateTaskScreen = ({ text }) => {
@@ -64,8 +65,6 @@ const CreateTaskScreen = ({ text }) => {
       envStart: { ...prompt, _apiGptKey: API_GPT_KEY },
     };
 
-    console.log("NEW TASK: ", taskData);
-
     try {
       const newTask = await createTask(taskData);
 
@@ -73,6 +72,7 @@ const CreateTaskScreen = ({ text }) => {
         const newTaskId = newTask.taskId;
 
         navigate(`/chat/${newTaskId}`);
+        await dispatch(getTasks(id));
       } else {
         throw new Error("API did not return a valid task ID.");
       }

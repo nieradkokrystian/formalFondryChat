@@ -4,7 +4,7 @@ const API_LINK = import.meta.env.VITE_API_BASE;
 
 // Fetch task by user id
 export async function fetchTasks(userId) {
-  const response = await axios.get(`${API_LINK}/tasks/${userId}`);
+  const response = await axios.get(`${API_LINK}/tasksall/${userId}`);
   return response.data;
 }
 

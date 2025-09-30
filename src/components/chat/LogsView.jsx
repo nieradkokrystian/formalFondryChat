@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import LOGS from "./TEMP-LOGS";
 import dayjs from "dayjs";
 
-const LogsView = ({ scrollBottom }) => {
+const LogsView = ({ containerRef }) => {
   const getBackgroundColor = (code) => {
     switch (code) {
       case 10:
@@ -25,7 +25,7 @@ const LogsView = ({ scrollBottom }) => {
   };
 
   const scrollToBottom = () => {
-    const scrollElement = scrollBottom?.current;
+    const scrollElement = containerRef?.current;
     if (!scrollElement) return;
 
     scrollElement.scrollTop = scrollElement.scrollHeight;

@@ -2,7 +2,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 function MessageHighlight({ text }) {
-  const codeString = typeof text == String ? text.toString() : text.toString();
+  const codeString = String(text ?? "");
 
   const customStyle = {
     whiteSpace: "pre-wrap",
@@ -11,6 +11,7 @@ function MessageHighlight({ text }) {
   };
 
   if (codeString.includes("Agda snippet inline: ")) {
+    // eslint-disable-next-line no-useless-escape
     let trimmed = codeString.replace(/[\/\\]/g, "");
     let textSplit = trimmed.split("Agda snippet inline:");
     return (
@@ -30,17 +31,15 @@ function MessageHighlight({ text }) {
   }
 
   return (
-    <>
-      <SyntaxHighlighter
-        language="agda"
-        style={oneDark}
-        customStyle={customStyle}
-        showInlineLineNumbers={true}
-        startingLineNumber={3}
-      >
-        {codeString}
-      </SyntaxHighlighter>
-    </>
+    <SyntaxHighlighter
+      language="agda"
+      style={oneDark}
+      customStyle={customStyle}
+      showInlineLineNumbers={true}
+      startingLineNumber={3}
+    >
+      {codeString}
+    </SyntaxHighlighter>
   );
 }
 
