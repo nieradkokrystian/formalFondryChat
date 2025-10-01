@@ -1,31 +1,27 @@
 import { useState } from "react";
 import { countCollapsible } from "../../utils/messageHelpers";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 const MessageUser = ({ content }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const isCollapsible = countCollapsible(content);
+  const isCollapsed = isCollapsible && !isExpanded;
 
   return (
-    <div className="flex max-w-[100%] justify-end lg:w-[100%] h-fit items-baseline relative">
-      <div className="message-user message max-w-[80%] text-sm whitespace-pre-wrap text-gray-900 mt-6 bg-indigo-100 w-fit min-h-fit h-fit p-4 rounded-4xl rounded-tr-xs wrap-normal flex justify-start relative">
-        <p
-          className={`leading-normal whitespace-pre-wrap ${
-            isCollapsible && !isExpanded ? "max-h-[6.4em] overflow-hidden" : ""
-          }`}
-        >
-          {content.length > 1 ? content : "Confirmed"}
-        </p>
-        {isCollapsible && (
-          <button
+    <div className="message-user">
+      <p className={isCollapsed ? "message-collapsed" : ""}>
+        {content.length > 1 ? content : "Confirmed"}
+      </p>
+      {isCollapsible && (
+        <div className="message-user-expand-wrapper">
+          <ChevronDownIcon
             onClick={() => setIsExpanded((prev) => !prev)}
-            className={`absolute top-2 right-2 text-gray-500 hover:text-gray-900 transition-transform duration-200 ${
-              isExpanded ? "rotate-180" : ""
-            }`}
-          >
-            <ChevronDownIcon width={20} height={20} />
-          </button>
-        )}
-      </div>
+            className={`cursor-pointer ${isExpanded ? "rotate-180" : ""}`}
+            width={50}
+            height={20}
+          />
+        </div>
+      )}
     </div>
   );
 };

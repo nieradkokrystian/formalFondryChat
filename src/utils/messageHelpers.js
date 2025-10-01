@@ -1,4 +1,4 @@
-const COLLAPSIBLE_LENGTH_LIMIT = 200;
+const COLLAPSIBLE_LENGTH_LIMIT = 250;
 
 export const countCollapsible = (content) =>
   (typeof content === "string" && (content.match(/\n/g) || []).length > 3) ||
