@@ -1,0 +1,89 @@
+.logs-container {
+  margin-top: 110px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.log-item {
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: var(--shadow-sm);
+  font-size: 14px;
+}
+
+/* HEADER */
+.log-item-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--mauve-12);
+  cursor: pointer;
+}
+
+.log-item-header-data {
+  display: flex;
+  flex: 1;
+  gap: 16px;
+}
+
+.log-item-header-data .bold {
+  font-weight: bold;
+}
+
+.log-item-header-data span {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.log-item-header-icon {
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.log-item-chevron {
+  transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+/* CONTENT */
+.log-item-content {
+  color: var(--mauve-11);
+  overflow: hidden;
+}
+
+.log-item-content[data-state="open"] {
+  animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.log-item-content[data-state="closed"] {
+  animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.log-item-content-text {
+  padding: 10px 15px;
+}
+
+/* ANIMATION */
+.log-item-header[data-state="open"] .log-item-chevron {
+  transform: rotate(180deg);
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}

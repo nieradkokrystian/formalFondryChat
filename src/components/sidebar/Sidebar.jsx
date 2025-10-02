@@ -1,7 +1,7 @@
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../../store/features/uiSlice";
-import CreateTaskScreen from "../navbar/CreateTaskScreen";
+import CreateTaskScreen from "../tasks/CreateTaskScreen";
 import SidebarBottom from "./SidebarBottom";
 import MenuItem from "./MenuItem";
 

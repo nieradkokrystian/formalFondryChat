@@ -1,5 +1,3 @@
-import "./EmptyChat.css";
-
 const EmptyChat = () => {
   return (
     <div className="empty-chat">

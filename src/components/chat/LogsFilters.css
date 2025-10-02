@@ -1,0 +1,249 @@
+.logs-filters-root {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  width: 750px;
+  height: 50px;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+}
+
+.logs-filters-root > div {
+  width: 100%;
+}
+
+.logs-filters-list {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  list-style: none;
+
+  background-color: var(--violet-4);
+  border-radius: 8px;
+}
+
+.logs-filters-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  outline: none;
+  user-select: none;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 4px;
+  font-size: 15px;
+  color: var(--violet-10);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.logs-filters-trigger:hover {
+  background-color: var(--violet-3);
+}
+
+.logs-filters-caret {
+  position: relative;
+  transition: transform 250ms ease;
+}
+
+.logs-filters-trigger[data-state="open"] .logs-filters-caret {
+  transform: rotate(-180deg);
+}
+
+.logs-filters-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+
+.logs-filters-content[data-motion="from-start"] {
+  animation-name: enterFromLeft;
+}
+.logs-filters-content[data-motion="from-end"] {
+  animation-name: enterFromRight;
+}
+.logs-filters-content[data-motion="to-start"] {
+  animation-name: exitToLeft;
+}
+.logs-filters-content[data-motion="to-end"] {
+  animation-name: exitToRight;
+}
+
+.logs-filters-viewport-position {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  perspective: 2000px;
+}
+
+.logs-filters-viewport {
+  position: relative;
+  transform-origin: top center;
+  margin-top: 3px;
+  width: 100%;
+  background-color: var(--violet-1);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  height: var(--radix-navigation-menu-viewport-height);
+  transition: width, height, 300ms ease;
+}
+
+.logs-filters-viewport[data-state="open"] {
+  animation: scaleIn 200ms ease;
+}
+
+.logs-filters-viewport[data-state="closed"] {
+  animation: scaleOut 200ms ease;
+}
+
+.logs-filters-dropdown {
+  display: block;
+  padding: 16px;
+  margin: 0;
+  list-style: none;
+  min-width: 200px;
+}
+
+.logs-filters-dropdown li {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+  color: var(--violet-11);
+}
+
+.logs-filters-dropdown li:hover {
+  background-color: var(--violet-3);
+}
+
+.logs-filters-indicator {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 6px;
+  top: 100%;
+  overflow: hidden;
+  z-index: 1;
+  transition: width, transform 250ms ease;
+}
+
+.logs-filters-indicator[data-state="visible"] {
+  animation: fadeIn 200ms ease;
+}
+
+.logs-filters-indicator[data-state="hidden"] {
+  animation: fadeOut 200ms ease;
+}
+
+.logs-filters-arrow {
+  position: relative;
+  top: 70%;
+  background-color: var(--violet-6);
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  border-top-left-radius: 1px;
+}
+
+/* Animacje */
+@keyframes enterFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes enterFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes exitToRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+}
+
+@keyframes exitToLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: rotateX(-30deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: rotateX(-10deg) scale(0.95);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

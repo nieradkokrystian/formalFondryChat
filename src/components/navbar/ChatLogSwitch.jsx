@@ -13,7 +13,7 @@ function ChatLogSwitch() {
         className={`switch-label ${isLogView ? "active" : ""}`}
         onClick={() => dispatch(uiActions.setLogView())}
       >
-        Logi
+        Logs
       </label>
       <Switch.Root
         className="SwitchRoot"

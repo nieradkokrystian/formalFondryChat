@@ -1,4 +1,3 @@
-import "./ActiveChat.css";
 import React from "react";
 import { useSelector } from "react-redux";
 import { getMessageContent } from "../../utils/messageHelpers";

@@ -11,7 +11,7 @@ import GradientText from "../components/animations/GradientText";
 import TextType from "../components/animations/TextType";
 import FadeContent from "../components/animations/FadeContent";
 import Separator from "../components/ui/Separator";
-import CreateTaskScreen from "../components/navbar/CreateTaskScreen";
+import CreateTaskScreen from "../components/tasks/CreateTaskScreen";
 import Logo from "../components/ui/Logo";
 import Carousel from "../components/animations/Carousel";
 import DocsSidebar from "../components/docs/DocsSidebar";

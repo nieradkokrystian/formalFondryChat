@@ -8,7 +8,7 @@ import {
 } from "@radix-ui/react-icons";
 
 import Logo from "../components/ui/Logo";
-import CreateTaskScreen from "../components/navbar/CreateTaskScreen";
+import CreateTaskScreen from "../components/tasks/CreateTaskScreen";
 import FadeContent from "../components/animations/FadeContent";
 import Separator from "../components/ui/Separator";
 import GradientText from "../components/animations/GradientText";
