@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import Loader from "../ui/Loader";
 import InputComponent from "./InputComponent";
 import EmptyChat from "./EmptyChat";
@@ -16,20 +15,15 @@ import retryFetch from "../../utils/retryFetch";
 
 const ChatView = ({ containerRef }) => {
   const { chatId } = useParams();
-  const isLimitTo100 = useSelector((s) => s.chat.limitTo100);
+  const pollingInterval = useRef(null);
 
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [exceeded, setExceeded] = useState(false);
   const [steps, setSteps] = useState(null);
   const [currentSteps, setCurrentSteps] = useState(0);
   const [llm, setLlm] = useState("");
 
-  console.log(messages);
-
-  const pollingInterval = useRef(null);
-
-  const startPolling = () => {
+  const startPolling = useCallback(() => {
     if (pollingInterval.current) {
       clearInterval(pollingInterval.current);
     }
@@ -60,7 +54,7 @@ const ChatView = ({ containerRef }) => {
         console.error("Polling error:", error);
       }
     }, 3000);
-  };
+  }, [chatId]);
 
   const handleSend = async (inputValue) => {
     if (!canUserRespond(messages)) return;
@@ -97,7 +91,6 @@ const ChatView = ({ containerRef }) => {
   useEffect(() => {
     setMessages([]);
     setIsLoading(true);
-    setExceeded(false);
     setSteps(null);
     setCurrentSteps(0);
     setLlm("");
@@ -107,11 +100,6 @@ const ChatView = ({ containerRef }) => {
       pollingInterval.current = null;
     }
   }, [chatId]);
-
-  // SET EXCEEDED
-  useEffect(() => {
-    setExceeded(!canUserRespond(messages));
-  }, [messages]);
 
   // FETCH INIT DATA
   useEffect(() => {
@@ -174,7 +162,7 @@ const ChatView = ({ containerRef }) => {
         pollingInterval.current = null;
       }
     };
-  }, [chatId]);
+  }, [chatId, startPolling]);
 
   // SCROLL BOTTOM
   useEffect(() => {
@@ -184,26 +172,21 @@ const ChatView = ({ containerRef }) => {
     scrollElement.scrollTop = scrollElement.scrollHeight;
   }, [chatId, containerRef]);
 
-  const lastMessageIsUserReq =
-    messages.length > 0 &&
-    messages[messages.length - 1]?.cmCmdWS?.tag === "UserReq";
-
-  const displayedMessages = isLimitTo100 ? messages.slice(-100) : messages;
-
   return (
     <>
       {isLoading && <Loader />}
       {!messages.length && !isLoading && <EmptyChat />}
-      {messages.length > 0 && <ActiveChat messages={displayedMessages} />}
+      {messages.length > 0 && <ActiveChat messages={messages} />}
 
-      <InputComponent
-        exceeded={exceeded}
-        LLM={llm}
-        steps={steps}
-        currentSteps={currentSteps}
-        onSend={handleSend}
-        lastMsgIsUserReq={lastMessageIsUserReq}
-      />
+      {messages.length > 0 && (
+        <InputComponent
+          LLM={llm}
+          steps={steps}
+          currentSteps={currentSteps}
+          onSend={handleSend}
+          messages={messages}
+        />
+      )}
     </>
   );
 };

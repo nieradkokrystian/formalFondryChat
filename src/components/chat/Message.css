@@ -1,3 +1,6 @@
+.message-last {
+  margin-bottom: 100px;
+}
 .message {
   width: 85%;
   padding: 16px;
@@ -6,7 +9,7 @@
   overflow-x: hidden;
   white-space: pre-wrap;
   font-size: 14px;
-  color: #374151;
+  color: var(--color-text);
 }
 
 .message-header {
@@ -22,18 +25,18 @@
   justify-content: space-between;
   align-items: center;
   gap: 7px;
-  border: 1px solid #e9d5ff;
+  border: 1px solid var(--violet-6);
 }
 
 .message-header-text.clarification {
   border-radius: 20px;
-  background-color: #f97316;
+  background-color: var(--orange-9);
   color: white;
 }
 .message-header-text.error {
   border-radius: 20px;
   color: white;
-  background-color: #ef4444;
+  background-color: var(--red-9);
 }
 
 .message-content {
@@ -42,7 +45,7 @@
 }
 
 .message-content.error {
-  color: #ef4444;
+  color: var(--red-9);
 }
 
 .message-collapsed {
@@ -67,8 +70,8 @@
   border-top-right-radius: 4px;
   white-space: pre-wrap;
   font-size: 14px;
-  color: #374151;
-  background-color: #e0e7ff;
+  color: var(--color-text);
+  background-color: var(--indigo-4);
 }
 
 .message-user-expand-wrapper {

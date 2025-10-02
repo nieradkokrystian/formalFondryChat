@@ -2,7 +2,7 @@ import "./CreateTaskScreen.css";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useUser } from "../../hooks/useUser";
-import * as Dialog from "@radix-ui/react-dialog";
+import { Dialog } from "radix-ui";
 import { Cross2Icon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { createTask, fetchAvailableTypes, fetchLlmList } from "../../api/tasks";
 import CreateTaskJsonEditor from "./CreateTaskJsonEditor";

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
-import { GridIcon } from "@radix-ui/react-icons";
 import {
   QuestionMarkCircledIcon,
   MagnifyingGlassIcon,
+  GridIcon,
 } from "@radix-ui/react-icons";
 
 import Logo from "../components/ui/Logo";

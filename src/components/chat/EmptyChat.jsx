@@ -1,12 +1,12 @@
 import "./EmptyChat.css";
-import GlassPanel from "./GlassPanel";
 
 const EmptyChat = () => {
   return (
     <div className="empty-chat">
-      <div className="empty-chat-wrap">
-        <GlassPanel className="w-fit h-fit" />
-      </div>
+      <h1>The chat is empty.</h1>
+      <p>
+        An error may have occurred, please reload page or start a new task...
+      </p>
     </div>
   );
 };

@@ -6,6 +6,11 @@
 @import "@radix-ui/colors/green.css";
 @import "@radix-ui/colors/gray.css";
 @import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/pink.css";
+@import "@radix-ui/colors/slate.css";
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/indigo.css";
 
 :root {
   font-synthesis: none;
@@ -13,11 +18,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-primary: #6b46c1;
-  --color-secondary: #620ef3;
-  --color-background: #faf7f7;
-  --color-text: #1d2129;
-  --color-border: #aebac7;
+  --color-primary: var(--violet-9);
+  --color-secondary: var(--violet-10);
+  --color-background: var(--pink-1);
+  --color-text: var(--slate-12);
+  --color-border: var(--slate-8);
 }
 
 html {
@@ -25,7 +30,6 @@ html {
   line-height: 1.5;
   scroll-behavior: smooth;
 }
-
 body {
   margin: 0;
   padding: 0;

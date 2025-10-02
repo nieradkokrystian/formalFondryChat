@@ -38,7 +38,7 @@
 
 .navbar-btn {
   color: var(--color-background);
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   cursor: pointer;
