@@ -2,7 +2,7 @@ import "../components/chat/Chat.css";
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import LogsView from "../components/chat/LogsView";
+import LogsView from "../components/logs-chat/LogsView";
 import ChatView from "../components/chat/ChatView";
 
 const ChatPage = () => {

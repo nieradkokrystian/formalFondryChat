@@ -87,3 +87,27 @@
     height: 0;
   }
 }
+
+/* LOGS EMPTY */
+.logs-empty {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  color: var(--mauve-10);
+}
+
+.logs-empty h1 {
+  font-size: var(--text-xl);
+  font-weight: bold;
+}
+.logs-empty p {
+  font-size: var(--text-lg);
+}
