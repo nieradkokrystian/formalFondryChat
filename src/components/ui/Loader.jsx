@@ -1,10 +1,10 @@
-import { BeatLoader } from "react-spinners";
+import { BeatLoader, PropagateLoader } from "react-spinners";
 
-const Loader = () => {
+export const Loader = () => {
   return (
     <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
       <BeatLoader
-        color="#620ef3"
+        color="var(--violet-10)"
         cssOverride={{}}
         margin={3}
         size={15}
@@ -14,4 +14,6 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export const LlmLoader = () => {
+  return <PropagateLoader color="var(--violet-8)" />;
+};

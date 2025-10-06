@@ -11,28 +11,30 @@ const Message = ({ content, status, tag, errorTag, step, isLast }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isCollapsible = countCollapsible(content);
-  const isError = errorTag === "TCErr";
   const isUserMessage = tag === "UserMessage" || tag === "UserRes";
-  const isUserRequest = tag === "UserReq";
 
   const showExpandBtn =
     isCollapsible && tag !== "UserReq" && tag !== "LLMRes" && tag !== "TCReq";
 
-  const { bgColor, icon } = useMessageConfig(isUserRequest, status);
+  const { bgColor, icon } = useMessageConfig(tag === "UserReq", status);
 
   return (
-    <div className={isLast ? "message-last" : ""}>
+    <div
+      className={`
+        ${isLast ? "message-last" : ""} 
+        ${tag === "LLM_Thinking" ? "animate-pulse" : ""}`}
+    >
       {isUserMessage && <MessageUser content={content} step={step} />}
 
       {!isUserMessage && (
         <div className={`message ${bgColor}`}>
-          <MessageHeader tag={tag} icon={icon} isError={isError} />
+          <MessageHeader tag={tag} icon={icon} isError={errorTag === "TCErr"} />
 
           <MessageContent
             tag={tag}
             content={content}
             isExpanded={isExpanded}
-            isError={isError}
+            isError={errorTag === "TCErr"}
           />
 
           {showExpandBtn && (

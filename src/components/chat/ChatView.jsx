@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import Loader from "../ui/Loader";
+import { Loader } from "../ui/Loader";
 import InputComponent from "./InputComponent";
 import EmptyChat from "./EmptyChat";
 import ActiveChat from "./ActiveChat";

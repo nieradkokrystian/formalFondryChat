@@ -1,6 +1,7 @@
 import "./InputComponent.css";
 import { useState } from "react";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
+import { LlmLoader } from "../ui/Loader";
 
 const InputComponent = ({ LLM, steps, currentSteps, onSend, messages }) => {
   const [inputValue, setInputValue] = useState("");
@@ -37,6 +38,12 @@ const InputComponent = ({ LLM, steps, currentSteps, onSend, messages }) => {
 
   return (
     <div className="input-wrap">
+      {!resolved && !exceeded && !isUserReq && (
+        <div className="input-loader">
+          <LlmLoader />
+        </div>
+      )}
+
       <div className="input-status">
         <span>{LLM}</span>
         <span className="divider"></span>

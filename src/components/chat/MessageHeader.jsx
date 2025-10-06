@@ -5,6 +5,7 @@ const MessageHeader = ({ tag, icon, isError }) => {
     LLMReq: "LLM Request",
     TCRes: "TC Response",
     UserReq: "Clarifications Requested",
+    LLM_Thinking: "LLM Thinking",
   };
 
   const isUserReq = tag === "UserReq";

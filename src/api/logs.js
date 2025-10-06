@@ -3,8 +3,6 @@ const API_LINK = import.meta.env.VITE_API_BASE;
 
 // Fetch logs by task id
 export async function fetchLogs(taskId, params = {}) {
-  console.log("FETCH LOGS!!!");
-
   try {
     const query = {};
     if (params.level !== 20 && params.level) {
