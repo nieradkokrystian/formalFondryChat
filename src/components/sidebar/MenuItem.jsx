@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import Tooltip from "./Tooltip";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../store/features/uiSlice";
 
 const MenuItem = ({ title, status, id, type }) => {
+  const dispatch = useDispatch();
   return (
     <Link
       className={`group relative h-[30px] pl-3 w-full Sidebar-item p-1 flex items-center justify-between last:mb-30 overflow-x-clip pr-3`}
-      discover="none"
       to={`/chat/${id}`}
-      prefetch="render"
-      preventScrollReset
+      onClick={() => {
+        dispatch(uiActions.closeSidebar());
+        dispatch(uiActions.disableLogView());
+      }}
     >
       <div
         className={`orb w-2 h-2 rounded-full left-[1px] absolute  aspect-square ${

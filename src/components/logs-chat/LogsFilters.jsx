@@ -1,34 +1,22 @@
 import "./LogsFilters.css";
 import { NavigationMenu } from "radix-ui";
 import LogsFiltersItem from "./LogsFiltersItem";
-import LogFiltersTags from "./LogFiltersTags";
-import LogFiltersLevel from "./LogFiltersLevel";
-import { useDispatch } from "react-redux";
-import { getLogs } from "../../store/features/logSlice";
-import { useParams } from "react-router";
+import LogsFiltersTags from "./LogsFiltersTags";
+import LogsFiltersLevel from "./LogsFiltersLevel";
+import LogsFiltersTimestamp from "./LogsFiltersTimestamp";
 
 const LogsFilters = () => {
-  const dispatch = useDispatch();
-  const { chatId } = useParams();
-
   return (
-    <NavigationMenu.Root
-      className="logs-filters-root"
-      // onValueChange={() => console.log("Value Changed")}
-      onMouseLeave={() => dispatch(getLogs(chatId))}
-    >
+    <NavigationMenu.Root className="logs-filters-root">
       <NavigationMenu.List className="logs-filters-list">
-        {/* <LogsFiltersItem name="Timestamp">
-          <ul className="logs-filters-dropdown">
-            <li>Ostatnia godzina</li>
-            <li>Ostatni dzień</li>
-          </ul>
-        </LogsFiltersItem> */}
+        <LogsFiltersItem name="Timestamp">
+          <LogsFiltersTimestamp />
+        </LogsFiltersItem>
         <LogsFiltersItem name="Level">
-          <LogFiltersLevel />
+          <LogsFiltersLevel />
         </LogsFiltersItem>
         <LogsFiltersItem name="Tag">
-          <LogFiltersTags />
+          <LogsFiltersTags />
         </LogsFiltersItem>
 
         <NavigationMenu.Indicator className="logs-filters-indicator">

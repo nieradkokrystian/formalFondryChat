@@ -21,6 +21,7 @@ const initialState = {
   filters: {
     level: 20,
     tags: [],
+    sortOrder: "desc",
   },
   isLoadingLogs: false,
 };
@@ -39,6 +40,16 @@ export const logSlice = createSlice({
       } else {
         state.filters.tags.push(tag);
       }
+    },
+    setSortOrder(state, action) {
+      state.filters.sortOrder = action.payload;
+    },
+    resetLogFilters(state) {
+      state.filters = {
+        level: 20,
+        tags: [],
+        sortOrder: "desc",
+      };
     },
   },
   extraReducers: (builder) => {

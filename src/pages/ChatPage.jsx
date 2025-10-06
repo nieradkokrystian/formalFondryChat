@@ -6,9 +6,9 @@ import LogsView from "../components/logs-chat/LogsView";
 import ChatView from "../components/chat/ChatView";
 
 const ChatPage = () => {
-  const isLogView = useSelector((s) => s.ui.isLogView);
   const { chatId } = useParams();
   const containerRef = useRef(false);
+  const isLogView = useSelector((s) => s.ui.isLogView);
 
   return (
     <div className="chat-container" ref={containerRef}>

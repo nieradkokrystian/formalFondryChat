@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isSidebarOpen: false,
-  isLogView: true,
+  isLogView: false,
 };
 
 export const uiSlice = createSlice({

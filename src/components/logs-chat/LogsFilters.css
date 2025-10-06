@@ -264,6 +264,11 @@
   background-color: var(--violet-3);
 }
 
+.logs-filters-dropdown li.active {
+  background-color: var(--violet-9);
+  color: white;
+}
+
 /* ITEM CONTENT LEVEL */
 .log-filters-level {
   width: 100%;
@@ -301,20 +306,48 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 8px;
+}
+
+.logs-filters-tags-header {
+  display: flex;
+  justify-content: center;
+  /* margin-bottom: 8px; */
+}
+
+.logs-filters-tags-toggle-all {
+  background-color: var(--violet-9);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.logs-filters-tags-toggle-all:hover {
+  background-color: var(--violet-10);
+}
+
+.logs-filters-tags-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 32px;
+  align-items: start;
 }
 
 .logs-filters-tags-item {
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .logs-filters-tags-label {
   font-size: 13px;
   color: var(--violet-11);
+  cursor: pointer;
+  user-select: none;
 }
 
 .logs-filters-tags-checkbox {
