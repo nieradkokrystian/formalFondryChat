@@ -1,17 +1,22 @@
-import { NavigationMenu } from "radix-ui";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 
 const LogsFiltersItem = ({ name, children }) => {
   return (
-    <NavigationMenu.Item>
-      <NavigationMenu.Trigger className="logs-filters-trigger">
-        {name}
-        <CaretDownIcon className="logs-filters-caret" aria-hidden />
-      </NavigationMenu.Trigger>
-      <NavigationMenu.Content className="logs-filters-content">
-        {children}
-      </NavigationMenu.Content>
-    </NavigationMenu.Item>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <button className="logs-filters-trigger">
+          {name}
+          <CaretDownIcon className="logs-filters-caret" aria-hidden />
+        </button>
+      </DropdownMenu.Trigger>
+
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content className="logs-filters-content" sideOffset={15}>
+          {children}
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 };
 
