@@ -1,6 +1,3 @@
-export const trimCode = (code) =>
-  code.replace(/```/, "").replace(/```$/, "").replace(/```/, "");
-
 export const getMessageContent = (messageObject) => {
   if (!messageObject) {
     return "";

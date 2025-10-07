@@ -1,13 +1,9 @@
-import { trimCode } from "../../utils/messageHelpers";
 import MessageHighlight from "./MessageHighlight";
+import { boldAgda } from "../../hooks/useBoldAgda";
 
 const MSG_HEIGHT = 102;
 
 const MessageContent = ({ ref, tag, content, isExpanded, isError }) => {
-  const isImport = content.includes("import");
-  const shouldHighlight =
-    isError || (tag === "UserReq" && content.includes("Agda snippet"));
-
   const countMaxHeight =
     isExpanded || ["LLMRes", "TCReq"].includes(tag)
       ? `${ref.current?.scrollHeight}px`
@@ -19,18 +15,15 @@ const MessageContent = ({ ref, tag, content, isExpanded, isError }) => {
       style={{ maxHeight: countMaxHeight }}
       ref={ref}
     >
-      {(tag === "LLMRes" || tag === "TCReq") && (
-        <>
-          {isImport && <MessageHighlight text={trimCode(content)} />}
-          {!isImport && <span>{trimCode(content)}</span>}
-        </>
-      )}
+      {/* DARK THEME, COLORED FONT */}
+      {tag === "TCReq" && <MessageHighlight text={content} />}
 
-      {tag !== "LLMRes" && tag !== "TCReq" && (
-        <>
-          {shouldHighlight && <MessageHighlight text={content} />}
-          {!shouldHighlight && <>{content}</>}
-        </>
+      {/* DARK THEME, WHITE FONT */}
+      {tag === "TCRes" && <MessageHighlight text={content} white={true} />}
+
+      {/* NORMAL */}
+      {["LLMRes", "LLMReq", "UserReq", "UserRes"].includes(tag) && (
+        <>{boldAgda(content)}</>
       )}
     </div>
   );

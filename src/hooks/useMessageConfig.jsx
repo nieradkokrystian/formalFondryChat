@@ -31,7 +31,7 @@ const TC_CONFIG = {
 };
 
 const DEFAULT_CONFIG = {
-  bgColor: "bg-gray-100",
+  bgColor: "bg-amber-100",
   icon: <MagicWandIcon color="black" width={20} height={20} />,
 };
 
