@@ -1,34 +1,38 @@
-import { trimCode, countCollapsible } from "../../utils/messageHelpers";
+import { trimCode } from "../../utils/messageHelpers";
 import MessageHighlight from "./MessageHighlight";
 
-const MessageContent = ({ tag, content, isExpanded, isError }) => {
+const MSG_HEIGHT = 102;
+
+const MessageContent = ({ ref, tag, content, isExpanded, isError }) => {
   const isImport = content.includes("import");
-  const isCollapsible = countCollapsible(content);
-  const isCollapsed =
-    isCollapsible && isImport && !isExpanded && tag !== "UserReq";
   const shouldHighlight =
     isError || (tag === "UserReq" && content.includes("Agda snippet"));
 
+  const countMaxHeight =
+    isExpanded || ["LLMRes", "TCReq"].includes(tag)
+      ? `${ref.current?.scrollHeight}px`
+      : `${MSG_HEIGHT}px`;
+
   return (
-    <>
+    <div
+      className={`message-content ${isError ? "error" : ""} `}
+      style={{ maxHeight: countMaxHeight }}
+      ref={ref}
+    >
       {(tag === "LLMRes" || tag === "TCReq") && (
-        <div className={`message-content ${isError ? "error" : ""}`}>
+        <>
           {isImport && <MessageHighlight text={trimCode(content)} />}
           {!isImport && <span>{trimCode(content)}</span>}
-        </div>
+        </>
       )}
 
       {tag !== "LLMRes" && tag !== "TCReq" && (
-        <div
-          className={`message-content ${isError ? "error" : ""} ${
-            isCollapsed ? "message-collapsed" : ""
-          }`}
-        >
+        <>
           {shouldHighlight && <MessageHighlight text={content} />}
           {!shouldHighlight && <>{content}</>}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

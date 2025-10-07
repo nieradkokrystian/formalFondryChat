@@ -1,35 +1,39 @@
 import { useState, useRef, useEffect } from "react";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { useMessageConfig } from "../../hooks/useMessageConfig";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import MessageHeader from "./MessageHeader";
+import MessageContent from "./MessageContent";
 
 const MSG_HEIGHT = 102;
 
-const MessageUser = ({ content, tag, last }) => {
+const MessageSystem = ({ tag, content, error, success, last }) => {
   const contentRef = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showButton, setShowButton] = useState(false);
 
+  const { bgColor, icon } = useMessageConfig(tag);
+
   useEffect(() => {
-    if (contentRef.current) {
+    if (contentRef.current && ["LLMReq", "TCRes"].includes(tag)) {
       setShowButton(contentRef.current.scrollHeight > MSG_HEIGHT);
     }
-  }, [content]);
-
-  const { bgColor } = useMessageConfig(tag);
+  }, [content, tag]);
 
   return (
-    <div className={`message-user ${bgColor} ${last ? "mb-[100px]" : ""}`}>
-      <div
-        className="message-content"
-        style={{
-          maxHeight: isExpanded
-            ? `${contentRef.current?.scrollHeight}px`
-            : `${MSG_HEIGHT}px`,
-        }}
+    <div
+      className={`message ${bgColor} ${last ? "mb-[100px]" : ""} ${
+        tag === "LLM_Thinking" ? "animate-pulse" : ""
+      } `}
+    >
+      <MessageHeader tag={tag} icon={icon} error={error} success={success} />
+
+      <MessageContent
         ref={contentRef}
-      >
-        {content.length > 1 ? content : "Confirmed"}
-      </div>
+        tag={tag}
+        content={content}
+        isExpanded={isExpanded}
+        error={error}
+      />
 
       {showButton && (
         <div className="message-expand-wrapper">
@@ -45,4 +49,4 @@ const MessageUser = ({ content, tag, last }) => {
   );
 };
 
-export default MessageUser;
+export default MessageSystem;

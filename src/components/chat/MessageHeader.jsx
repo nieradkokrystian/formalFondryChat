@@ -1,4 +1,4 @@
-const MessageHeader = ({ tag, icon, isError }) => {
+const MessageHeader = ({ tag, icon, error, success }) => {
   const titles = {
     LLMRes: "LLM Response",
     TCReq: "TC Request",
@@ -8,29 +8,29 @@ const MessageHeader = ({ tag, icon, isError }) => {
     LLM_Thinking: "LLM Thinking",
   };
 
-  const isUserReq = tag === "UserReq";
-
   return (
     <div className="message-header">
-      {!isUserReq && (
+      {tag !== "UserReq" && (
         <h1 className="message-header-text">
           {icon}
           {titles[tag]}
         </h1>
       )}
 
-      {isUserReq && (
+      {tag === "UserReq" && (
         <>
           {icon}
           <h1 className="message-header-text clarification">{titles[tag]}</h1>
         </>
       )}
 
-      {isError && (
+      {error && (
         <h1 className="message-header-text error">
           Error occurred in Agda code
         </h1>
       )}
+
+      {success && <h1 className="message-header-text success">Success</h1>}
     </div>
   );
 };

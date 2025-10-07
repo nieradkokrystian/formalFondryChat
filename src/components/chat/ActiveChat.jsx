@@ -12,31 +12,29 @@ function ActiveChat({ messages }) {
       {msgList.length > 0 &&
         msgList.map((message, index) => {
           const isLastMsg = index === msgList.length - 1;
-          const cmMsgSuccess = message.cmMsgWS?.contents.tag === "TCSuccess";
 
-          const hasCmdWS = message.cmCmdWS && !cmMsgSuccess;
-          const hasMsgWS = message.cmMsgWS && !cmMsgSuccess;
+          const hasCmdWS = message.cmCmdWS;
+          const hasMsgWS = message.cmMsgWS;
 
           return (
             <React.Fragment key={index}>
+              {/* UserReq, LLMReq, TCReq */}
               {hasCmdWS && (
                 <Message
                   content={getMessageContent(message.cmCmdWS)}
-                  status={message.taskStatWS}
                   tag={message.cmCmdWS.tag}
-                  step={index + 1}
-                  isLast={isLastMsg && !hasMsgWS}
+                  last={isLastMsg && !hasMsgWS}
                 />
               )}
 
+              {/* UserRes, LLMRes, TCRes, LLM_Thinking - TCSuccess, TCErr */}
               {hasMsgWS && (
                 <Message
                   content={getMessageContent(message.cmMsgWS)}
-                  status={message.taskStatWS}
                   tag={message.cmMsgWS.tag}
-                  errorTag={message.cmMsgWS.contents.tag}
-                  step={index + 1}
-                  isLast={isLastMsg}
+                  error={message.cmMsgWS.contents.tag === "TCErr"}
+                  success={message.cmMsgWS?.contents.tag === "TCSuccess"}
+                  last={isLastMsg}
                 />
               )}
             </React.Fragment>
