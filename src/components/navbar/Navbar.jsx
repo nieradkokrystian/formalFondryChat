@@ -1,17 +1,15 @@
 import "./Navbar.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/features/uiSlice";
 import { GridIcon } from "@radix-ui/react-icons";
 import DropdownMenu from "./DropdownMenu";
 import CreateTaskScreen from "../tasks/CreateTaskScreen";
-import ChatLimitCheckbox from "./ChatLimitCheckbox";
 import { useLocation } from "react-router";
 import ChatLogSwitch from "./ChatLogSwitch";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const isLogView = useSelector((s) => s.ui.isLogView);
 
   const isChatPath = location.pathname.includes("/chat");
 
@@ -31,9 +29,7 @@ const Navbar = () => {
       <div className="nav-wrap place-center">
         {isChatPath && <ChatLogSwitch />}
       </div>
-      <div className="nav-wrap place-right">
-        {isChatPath && !isLogView && <ChatLimitCheckbox />}
-      </div>
+      <div className="nav-wrap"></div>
     </nav>
   );
 };

@@ -54,7 +54,6 @@
   color: var(--violet-9);
   background-color: var(--violet-3);
   border: 1px solid var(--violet-6);
-  border-radius: var(--radius-sm);
 }
 
 @media screen and (max-width: 600px) {

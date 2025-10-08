@@ -1,45 +1,39 @@
-.messages-toggle {
+.msg-limit {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 24px;
   padding: 0 12px;
-  border-radius: 9999px;
-  border: 1px solid #9ca3af;
-  background-color: #ffffff;
-  color: #6b7280;
+  border-radius: 99px;
+  border: 1px solid var(--gray-8);
+  background-color: white;
+  color: var(--gray-10);
   gap: 8px;
 }
 
-.messages-toggle h1 {
-  font-size: 15px;
+.msg-limit h1 {
+  font-size: var(--text-xs);
   line-height: 1;
 }
 
-.messages-toggle-input {
-  width: 20px;
+.msg-limit-input {
+  width: 14px;
   aspect-ratio: 1 / 1;
 }
 
 @media screen and (max-width: 600px) {
-  .messages-toggle {
+  .msg-limit {
     height: 30px;
     gap: 1px;
     padding: 0 6px;
   }
 
-  .messages-toggle h1 {
+  .msg-limit h1 {
     font-size: 11px;
   }
 
-  .messages-toggle-input {
+  .msg-limit-input {
     width: 14px;
     aspect-ratio: 1 / 1;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .messages-toggle h1 {
-    font-size: 13px;
   }
 }

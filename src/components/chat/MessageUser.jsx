@@ -18,7 +18,7 @@ const MessageUser = ({ content, tag, last }) => {
   const { bgColor } = useMessageConfig(tag);
 
   return (
-    <div className={`message-user ${bgColor} ${last ? "mb-[100px]" : ""}`}>
+    <div className={`message-user ${bgColor} ${last ? "mb-[110px]" : ""}`}>
       <div
         className="message-content"
         style={{

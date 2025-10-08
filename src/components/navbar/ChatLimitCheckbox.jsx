@@ -7,12 +7,11 @@ const ChatLimitCheckbox = () => {
   const isChecked = useSelector((s) => s.chat.limitTo100);
 
   return (
-    <div className="messages-toggle">
-      <h1>Last Hundred Messages?</h1>
+    <div className="msg-limit">
+      <h1>Last 100 Messages?</h1>
       <input
-        className="messages-toggle-input"
+        className="msg-limit-input"
         type="checkbox"
-        id="checkTrimmedArray"
         checked={isChecked}
         onChange={() => dispatch(chatActions.toggleLimitTo100())}
       />

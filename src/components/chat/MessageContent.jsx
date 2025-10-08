@@ -25,6 +25,9 @@ const MessageContent = ({ ref, tag, content, isExpanded, isError }) => {
       {["LLMRes", "LLMReq", "UserReq", "UserRes"].includes(tag) && (
         <>{boldAgda(content)}</>
       )}
+
+      {/* LLM Thinking */}
+      {tag === "LLM_Thinking" && <>{content}</>}
     </div>
   );
 };

@@ -81,9 +81,6 @@ button.background {
 #selectId:focus {
   outline: none;
 }
-#checkTrimmedArray {
-  color: black;
-}
 
 .brave-button {
   margin-top: 20px;

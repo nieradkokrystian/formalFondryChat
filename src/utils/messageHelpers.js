@@ -14,3 +14,12 @@ export const getMessageContent = (messageObject) => {
   }
   return "";
 };
+
+export const countMessages = (messages) => {
+  let counter = 0;
+  messages.forEach((msg) => {
+    if (msg.cmCmdWS) counter++;
+    if (msg.cmMsgWS && msg.cmMsgWs?.tag !== "LLM_Thinking") counter++;
+  });
+  return counter;
+};

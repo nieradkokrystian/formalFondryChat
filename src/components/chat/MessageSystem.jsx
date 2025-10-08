@@ -21,7 +21,7 @@ const MessageSystem = ({ tag, content, error, success, last }) => {
 
   return (
     <div
-      className={`message ${bgColor} ${last ? "mb-[100px]" : ""} ${
+      className={`message ${bgColor} ${last ? "mb-[110px]" : ""} ${
         tag === "LLM_Thinking" ? "animate-pulse" : ""
       } `}
     >

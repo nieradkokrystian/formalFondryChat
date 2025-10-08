@@ -32,6 +32,13 @@ export async function createTask(data) {
   return response.data;
 }
 
+// Stop task
+export async function stopTask(taskId) {
+  const response = await axios.put(`${API_LINK}/taskStop/${taskId}`);
+  console.log(response);
+  // return response.data;
+}
+
 // Get latest task state
 export async function getLatestTaskState(chatId) {
   const response = await axios.get(`${API_LINK}/tasks/${chatId}/states/latest`);
