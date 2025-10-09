@@ -1,11 +1,12 @@
 /* INPUT */
 .input-wrap {
   position: fixed;
+  z-index: 100;
   min-height: 100px;
   max-height: 320px;
   width: 750px;
   bottom: 10px;
-  left: 50%;
+  left: calc(50% + var(--sidebar-width-collapsed) / 2);
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -16,11 +17,15 @@
   border: 1px solid var(--violet-8);
   outline: none;
   /* overflow: hidden; */
-  transition: height 0.2s ease;
+  transition: all 0.15s ease-in-out;
 }
 
 .input-wrap:has(.chat-input:focus) {
   outline: 1.5px solid var(--color-primary);
+}
+
+.input-wrap.sidebar-open {
+  left: calc(50% + var(--sidebar-width-expanded) / 2);
 }
 
 /* INPUT TOP */
@@ -44,6 +49,10 @@
   background: transparent;
   box-sizing: border-box;
   overflow-y: auto;
+
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--violet-7) transparent;
+  scrollbar-width: thin;
 }
 
 /* INPUT BOT */
@@ -149,36 +158,4 @@
   position: fixed;
   bottom: 130px;
   left: 50%;
-}
-
-/* CUSTOM SCROLLBAR */
-.chat-input::-webkit-scrollbar {
-  width: 8px;
-  background: transparent;
-}
-
-.chat-input::-webkit-scrollbar-thumb {
-  background-color: var(--violet-7);
-  border-radius: 6px;
-}
-.chat-input::-webkit-scrollbar-thumb:hover {
-  background-color: var(--violet-9);
-}
-
-.chat-input::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.chat-input::-webkit-scrollbar-button:single-button:decrement {
-  background: url('data:image/svg+xml;utf8,<svg width="8" height="8" xmlns="http://www.w3.org/2000/svg"><polygon points="4,2 7,6 1,6" fill="%23A3AAB6"/></svg>')
-    no-repeat center;
-  height: 12px;
-  width: 8px;
-}
-
-.chat-input::-webkit-scrollbar-button:single-button:increment {
-  background: url('data:image/svg+xml;utf8,<svg width="8" height="8" xmlns="http://www.w3.org/2000/svg"><polygon points="4,6 7,2 1,2" fill="%23A3AAB6"/></svg>')
-    no-repeat center;
-  height: 12px;
-  width: 8px;
 }

@@ -12,16 +12,14 @@
 @import "@radix-ui/colors/red.css";
 
 :root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
   --color-primary: var(--violet-9);
   --color-secondary: var(--violet-10);
   --color-background: var(--pink-1);
   --color-text: var(--slate-12);
   --color-border: var(--slate-8);
+
+  --sidebar-width-collapsed: 70px;
+  --sidebar-width-expanded: 280px;
 }
 
 html {

@@ -1,0 +1,38 @@
+.sidebar-task-item {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 4px 0;
+  height: 35px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  color: #4b5563; /* text-gray-600 */
+}
+
+.sidebar-task-item:hover {
+  background-color: #eef2ff; /* hover:bg-indigo-50 */
+}
+
+.task-item-circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.task-item-text {
+  flex: 1;
+  margin: 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+}
+
+.task-item-status {
+  flex-shrink: 0;
+}

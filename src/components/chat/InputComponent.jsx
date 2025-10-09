@@ -1,12 +1,14 @@
 import "./InputComponent.css";
 import { useRef, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { LlmLoader } from "../ui/Loader";
 import StopTaskBtn from "./StopTaskBtn";
-import ChatLimitCheckbox from "../navbar/ChatLimitCheckbox";
+import ChatLimitCheckbox from "./ChatLimitCheckbox";
 import { countMessages } from "../../utils/messageHelpers";
 
 const InputComponent = ({ LLM, steps, currentSteps, onSend, messages }) => {
+  const isSidebarOpen = useSelector((s) => s.ui.isSidebarOpen);
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef(null);
 
@@ -61,7 +63,7 @@ const InputComponent = ({ LLM, steps, currentSteps, onSend, messages }) => {
   }, [inputValue]);
 
   return (
-    <div className="input-wrap">
+    <div className={`input-wrap ${isSidebarOpen ? "sidebar-open" : ""}`}>
       {showLoader && (
         <div className="input-loader">
           <LlmLoader />

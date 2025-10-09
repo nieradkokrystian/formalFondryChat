@@ -1,51 +1,129 @@
 import "./Sidebar.css";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  LogOut,
+  ChevronLast,
+  ChevronFirst,
+  House,
+  CirclePlus,
+  Book,
+} from "lucide-react";
+import { useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../store/features/uiSlice";
+import { useUser } from "../../hooks/useUser";
+import UserAvatar from "./UserAvatar";
+import SidebarItem from "./SidebarItem";
 import CreateTaskScreen from "../tasks/CreateTaskScreen";
-import SidebarBottom from "./SidebarBottom";
-import MenuItem from "./MenuItem";
+import SidebarTaskItem from "./SidebarTaskItem";
 
-function Sidebar() {
+const Sidebar = () => {
   const dispatch = useDispatch();
-  const isOpen = useSelector((s) => s.ui.isSidebarOpen);
+  const navigate = useNavigate();
   const tasks = useSelector((s) => s.tasks.tasks);
+  const expanded = useSelector((s) => s.ui.isSidebarOpen);
+
+  const { username, logout } = useUser();
+
+  // const date = new Date();
+  // const year = date.getFullYear();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <>
-      <div className={`Sidebar ${isOpen ? "is-open" : ""}`}>
-        <div className="Sidebar-Header relative justify-between flex">
-          <h1>My Tasks</h1>
-          <div className="w-4 h-4 overflow-clip aspect-square flex justify-center items-center">
-            <CreateTaskScreen text={""} />
-          </div>
+    <aside className={`sidebar ${expanded ? "expanded" : ""}`}>
+      <nav className="sidebar-nav">
+        {/* Logo */}
+        <div className="sidebar-header">
+          <img
+            src="/formal-foundry-logo.svg"
+            className={`sidebar-logo ${expanded ? "expanded" : "collapsed"}`}
+            alt="logo"
+          />
+          <button
+            onClick={() => dispatch(uiActions.toggleSidebar())}
+            className="sidebar-toggle-btn"
+          >
+            {expanded ? <ChevronFirst /> : <ChevronLast />}
+          </button>
         </div>
-        <div className="Sidebar-Body">
-          {tasks.length > 0 &&
+
+        {/* Items */}
+        <div className="sidebar-items">
+          <SidebarItem
+            icon={<House size={20} />}
+            text="Home"
+            onClick={() => navigate("home")}
+          />
+          <SidebarItem
+            icon={<Book size={20} />}
+            text="Documentation"
+            onClick={() => navigate("docs")}
+          />
+          <CreateTaskScreen
+            text={
+              <SidebarItem icon={<CirclePlus size={20} />} text="Add Task" />
+            }
+          />
+        </div>
+
+        <hr className="sidebar-divider" />
+
+        {/* List */}
+        <div className="sidebar-tasks-list">
+          {expanded &&
+            tasks.length > 0 &&
             tasks.map((task) => (
-              <MenuItem
-                key={task.task_Id}
-                title={task.task_Name}
-                status={task.task_Status}
-                id={task.task_Id}
-                type={task.task_Type}
-              />
+              <SidebarTaskItem key={task.task_Id} task={task} />
             ))}
 
-          {!tasks.length && (
-            <div className="Sidebar-item p-2 text-center text-gray-500">
-              No tasks yet.
-            </div>
+          {expanded && !tasks.length && (
+            <div className="sidebar-task-empty">No tasks yet</div>
           )}
         </div>
-        <SidebarBottom />
-      </div>
 
-      <div
-        className={`Sidebar-backdrop ${isOpen ? "is-visible" : ""}`}
-        onClick={() => dispatch(uiActions.closeSidebar())}
-      ></div>
-    </>
+        <hr className="sidebar-divider" />
+
+        {/* User */}
+        <div className="sidebar-user">
+          <UserAvatar name={username} />
+          <div
+            className={`sidebar-user-info ${
+              expanded ? "expanded" : "collapsed"
+            }`}
+          >
+            <div className="sidebar-username">{username}</div>
+            <button onClick={handleLogout} className="sidebar-logout-btn">
+              <LogOut size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Policy */}
+        {/* <div className="sidebar-policy">
+          <div
+            className={`sidebar-policy-content ${
+              expanded ? "expanded" : "collapsed"
+            }`}
+          >
+            <p>
+              <Link className="sidebar-policy-link">
+                Formal Foundry© {year}
+              </Link>
+            </p>
+            <p>
+              <Link className="sidebar-policy-link">Privacy Policy</Link>
+            </p>
+            <p>
+              <Link className="sidebar-policy-link">Terms of Service</Link>
+            </p>
+          </div>
+        </div> */}
+      </nav>
+    </aside>
   );
-}
+};
 
 export default Sidebar;

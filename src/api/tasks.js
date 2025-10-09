@@ -34,9 +34,7 @@ export async function createTask(data) {
 
 // Stop task
 export async function stopTask(taskId) {
-  const response = await axios.put(`${API_LINK}/taskStop/${taskId}`);
-  console.log(response);
-  // return response.data;
+  await axios.put(`${API_LINK}/taskStop/${taskId}`);
 }
 
 // Get latest task state

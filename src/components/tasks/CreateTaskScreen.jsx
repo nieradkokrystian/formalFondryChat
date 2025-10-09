@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useUser } from "../../hooks/useUser";
 import { Dialog } from "radix-ui";
-import { Cross2Icon, PlusCircledIcon } from "@radix-ui/react-icons";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { createTask, fetchAvailableTypes, fetchLlmList } from "../../api/tasks";
 import CreateTaskJsonEditor from "./CreateTaskJsonEditor";
 import { useDispatch } from "react-redux";
@@ -103,16 +103,7 @@ const CreateTaskScreen = ({ text }) => {
   return (
     <Dialog.Root onOpenChange={handleOpen}>
       <Dialog.Trigger asChild>
-        <button
-          className="navbar-btn"
-          onClick={() => dispatch(uiActions.closeSidebar())}
-        >
-          {text}
-          <PlusCircledIcon
-            alignmentBaseline="center"
-            style={{ fontSize: "18px", width: "18px", height: "18px" }}
-          />
-        </button>
+        <div onClick={() => dispatch(uiActions.closeSidebar())}>{text}</div>
       </Dialog.Trigger>
 
       <Dialog.Portal>

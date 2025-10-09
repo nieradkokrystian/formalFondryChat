@@ -3,8 +3,8 @@ const SidebarBottom = () => {
   const date = new Date();
   const year = date.getFullYear();
   return (
-    <div className="sidebar-bottom absolute bottom-3 w-full flex flex-col item-center text-xs text-gray-500">
-      <div className="sidebar-bottom-content gap-2 flex flex-col">
+    <div className="absolute bottom-3 w-full flex flex-col item-center text-xs text-gray-500">
+      <div className="gap-2 flex flex-col">
         <p>
           <Link className="hover:text-purple-400">Formal Foundry© {year}</Link>
         </p>

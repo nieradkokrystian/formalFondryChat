@@ -1,35 +1,18 @@
 import "./Navbar.css";
-import { useDispatch } from "react-redux";
-import { uiActions } from "../../store/features/uiSlice";
-import { GridIcon } from "@radix-ui/react-icons";
-import DropdownMenu from "./DropdownMenu";
-import CreateTaskScreen from "../tasks/CreateTaskScreen";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import ChatLogSwitch from "./ChatLogSwitch";
 
 const Navbar = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
-
+  const isSidebarOpen = useSelector((s) => s.ui.isSidebarOpen);
   const isChatPath = location.pathname.includes("/chat");
 
   return (
-    <nav className="nav">
-      <div className="nav-wrap">
-        <button
-          className="navbar-btn toggle"
-          onClick={() => dispatch(uiActions.openSidebar())}
-        >
-          <GridIcon width={20} height={20} />
-        </button>
-        <DropdownMenu />
-
-        <CreateTaskScreen text={"Create Task"} />
-      </div>
+    <nav className={`nav ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <div className="nav-wrap place-center">
         {isChatPath && <ChatLogSwitch />}
       </div>
-      <div className="nav-wrap"></div>
     </nav>
   );
 };

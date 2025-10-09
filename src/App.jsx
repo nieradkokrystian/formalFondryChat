@@ -44,7 +44,7 @@ function App() {
   const isAuthenticated = username && id != undefined;
 
   return (
-    <>
+    <div className="app-layout">
       {isAuthenticated && <Sidebar />}
 
       <div className="main-content">
@@ -82,7 +82,7 @@ function App() {
           </Routes>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

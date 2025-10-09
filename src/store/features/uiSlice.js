@@ -15,6 +15,9 @@ export const uiSlice = createSlice({
     closeSidebar(state) {
       state.isSidebarOpen = false;
     },
+    toggleSidebar(state) {
+      state.isSidebarOpen = !state.isSidebarOpen;
+    },
     setLogView(state) {
       state.isLogView = true;
     },

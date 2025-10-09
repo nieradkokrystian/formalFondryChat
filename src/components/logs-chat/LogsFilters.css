@@ -1,14 +1,19 @@
 /* ROOT */
 .logs-filters-root {
   position: fixed;
+  z-index: 50;
   top: 60px;
-  left: 50%;
+  left: calc(50% + var(--sidebar-width-collapsed) / 2);
   width: 750px;
   height: 50px;
   transform: translateX(-50%);
-  z-index: 10;
   display: flex;
   justify-content: center;
+  transition: all 0.15s ease-in-out;
+}
+
+.logs-filters-root.sidebar-open {
+  left: calc(50% + var(--sidebar-width-expanded) / 2);
 }
 
 /* LIST */

@@ -19,6 +19,7 @@
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
     "json-edit-react": "^1.28.2",
+    "lucide-react": "^0.545.0",
     "motion": "^12.23.12",
     "ogl": "^1.0.11",
     "radix-ui": "^1.4.2",

@@ -15,5 +15,5 @@ export const Loader = () => {
 };
 
 export const LlmLoader = () => {
-  return <PropagateLoader color="#7c3aed" />;
+  return <PropagateLoader color="var(--violet-8)" />;
 };

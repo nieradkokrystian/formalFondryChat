@@ -12,7 +12,7 @@
   width: 42px;
   height: 25px;
   background-color: var(--violet-9);
-  border-radius: 9999px;
+  border-radius: 99px;
   position: relative;
   box-shadow: 0 2px 10px var(--violet-7);
   &[data-state="unchecked"] {

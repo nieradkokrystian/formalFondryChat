@@ -4,7 +4,7 @@ import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 const Tooltip = ({ status, type }) => {
   return (
-    <TooltipCMP.Provider delayDuration={100}>
+    <TooltipCMP.Provider delayDuration={50}>
       <TooltipCMP.Root>
         <TooltipCMP.Trigger asChild>
           <button className="IconButtonTooltip">
