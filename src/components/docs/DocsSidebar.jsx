@@ -1,9 +1,8 @@
 import "./DocsSidebar.css";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { routesLink } from "../../documentation/routes/routes";
-import { Undo2, BookOpenText } from "lucide-react";
+import { Undo2, BookOpenText, Search } from "lucide-react";
 
 const DocsSidebar = () => {
   const navigate = useNavigate();
@@ -16,6 +15,8 @@ const DocsSidebar = () => {
     { name: "FAQ", path: "/docs/faq" },
   ];
   const deepLinks = structuredClone(routesLink);
+
+  console.log(deepLinks);
   const filteredIntroLinks = introLinks.filter((link) =>
     link.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -50,7 +51,7 @@ const DocsSidebar = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <MagnifyingGlassIcon />
+          <Search size={15} />
         </div>
       </div>
 

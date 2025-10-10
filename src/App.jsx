@@ -1,12 +1,12 @@
 import "./App.css";
 import { useUser } from "./hooks/useUser";
 import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getTasks } from "./store/features/tasksSlice";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
-import Chat from "./pages/ChatPage";
+import ChatPage from "./pages/ChatPage";
 import Admin from "./pages/AdminPage";
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
@@ -61,14 +61,14 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/docs/*" element={<DocsLayout />} />
-            <Route path="/chat/:chatId" element={<Chat />} />
+            <Route path="/chat/:chatId" element={<ChatPage />} />
 
             <Route
               path="/admin/326483545732548981349134gfjkdgf4783gf7ig437fg437fg437f64gf874fgohurghdf78gdft7gfd87ogoftd67"
               element={<Admin />}
             />
 
-            <Route path="*" element={<HomePage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         )}
       </div>

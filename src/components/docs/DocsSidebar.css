@@ -1,6 +1,6 @@
 .docs-sidebar {
   flex-shrink: 0;
-  width: 300px;
+  width: 280px;
   height: 100%;
   padding: 16px;
   background-color: #f3f4f6;
@@ -49,6 +49,7 @@
 /* SEARCH */
 .docs-sidebar-search {
   margin-bottom: 16px;
+  color: var(--slate-9);
 }
 
 .docs-sidebar-search-input {

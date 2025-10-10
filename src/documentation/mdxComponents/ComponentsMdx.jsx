@@ -46,7 +46,7 @@ export const H1 = ({ text, className, textColors, isTyped, header }) => {
     <GradientText
       colors={textColors}
       animationSpeed={3}
-      className={`text-4xl ${className} mb-4 max-w-3/4 w-3/4 whitespace-break-spaces ${
+      className={`text-4xl ${className} mb-4 w-full whitespace-break-spaces ${
         header ? "lg:text-5xl text-md" : "lg:text-4xl text-xl"
       }`}
       showBorder={false}
@@ -180,9 +180,7 @@ export const List = ({ Items, className, defaultColor, isLink, path }) => {
 
 export const Text = ({ className, children }) => {
   return (
-    <p
-      className={`text-gray-600 ${className} text-lg max-w-[80%] lg:max-w-2/3 leading-9`}
-    >
+    <p className={`text-gray-600 ${className} text-lg w-full leading-9`}>
       {children}
     </p>
   );
@@ -283,21 +281,21 @@ export const AccordionDemo = ({ width, items, className }) => {
 export const Important = ({ warning, text, className }) => {
   return warning == "bad" ? (
     <span
-      className={`bg-red-100 m-3 text-md lg:text-lg text-red-800 p-2 h-fit w-[60%] flex items-center justify-start rounded-md ${className}`}
+      className={`bg-red-100 m-3 text-md lg:text-lg text-red-800 p-2 h-fit w-full flex items-center justify-start rounded-md ${className}`}
     >
       <CrossCircledIcon height={50} width={50} className="m-3" />
       {text}
     </span>
   ) : warning == "mid" ? (
     <span
-      className={`bg-yellow-100 m-3 text-md lg:text-lg text-yellow-800 p-2 h-fit w-[60%] flex items-center justify-start rounded-md ${className}`}
+      className={`bg-yellow-100 m-3 text-md lg:text-lg text-yellow-800 p-2 h-fit w-full flex items-center justify-start rounded-md ${className}`}
     >
       <InfoCircledIcon height={50} width={50} className="m-3" />
       {text}
     </span>
   ) : (
     <span
-      className={`bg-green-100 m-3 text-md lg:text-lg text-green-800 p-2 h-fit w-[60%] flex items-center justify-start rounded-md ${className}`}
+      className={`bg-green-100 m-3 text-md lg:text-lg text-green-800 p-2 h-fit w-full flex items-center justify-start rounded-md ${className}`}
     >
       <CheckCircledIcon height={50} width={50} className="m-3" />
       {text}
