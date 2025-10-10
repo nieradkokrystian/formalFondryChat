@@ -1,0 +1,19 @@
+.docs-layout {
+  display: flex;
+  height: 100%;
+}
+
+.docs-content {
+  flex: 1;
+  padding-top: 32px;
+
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.docs-content-wrapper {
+  width: 100%;
+  max-width: 800px;
+  padding: 0 24px;
+}

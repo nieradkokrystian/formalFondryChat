@@ -16,8 +16,9 @@
   background-color: var(--violet-3);
   border: 1px solid var(--violet-8);
   outline: none;
+
   /* overflow: hidden; */
-  transition: all 0.15s ease-in-out;
+  transition: left var(--sidebar-duration) ease-in-out;
 }
 
 .input-wrap:has(.chat-input:focus) {

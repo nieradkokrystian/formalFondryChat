@@ -8,17 +8,18 @@
   font-weight: 500;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.15s ease-in-out;
-  color: #4b5563; /* text-gray-600 */
+  transition: all 0.15s ease;
+  color: var(--slate-11);
 }
 
 .sidebar-item:hover {
-  background-color: #eef2ff; /* hover:bg-indigo-50 */
+  background-color: var(--violet-3);
+  color: var(--violet-11);
 }
 
 .sidebar-item-text {
   overflow: hidden;
-  transition: all 0.15s ease-in-out;
+  transition: all var(--sidebar-duration) ease-in-out;
   white-space: nowrap;
 }
 
@@ -37,8 +38,8 @@
   border-radius: 6px;
   padding: 4px 8px;
   margin-left: 24px;
-  background-color: #e0e7ff; /* bg-indigo-100 */
-  color: #3730a3; /* text-indigo-800 */
+  background-color: var(--violet-5);
+  color: var(--violet-10);
   font-size: 14px;
   visibility: hidden;
   opacity: 0.2;

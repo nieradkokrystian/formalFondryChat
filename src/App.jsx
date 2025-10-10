@@ -8,10 +8,9 @@ import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import Chat from "./pages/ChatPage";
 import Admin from "./pages/AdminPage";
-import Docs from "./pages/DocsPage";
 import Navbar from "./components/navbar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
-import Introduction from "./documentation/mdxPages/Introduction.mdx";
+import DocsLayout from "./pages/DocsLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,12 +44,10 @@ function App() {
 
   return (
     <div className="app-layout">
-      {isAuthenticated && <Sidebar />}
+      {isAuthenticated && !location.pathname.includes("/docs") && <Sidebar />}
 
       <div className="main-content">
-        {isAuthenticated &&
-          !location.pathname.includes("/docs") &&
-          !location.pathname.includes("/admin") && <Navbar />}
+        {isAuthenticated && location.pathname.includes("/chat") && <Navbar />}
 
         {!isAuthenticated && (
           <Routes>
@@ -63,14 +60,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
-            <Route path="/docs">
-              <Route index element={<Docs />} />
-              <Route
-                path="introduction"
-                element={<Docs page={<Introduction />} />}
-              />
-            </Route>
-
+            <Route path="/docs/*" element={<DocsLayout />} />
             <Route path="/chat/:chatId" element={<Chat />} />
 
             <Route

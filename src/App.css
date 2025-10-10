@@ -11,9 +11,6 @@
 .main-content {
   flex: 1;
   height: 100%;
-  margin-left: 0;
-  /* padding-top: 60px; */
-  transition: all 0.15s ease;
 }
 
 .login-page {
@@ -46,15 +43,6 @@
   border-radius: var(--radius-md);
   width: 95%;
 }
-
-/* button.background {
-  width: 50%;
-  text-align: center;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-} */
 
 #selectId {
   padding: 8px;

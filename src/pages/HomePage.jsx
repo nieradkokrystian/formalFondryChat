@@ -1,3 +1,4 @@
+import "./HomePage.css";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
@@ -55,16 +56,17 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="landing-page mx-auto p-8 rounded-2xl border-1 border-gray-400 shadow-lg w-3xl mt-20">
-      <div className="title-block flex justify-between items-center p-2">
+    <div className="home-page">
+      {/* TITLE */}
+      <div className="home-title">
         <GradientText
           colors={["#4f46e5", "#aebac7", "#4338ca", "#4f46e5"]}
           animationSpeed={7}
-          className="text-4xl "
+          className="gradient-text"
           showBorder={false}
         >
           <TextType
-            className=" text-3xl mb-1"
+            className="text-type"
             text={[
               "Welcome to Formal Foundry",
               "This is a home page",
@@ -84,11 +86,13 @@ const HomePage = () => {
 
         <Logo />
       </div>
+
       <Separator orientation={"horizontal"} decorative={true} />
 
+      {/* CONTENT */}
       {display && (
         <FadeContent
-          className="fade-content"
+          className="home-content"
           blur={false}
           duration={700}
           easing="ease-in-out"
@@ -97,9 +101,11 @@ const HomePage = () => {
           initialOpacity={0}
         >
           <div
-            className={`introduction ${display ? "opacity-100" : "opacity-10"}`}
+            className={`home-content-introduction ${
+              display ? "opacity-100" : "opacity-10"
+            }`}
           >
-            <h1 className="w-full  p-2 flex justify-start items-center">
+            <h1>
               <GradientText
                 colors={[
                   "#4338ca",
@@ -111,91 +117,74 @@ const HomePage = () => {
                   "#4338ca",
                 ]}
                 animationSpeed={3}
-                className="text-4xl "
+                className="gradient-text"
                 showBorder={false}
               >
                 Quick Introduction
               </GradientText>
             </h1>
-            <p className="text-md p-2 text-gray-600">
+
+            <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex
               inventore corrupti ullam provident amet esse vitae, deserunt
               doloremque sequi, quos quaerat libero dignissimos odit molestiae,
               aspernatur magni optio sint? Maxime.
             </p>
-            <div className="tips flex w-full p-2 bg-gray-100 mt-4 mb-4 rounded-lg gap-1.5 justify-around">
-              <div className="tip flex flex-col p-3 bg-white rounded-lg">
-                <h1 className="text-lg m-3">
-                  To initiate task creation, click:
-                </h1>
-                <div className="wrap mx-auto">
+
+            <div className="home-content-tips">
+              <div className="home-content-tip">
+                <h1>To initiate task creation, click:</h1>
+                <div className="wrap">
                   <CreateTaskScreen text={"Create Task"} />
                 </div>
               </div>
-              <div className="tip flex flex-col p-3 bg-white rounded-lg">
-                <h1 className="text-lg m-3">
-                  To access your existing Tasks, press:
-                </h1>
-                <div className="wrap mx-auto">
-                  <button className="Sidebar-toggle aspect-square ">
+              <div className="home-content-tip">
+                <h1>To access your existing Tasks, press:</h1>
+                <div className="wrap">
+                  <button className="">
                     <GridIcon width={20} height={20} />
                   </button>
                 </div>
               </div>
             </div>
-            <p className="text-md p-2 text-gray-600">
+            <p>
               You will find them in the{" "}
-              <span className="bg-purple-300 p-1 rounded-md text-violet-700 italic">
-                top-left corner
-              </span>{" "}
-              of your screen. <br /> <br />
-              <span className="bg-gray-100 p-1 rounded-md font-semibold text-gray-600">
-                Create Task
-              </span>{" "}
-              allows you to create a new task, which can be modified with
-              according settings: <br />
+              <span className="bg-purple-300">Sidebar</span>
+              <br /> <br />
+              <span className="bg-gray-100">Create Task</span> allows you to
+              create a new task, which can be modified with according settings:{" "}
+              <br />
             </p>
-            <ul className="p-2 gap-1 flex flex-col text-gray-600">
+            <ul>
               <li>
                 {" "}
-                <span className="bg-gray-100 p-1 rounded-md font-semibold text-gray-600">
-                  Task Name
-                </span>
-                : The name of your task.
+                <span className="bg-gray-100">Task Name</span>: The name of your
+                task.
               </li>
               <li>
-                <span className="bg-gray-100 p-1 rounded-md font-semibold text-gray-600">
-                  Task Type
-                </span>
-                : The type of your task.
+                <span className="bg-gray-100">Task Type</span>: The type of your
+                task.
               </li>
               <li>
                 {" "}
-                <span className="bg-gray-100 p-1 rounded-md font-semibold text-gray-600">
-                  LLM Provider
-                </span>
-                : The LLM provider you want to use for your task.
+                <span className="bg-gray-100">LLM Provider</span>: The LLM
+                provider you want to use for your task.
               </li>
               <li>
                 {" "}
-                <span className="bg-gray-100 p-1 rounded-md font-semibold text-gray-600">
-                  Agent Model
-                </span>
-                : The Agent model you want to use for your task.
+                <span className="bg-gray-100">Agent Model</span>: The Agent
+                model you want to use for your task.
               </li>
             </ul>
-            {/* !LINK */} {/* !LINK */}
             <Link to="/docs/introduction">
-              For more detailed explanation, as well as additional infromatin
-              about the whole project, visit{" "}
-              <span className="bg-purple-300 p-1 rounded-md text-violet-700 italic underline">
-                Docs
-              </span>{" "}
+              For more detailed explanation, about the whole project, visit{" "}
+              <span className="bg-purple-300">Docs</span>{" "}
             </Link>
-            {/* !LINK */} {/* !LINK */}
             <Separator></Separator>
-            <div className="info">
-              <h1 className="p-2">
+
+            {/* INFO */}
+            <div className="home-info">
+              <h1>
                 <GradientText
                   colors={[
                     "#4338ca",
@@ -207,14 +196,14 @@ const HomePage = () => {
                     "#4338ca",
                   ]}
                   animationSpeed={3}
-                  className="text-4xl "
+                  className="gradient-text"
                   showBorder={false}
                 >
                   {" "}
                   Feeling Lost? Check this out!
                 </GradientText>
               </h1>
-              <div className="card-wrap w-full mx-auto flex justify-center gap-4 p-2 mt-2 overflow-x-visible ">
+              <div className="home-card-wrap">
                 <Carousel
                   items={CardContent}
                   baseWidth={`600`}

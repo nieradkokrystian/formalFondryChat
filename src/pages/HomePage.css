@@ -1,0 +1,155 @@
+.home-page {
+  width: 750px;
+  max-height: 92%;
+  margin: 32px auto 32px auto;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid #9ca3af;
+  box-shadow: var(--shadow-lg);
+
+  overflow: auto;
+}
+
+.home-page::-webkit-scrollbar {
+  display: none;
+}
+
+/* TITLE */
+.home-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}
+
+.home-title .gradient-text {
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.home-title .text-type {
+  font-size: 30px;
+  line-height: 36px;
+  margin-bottom: 4px;
+}
+
+/* CONTENT */
+.home-content-introduction {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.home-content-introduction.opacity-100 {
+  opacity: 1;
+}
+
+.home-content-introduction.opacity-10 {
+  opacity: 0.1;
+}
+
+.home-content-introduction h1 {
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.home-content-introduction h1 .gradient-text {
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.home-content-introduction p {
+  line-height: 24px;
+  padding: 8px;
+  color: #4b5563;
+}
+
+.home-content-tips {
+  width: 100%;
+  padding: 8px;
+  margin: 16px 0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-around;
+  gap: 6px;
+  background-color: #f3f4f6;
+}
+
+.home-content-tip {
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.home-content-tip h1 {
+  line-height: 28px;
+  margin: 12px;
+}
+
+.home-content-tip .wrap {
+  margin: 0 auto;
+}
+
+.home-content-introduction .bg-purple-300 {
+  padding: 4px;
+  border-radius: 6px;
+  background-color: #d8b4fe;
+  color: #7c3aed;
+  font-style: italic;
+}
+
+.home-content-introduction .bg-gray-100 {
+  padding: 4px;
+  border-radius: 6px;
+  font-weight: 600;
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.home-content-introduction ul {
+  padding: 8px;
+  gap: 4px;
+  display: flex;
+  flex-direction: column;
+  color: #4b5563;
+}
+
+.home-content-introduction ul .bg-gray-100 {
+  background-color: #f3f4f6;
+  padding: 4px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.home-content-introduction a .bg-purple-300 {
+  background-color: #d8b4fe;
+  padding: 4px;
+  border-radius: 6px;
+  color: #7c3aed;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+/* INFO */
+.home-info h1 {
+  padding: 8px;
+}
+
+.home-info h1 .gradient-text {
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.home-card-wrap {
+  width: 100%;
+  margin: 8px auto 0 auto;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  overflow-x: visible;
+}

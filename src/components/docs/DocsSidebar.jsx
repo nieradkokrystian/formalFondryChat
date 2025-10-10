@@ -1,11 +1,12 @@
-import { Link } from "react-router";
-import Separator from "../ui/Separator";
+import "./DocsSidebar.css";
+import { Link, useNavigate } from "react-router";
 import { useState } from "react";
-// import Search from "./Search";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { routesLink } from "../../documentation/routes/routes";
+import { Undo2, BookOpenText } from "lucide-react";
 
 const DocsSidebar = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
   const introLinks = [
@@ -23,40 +24,56 @@ const DocsSidebar = () => {
   );
 
   return (
-    <div className="sidebar w-[100%] bg-gray-100 p-4 h-full">
-      <h2 className="sidebar-title text-3xl">Documentation </h2>
-      <Separator />
-      <div className="search-container mb-4">
-        <div className="search-input flex items-center bg-white border border-gray-300 rounded-md p-2 ">
+    <div className="docs-sidebar">
+      {/* HEADER */}
+      <div className="docs-sidebar-header">
+        <img
+          src="/formal-foundry-logo.svg"
+          className="docs-sidebar-logo"
+          alt="logo"
+        />
+
+        <div className="docs-sidebar-back" onClick={() => navigate("/home")}>
+          <Undo2 />
+          Back to Home
+        </div>
+      </div>
+
+      <hr className="docs-sidebar-divider" />
+
+      {/* SEARCH */}
+      <div className="docs-sidebar-search">
+        <div className="docs-sidebar-search-input">
           <input
             type="text"
             placeholder="Search documentation..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full  p-2rounded focus:border-0 focus:outline-0"
           />
           <MagnifyingGlassIcon />
         </div>
       </div>
-      <ul className="sidebar-introLinks flex flex-col gap-2 text-gray-700">
+
+      {/* TITLE */}
+      <div className="docs-sidebar-title">
+        <BookOpenText /> Documentation
+      </div>
+
+      {/* NAVIGATION */}
+      <ul className="docs-sidebar-links">
         {filteredIntroLinks.map((link, index) => (
-          <Link
-            key={index}
-            to={link.path}
-            className="text-gray-600 text-lg hover:underline hover:italic p-1 rounded-xs  hover:bg-violet-400 hover:text-white "
-          >
+          <Link key={index} to={link.path} className="docs-sidebar-link">
             {link.name}
           </Link>
         ))}
       </ul>
-      <Separator />
-      <ul className="sidebar-introLinks flex flex-col gap-2 text-gray-700">
+
+      <hr className="docs-sidebar-divider" />
+
+      {/* LINKS */}
+      <ul className="docs-sidebar-links">
         {filteredDeepLinks.map((link, index) => (
-          <Link
-            key={index}
-            to={link.path}
-            className="text-gray-600 text-lg hover:underline hover:italic p-1 rounded-xs  hover:bg-violet-400 hover:text-white "
-          >
+          <Link key={index} to={link.path} className="docs-sidebar-link">
             {link.name}
           </Link>
         ))}

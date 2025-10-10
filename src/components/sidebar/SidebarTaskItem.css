@@ -8,12 +8,13 @@
   height: 35px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.15s ease-in-out;
-  color: #4b5563; /* text-gray-600 */
+  transition: all 0.15s ease;
+  color: var(--slate-11);
 }
 
 .sidebar-task-item:hover {
-  background-color: #eef2ff; /* hover:bg-indigo-50 */
+  background-color: var(--violet-3);
+  color: var(--violet-11);
 }
 
 .task-item-circle {

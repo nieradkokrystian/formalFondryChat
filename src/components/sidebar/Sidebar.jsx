@@ -24,9 +24,6 @@ const Sidebar = () => {
 
   const { username, logout } = useUser();
 
-  // const date = new Date();
-  // const year = date.getFullYear();
-
   const handleLogout = () => {
     logout();
     navigate("/login");

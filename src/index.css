@@ -20,6 +20,7 @@
 
   --sidebar-width-collapsed: 70px;
   --sidebar-width-expanded: 280px;
+  --sidebar-duration: 0.25s;
 }
 
 html {

@@ -9,7 +9,7 @@
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  transition: all 0.15s ease-in-out;
+  transition: left var(--sidebar-duration) ease-in-out;
 }
 
 .logs-filters-root.sidebar-open {
@@ -50,7 +50,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: background-color 150ms ease;
+  transition: background-color 0.15s ease;
 }
 
 .logs-filters-trigger:hover {
@@ -64,7 +64,7 @@
 
 .logs-filters-caret {
   position: relative;
-  transition: transform 250ms ease;
+  transition: transform 0.25ms ease;
 }
 
 .logs-filters-trigger[data-state="open"] .logs-filters-caret {
