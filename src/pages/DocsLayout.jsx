@@ -5,11 +5,13 @@ import Introduction from "../documentation/mdxPages/Introduction.mdx";
 import GettingStarted from "../documentation/mdxPages/GettingStarted.mdx";
 import Features from "../documentation/mdxPages/Features.mdx";
 import Faq from "../documentation/mdxPages/Faq.mdx";
+import DocsFooter from "../components/docs/DocsFooter";
 
 const DocsLayout = () => {
   return (
     <div className="docs-layout">
       <DocsSidebar />
+
       <div className="docs-content">
         <div className="docs-content-wrapper">
           <Routes>
@@ -22,6 +24,8 @@ const DocsLayout = () => {
             <Route path="*" element={<Navigate to="/docs" replace />} />
           </Routes>
         </div>
+
+        <DocsFooter />
       </div>
     </div>
   );

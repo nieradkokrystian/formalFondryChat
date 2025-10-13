@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-// import { Link } from "react-router";
 import axios from "axios";
-// import Separator from "../components/Shared/Separator";
+import { useState, useEffect, useRef } from "react";
 import { toast, ToastContainer } from "react-toastify";
 const API_LINK = import.meta.env.VITE_API_BASE;
 
@@ -84,7 +82,7 @@ const Admin = () => {
       e.preventDefault();
 
       if (username.length < 1 || email.length < 1 || lastName.length < 1)
-        return toast.warn("Your name is to short!");
+        return toast.warn("Your name is too short!");
 
       axios
         .post(`${API_LINK}/users`, {

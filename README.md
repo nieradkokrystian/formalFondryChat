@@ -8,11 +8,8 @@
 
 
 ## Installation 
-
-- Utwórz folder na pulpice
-- Plik [git -clone {link_do_repo}] w folderze.
-- Cd ChatFormal.
-- npm install vite@latest
-- npm install (vite zainstaluje wszystkie dependencje)
-- npm run dev 
-- enter localhost://5173
+- Clone the repository using [git clone {repo_link}] into the folder.
+- Cd into ChatFormal.
+- Run npm install.
+- Run npm run dev.
+- Go to http://localhost:5173.

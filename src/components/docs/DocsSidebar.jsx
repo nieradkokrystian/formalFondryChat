@@ -28,11 +28,7 @@ const DocsSidebar = () => {
     <div className="docs-sidebar">
       {/* HEADER */}
       <div className="docs-sidebar-header">
-        <img
-          src="/formal-foundry-logo.svg"
-          className="docs-sidebar-logo"
-          alt="logo"
-        />
+        <img src="/formal-foundry-logo.svg" alt="logo" />
 
         <div className="docs-sidebar-back" onClick={() => navigate("/home")}>
           <Undo2 />
