@@ -12,8 +12,10 @@ const ChatPage = () => {
 
   return (
     <div className="chat-container" ref={containerRef}>
-      {isLogView && <LogsView containerRef={containerRef} />}
-      {!isLogView && <ChatView key={chatId} containerRef={containerRef} />}
+      <div className="chat-container-wrapper">
+        {isLogView && <LogsView containerRef={containerRef} />}
+        {!isLogView && <ChatView key={chatId} containerRef={containerRef} />}
+      </div>
     </div>
   );
 };
